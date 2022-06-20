@@ -1,0 +1,105 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BasicCalculatorII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BasicCalculatorII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s which represents an expression, evaluate this expression and
+//return its value. 
+//The integer division should truncate toward zero.
+//You may assume that the given expression is always valid. All intermediate
+//results will be in the range of [-231, 231 - 1].
+//
+//Note: You are not allowed to use any built-in function which evaluates strings
+//as mathematical expressions, such as eval().
+// 
+//
+//Example 1:
+//Input: s = "3+2*2"
+//Output: 7
+//
+//Example 2:
+//Input: s = " 3/2 "
+//Output: 1
+//
+//Example 3:
+//Input: s = " 3+5 / 2 "
+//Output: 5
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 3 * 105
+//s consists of integers and operators ('+', '-', '*', '/') separated by some
+//number of spaces.
+//s represents a valid expression.
+//All the integers in the expression are non-negative integers in the range [0,
+//231 - 1].
+//The answer is guaranteed to fit in a 32-bit integer.
+
+namespace Solution2022
+{
+	namespace BasicCalculatorII
+	{
+	    int calculate(string s) {
+			istringstream in(s + '+');
+			long long lastOp = 0;
+			long long nextOp = 0;
+			long long sign = 1;
+			char op;
+			int result = 0;
+
+			in &gt;&gt; lastOp;
+			while (in &gt;&gt; op) {
+				if (op == '+' || op == '-') {
+					result += sign * lastOp;
+					sign = (op == '+') ? 1 : -1;
+					in &gt;&gt; lastOp;
+				}
+				else {
+					in &gt;&gt; nextOp;
+					if (op == '*') { lastOp *= nextOp; }
+					else if (op == '/') { lastOp /= nextOp; }				
+				}			
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

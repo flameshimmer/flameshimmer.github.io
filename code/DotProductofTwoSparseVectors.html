@@ -1,0 +1,130 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>DotProductofTwoSparseVectors</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>DotProductofTwoSparseVectors</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given two sparse vectors, compute their dot product.
+//Implement class SparseVector:
+//SparseVector(nums) Initializes the object with the vector nums
+//dotProduct(vec) Compute the dot product between the instance of SparseVector
+//and vec
+//A sparse vector is a vector that has mostly zero values, you should store the
+//sparse vector efficiently and compute the dot product between two SparseVector.
+//Follow up: What if only one of the vectors is sparse?
+// 
+//
+//Example 1:
+//Input: nums1 = [1,0,0,2,3], nums2 = [0,3,0,4,0]
+//Output: 8
+//Explanation: v1 = SparseVector(nums1) , v2 = SparseVector(nums2)
+//v1.dotProduct(v2) = 1*0 + 0*3 + 0*0 + 2*4 + 3*0 = 8
+//
+//Example 2:
+//Input: nums1 = [0,1,0,0,0], nums2 = [0,0,0,0,2]
+//Output: 0
+//Explanation: v1 = SparseVector(nums1) , v2 = SparseVector(nums2)
+//v1.dotProduct(v2) = 0*0 + 1*0 + 0*0 + 0*0 + 0*2 = 0
+//
+//Example 3:
+//Input: nums1 = [0,1,0,0,2,0,0], nums2 = [1,0,0,0,3,0,4]
+//Output: 6
+// 
+//Constraints:
+//n == nums1.length == nums2.length
+//1 &lt;= n &lt;= 10^5
+//0 &lt;= nums1[i], nums2[i] &lt;= 100
+
+namespace Solution2022
+{
+	namespace DotProductofTwoSparseVectors
+	{
+		class SparseVector {
+		public:
+			SparseVector(vector&lt;int&gt;& nums) {
+				int len = nums.size();
+				for (int i = 0; i &lt; len; i++) {
+					if (nums[i] == 0) { continue; }
+					map[i] = nums[i];
+				}
+			}
+
+			// Return the dotProduct of two sparse vectors
+			int dotProduct(SparseVector& vec) {
+				int result = 0;
+				for (const auto& [key, value] : vec.map) {
+					if (map[key] == 0) { continue; }
+					result += map[key] * value;
+				}
+				return result;
+			}
+			unordered_map&lt;int, int&gt; map;
+		};
+
+		class SparseVectorIndexForwarding {
+		public:
+			vector&lt;pair&lt;int, int&gt;&gt; v; // {index, value}
+			SparseVectorIndexForwarding(vector&lt;int&gt;& nums) {
+				for (int i = 0; i &lt; nums.size(); i++) {
+					if (nums[i] == 0) { continue; }
+					v.push_back({ i, nums[i] });
+				}
+			}
+
+			// Return the dotProduct of two sparse vectors
+			int dotProduct(SparseVectorIndexForwarding& vec) {
+				int result = 0;
+				for (int i = 0, j = 0; i &lt; v.size() && j &lt; vec.v.size();) {
+					if (v[i].first &lt; vec.v[j].first) { i++; }
+					else if (v[i].first &gt; vec.v[j].first) { j++; }
+					else { result += v[i].second * vec.v[j].second; i++; j++; }
+				}
+				return result;
+			}
+
+		};
+		// Your SparseVector object will be instantiated and called as such:
+		// SparseVector v1(nums1);
+		// SparseVector v2(nums2);
+		// int ans = v1.dotProduct(v2);
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

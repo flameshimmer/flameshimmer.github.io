@@ -1,0 +1,120 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TwoSum</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TwoSum</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of integers nums and an integer target, return indices of the
+//two numbers such that they add up to target.
+//You may assume that each input would have exactly one solution, and you may not
+//use the same element twice.
+//You can return the answer in any order.
+// 
+//
+//Example 1:
+//Input: nums = [2,7,11,15], target = 9
+//Output: [0,1]
+//Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+//
+//Example 2:
+//Input: nums = [3,2,4], target = 6
+//Output: [1,2]
+//
+//Example 3:
+//Input: nums = [3,3], target = 6
+//Output: [0,1]
+// 
+//Constraints:
+//2 &lt;= nums.length &lt;= 104
+//-109 &lt;= nums[i] &lt;= 109
+//-109 &lt;= target &lt;= 109
+//Only one valid answer exists.
+// 
+//Follow-up: Can you come up with an algorithm that is less than O(n2) time
+//complexity?
+
+namespace Solution2022
+{
+	namespace TwoSum
+	{
+		vector&lt;int&gt; twoSumWithHash(vector&lt;int&gt;& nums, int target) {
+			int len = nums.size();
+			unordered_map&lt;int, int&gt; map;
+			for (int i = 0; i &lt; len; i++) {
+				if (map.find(target - nums[i]) != map.end()) {
+					return { map[target - nums[i]], i };
+				}
+				map[nums[i]] = i;
+			}
+			return {};
+		}
+
+	    vector&lt;int&gt; twoSumWithSort(vector&lt;int&gt;& nums, int target) {
+			int len = nums.size();
+			vector&lt;int&gt; result;
+
+			vector&lt;pair&lt;int, int&gt;&gt; n;
+			for (int i = 0; i &lt; len; i++) {
+				n.push_back({nums[i], i});
+			}
+			sort(n.begin(), n.end());
+		
+			int start = 0;
+			int end = len - 1;
+			while (start &lt; end) {
+				int sum = n[start].first + n[end].first;
+				if (sum == target) {
+					result.push_back(n[start].second);
+					result.push_back(n[end].second);
+					return result;
+				}
+				else if (sum &lt; target) {
+					start++;
+				}
+				else {
+					end--;
+				}
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

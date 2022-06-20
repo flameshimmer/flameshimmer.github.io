@@ -1,0 +1,140 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TextJustification</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TextJustification</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of strings words and a width maxWidth, format the text such that
+//each line has exactly maxWidth characters and is fully (left and right)
+//justified.
+//You should pack your words in a greedy approach; that is, pack as many words as
+//you can in each line. Pad extra spaces ' ' when necessary so that each line has
+//exactly maxWidth characters.
+//Extra spaces between words should be distributed as evenly as possible. If the
+//number of spaces on a line does not divide evenly between words, the empty
+//slots on the left will be assigned more spaces than the slots on the right.
+//For the last line of text, it should be left-justified, and no extra space is
+//inserted between words.
+//
+//Note:
+//A word is defined as a character sequence consisting of non-space characters
+//only.
+//Each word's length is guaranteed to be greater than 0 and not exceed maxWidth.
+//The input array words contains at least one word.
+// 
+//
+//Example 1:
+//Input: words = ["This", "is", "an", "example", "of", "text", "justification."],
+//maxWidth = 16
+//Output:
+//[
+//   "This    is    an",
+//   "example  of text",
+//   "justification.  "
+//]
+//
+//Example 2:
+//Input: words = ["What","must","be","acknowledgment","shall","be"], maxWidth = 16
+//Output:
+//[
+//  "What   must   be",
+//  "acknowledgment  ",
+//  "shall be        "
+//]
+//Explanation: 
+//Note that the last line is "shall be    " instead of "shall    
+//be", because the last line must be left-justified instead of fully-justified.
+//
+//Note that the second line is also left-justified because it contains only one
+//word.
+//
+//Example 3:
+//["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"],
+//maxWidth = 20
+//Output:
+//[
+//  "Science  is  what we",
+//  "understand      well",
+//  "enough to explain to",
+//  "a  computer.  Art is",
+//  "everything  else  we",
+//  "do                  "
+//]
+// 
+//Constraints:
+//1 &lt;= words.length &lt;= 300
+//1 &lt;= words[i].length &lt;= 20
+//words[i] consists of only English letters and symbols.
+//1 &lt;= maxWidth &lt;= 100
+//words[i].length &lt;= maxWidth
+
+namespace Solution2022
+{
+	namespace TextJustification
+	{
+		vector&lt;string&gt; fullJustify(vector&lt;string&gt;& words, int maxWidth) {
+			vector&lt;string&gt; result;
+			int len = words.size();
+			int k = 0;
+
+			for (int i = 0; i &lt; len; i += k) {
+				int curWidth = 0;
+				for (k = 0; i + k &lt; len && curWidth + words[i + k].size() &lt;= maxWidth - k; k++) {
+					curWidth += words[i + k].size();
+				}
+				
+				string line = words[i];
+				for (int j = 0; j &lt; k - 1; j++) {
+					if (i + k &gt;= len) { line += " "; }
+					else {
+						int spaceLen = (maxWidth - curWidth) / (k - 1) + (j &lt; (maxWidth - curWidth) % (k - 1));
+						line += string(spaceLen, ' ');
+					}
+					line += words[i + 1 + j];
+				}
+				line += string(maxWidth - line.size(), ' ');
+				result.push_back(line);
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
