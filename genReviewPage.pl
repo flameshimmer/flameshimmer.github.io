@@ -63,10 +63,10 @@ for my $line (@lines) {
 		$hashset{$problemName} = 1;	
 		my $url = './code/' . $problemName . '.html'; 
 		push(@allProblems,  "\t\t<li><a href=\"$url\">$problemName</a></li>\n");
-	}
+	}	
 }
 
-@allProblems = sort @allProblems;
+# @allProblems = sort @allProblems;
 
 for my $p (@allProblems) {
 	$content = $content . $p;

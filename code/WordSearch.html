@@ -1,0 +1,111 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>WordSearch</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>WordSearch</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n grid of characters board and a string word, return true if word
+//exists in the grid.
+//The word can be constructed from letters of sequentially adjacent cells, where
+//adjacent cells are horizontally or vertically neighboring. The same letter cell
+//may not be used more than once.
+// 
+//
+//Example 1:
+//Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word =
+//"ABCCED"
+//Output: true
+//
+//Example 2:
+//Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word =
+//"SEE"
+//Output: true
+//
+//Example 3:
+//Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word =
+//"ABCB"
+//Output: false
+// 
+//Constraints:
+//m == board.length
+//n = board[i].length
+//1 &lt;= m, n &lt;= 6
+//1 &lt;= word.length &lt;= 15
+//board and word consists of only lowercase and uppercase English letters.
+// 
+//Follow up: Could you use search pruning to make your solution faster with a
+//larger board?
+
+namespace Solution2022
+{
+	namespace WordSearch
+	{
+		bool helper(vector&lt;vector&lt;char&gt;&gt;& board, int rowCount, int colCount, int x, int y, string& word, int i, int len, vector&lt;vector&lt;bool&gt;&gt;& used) {
+			if (i == len) { return true; }
+			if (x &lt; 0 || x &gt;= rowCount || y &lt; 0 || y &gt;= colCount || used[x][y] || word[i] != board[x][y]) { return false; }
+			used[x][y] = true;
+			vector&lt;pair&lt;int, int&gt;&gt; dirs = { {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+			for (auto& [a, b] : dirs) {
+				if (helper(board, rowCount, colCount, x + a, y + b, word, i + 1, len, used)) { return true; }
+			}
+			used[x][y] = false;
+			return false;
+		}
+
+		bool exist(vector&lt;vector&lt;char&gt;&gt;& board, string word) {
+			int rowCount = board.size();
+			if (rowCount == 0) { return false; }
+			int colCount = board[0].size();
+			if (colCount == 0) { return false; }
+
+			int len = word.size();
+			vector&lt;vector&lt;bool&gt;&gt;used(rowCount, vector&lt;bool&gt;(colCount, false));
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					if (helper(board, rowCount, colCount, i, j, word, 0, len, used)) { return true; }
+				}
+			}
+			return false;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
