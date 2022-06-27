@@ -1,0 +1,110 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>StringCompression</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>StringCompression</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of characters chars, compress it using the following algorithm:
+//Begin with an empty string s. For each group of consecutive repeating
+//characters in chars:
+//If the group's length is 1, append the character to s.
+//Otherwise, append the character followed by the group's length.
+//The compressed string s should not be returned separately, but instead, be
+//stored in the input character array chars. 
+//Note that group lengths that are 10
+//or longer will be split into multiple characters in chars.
+//After you are done modifying the input array, return the new length of the
+//array.
+//You must write an algorithm that uses only constant extra space.
+// 
+//
+//Example 1:
+//Input: chars = ["a","a","b","b","c","c","c"]
+//Output: Return 6, and the first 6 characters of the input array should be:
+//["a","2","b","2","c","3"]
+//Explanation: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
+//
+//Example 2:
+//Input: chars = ["a"]
+//Output: Return 1, and the first character of the input array should be: ["a"]
+//Explanation: The only group is "a", which remains uncompressed since it's a
+//single character.
+//
+//Example 3:
+//Input: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]
+//Output: Return 4, and the first 4 characters of the input array should be:
+//["a","b","1","2"].
+//Explanation: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
+// 
+//Constraints:
+//1 &lt;= chars.length &lt;= 2000
+//chars[i] is a lowercase English letter, uppercase English letter, digit, or
+//symbol.
+
+namespace Solution2022
+{
+	namespace StringCompression
+	{
+	    int compress(vector&lt;char&gt;& chars) {
+			int len = chars.size();
+			if (len &lt; 2) { return len; }
+
+			int front = 0;
+			int back = 0;
+			while (front &lt; len) {
+				int count = 1;
+				while (front + 1 &lt; len && chars[front] == chars[front + 1]) { front++; count++; }
+				chars[back] = chars[front];
+				back++;
+
+				if (count &gt; 1) {
+					for (char c : to_string(count)) {
+						chars[back] = c;
+						back++;
+					}				
+				}
+				front++;			
+			}
+			return back;
+	    }
+
+		void Main() {
+			vector&lt;char&gt; test = { 'a','b','b','b','b','b','b','b','b','b','b','b','b' };
+			print(compress(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
