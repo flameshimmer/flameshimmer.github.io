@@ -1,0 +1,107 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SumofSubarrayMinimums</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SumofSubarrayMinimums</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of integers arr, find the sum of min(b), where b ranges over
+//every (contiguous) subarray of arr. Since the answer may be large, return the
+//answer modulo 109 + 7.
+// 
+//
+//Example 1:
+//Input: arr = [3,1,2,4]
+//Output: 17
+//Explanation: 
+//Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4],
+//[3,1,2,4]. 
+//Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.
+//Sum is 17.
+//
+//Example 2:
+//Input: arr = [11,81,94,43,3]
+//Output: 444
+// 
+//Constraints:
+//1 &lt;= arr.length &lt;= 3 * 104
+//1 &lt;= arr[i] &lt;= 3 * 104
+
+namespace Solution2022
+{
+	namespace SumofSubarrayMinimums
+	{
+		int sumSubarrayMins(vector&lt;int&gt;& arr) {
+			int len = arr.size();
+
+			vector&lt;int&gt; left(len);
+			stack&lt;int&gt; s; //index stack
+			for (int i = 0; i &lt; len; i++) {
+				while (!s.empty() && arr[s.top()] &gt; arr[i]) {
+					s.pop();
+				}
+
+				left[i] = s.empty() ? (i + 1) : (i - s.top());
+				s.push(i);
+			}
+
+			while (!s.empty()) { s.pop(); }
+
+			vector&lt;int&gt; right(len);
+			for (int i = len - 1; i &gt;= 0; i--) {
+				while (!s.empty() && arr[s.top()] &gt;= arr[i]) { // note that this part is &gt;= instead of &gt;
+					s.pop();
+				}
+				right[i] = s.empty() ? (len - i) : (s.top() - i);
+				s.push(i);
+			}
+
+			int result = 0;
+			int mod = (int)(1e9 + 7);
+			for (int i = 0; i &lt; len; i++) {
+				long long tmp = (left[i] * right[i]) % mod;
+				tmp = (tmp * arr[i]) % mod;
+				result = (result + tmp) % mod;
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
