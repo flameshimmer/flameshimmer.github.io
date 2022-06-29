@@ -1,0 +1,122 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RemoveAllAdjacentDuplicatesinStringII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RemoveAllAdjacentDuplicatesinStringII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a string s and an integer k, a k duplicate removal consists of
+//choosing k adjacent and equal letters from s and removing them, causing the
+//left and the right side of the deleted substring to concatenate together.
+//We repeatedly make k duplicate removals on s until we no longer can.
+//Return the final string after all such duplicate removals have been made. It is
+//guaranteed that the answer is unique.
+// 
+//
+//Example 1:
+//Input: s = "abcd", k = 2
+//Output: "abcd"
+//Explanation: There's nothing to delete.
+//
+//Example 2:
+//Input: s = "deeedbbcccbdaa", k = 3
+//Output: "aa"
+//Explanation: 
+//First delete "eee" and "ccc", get "ddbbbdaa"
+//Then delete "bbb", get "dddaa"
+//Finally delete "ddd", get "aa"
+//
+//Example 3:
+//Input: s = "pbbcggttciiippooaais", k = 2
+//Output: "ps"
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 105
+//2 &lt;= k &lt;= 104
+//s only contains lower case English letters.
+
+namespace Solution2022
+{
+	namespace RemoveAllAdjacentDuplicatesinStringII
+	{
+		namespace UseStack {
+			string removeDuplicates(string str, int k) {
+				stack&lt;pair&lt;char, int&gt;&gt; s;
+				for (char c : str) {
+					if (s.empty() || s.top().first != c) {
+						s.push({ c, 1 });
+					}
+					else {
+						s.top().second++;
+						if (s.top().second == k) {
+							s.pop();
+						}
+					}
+				}
+
+				string result = "";
+				while (!s.empty()) {
+					result = string(s.top().second, s.top().first) + result;
+					s.pop();				
+				}
+				return result;
+			}
+		}
+		
+		string removeDuplicates(string s, int k) {
+			vector&lt;int&gt; count(s.size(), 0);
+
+			for (int i = 0; i &lt; s.size(); i++) {
+				if (i == 0 || s[i] != s[i - 1]) {
+					count[i] = 1;
+					continue;
+				}
+				count[i] = count[i-1] + 1;
+				if (count[i] == k) {
+					s = s.erase(i - k + 1, k);
+					//s = s.substr(0, i + 1 - k) + s.substr(i + 1);
+					i -= k;
+				}
+			}
+			return s;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(removeDuplicates("deeedbbcccbdaa", 3));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

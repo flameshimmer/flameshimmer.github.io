@@ -1,0 +1,114 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MergeSortedArray</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MergeSortedArray</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given two integer arrays nums1 and nums2, sorted in non-decreasing
+//order, and two integers m and n, representing the number of elements in nums1
+//and nums2 respectively.
+//Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+//The final sorted array should not be returned by the function, but instead be
+//stored inside the array nums1. To accommodate this, nums1 has a length of m +
+//n, where the first m elements denote the elements that should be merged, and
+//the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+// 
+//
+//Example 1:
+//Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+//Output: [1,2,2,3,5,6]
+//Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
+//The result of the merge is [1,2,2,3,5,6] with the underlined elements coming
+//from nums1.
+//
+//Example 2:
+//Input: nums1 = [1], m = 1, nums2 = [], n = 0
+//Output: [1]
+//Explanation: The arrays we are merging are [1] and [].
+//The result of the merge is [1].
+//
+//Example 3:
+//Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+//Output: [1]
+//Explanation: The arrays we are merging are [] and [1].
+//The result of the merge is [1].
+//
+//Note that because m = 0, there are no elements in nums1. The 0 is only there to
+//ensure the merge result can fit in nums1.
+// 
+//Constraints:
+//nums1.length == m + n
+//nums2.length == n
+//0 &lt;= m, n &lt;= 200
+//1 &lt;= m + n &lt;= 200
+//-109 &lt;= nums1[i], nums2[j] &lt;= 109
+// 
+//Follow up: Can you come up with an algorithm that runs in O(m + n) time?
+
+namespace Solution2022
+{
+	namespace MergeSortedArray
+	{
+		void merge(vector&lt;int&gt;& nums1, int m, vector&lt;int&gt;& nums2, int n) {
+			if (n == 0) { return; }
+
+			int i = m - 1;
+			int j = n - 1;
+			int copy = m + n - 1;
+			
+			while (j &gt;= 0) {
+				bool arr1Larger = (i &gt;= 0 ? nums1[i] : INT_MIN) &gt; nums2[j];
+				if (arr1Larger) {
+					nums1[copy] = nums1[i];
+					i--;
+				}
+				else {
+					nums1[copy] = nums2[j];
+					j--;
+				}
+				copy--;
+			}
+			return;
+		}
+
+		void Main() {
+			vector&lt;int&gt; a = { 2, 0 };
+			vector&lt;int&gt; b = { 1 };
+			merge(a, 1, b, 1);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
