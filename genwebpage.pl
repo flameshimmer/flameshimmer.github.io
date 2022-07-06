@@ -59,6 +59,7 @@ for my $line (@lines) {
 			for my $p (@daily) {
 				if ($p =~ m/.*::(.*)::Main/) {
 					my $problemName = $1;
+					# print "$problemName\n";
 					my $url = './code/' . $problemName . '.html'; 
 					$content = $content . "\t\t<li><a href=\"$url\">$problemName</a></li>\n";
 					createProblemWebPage($problemName);				

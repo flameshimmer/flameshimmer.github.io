@@ -1,0 +1,109 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ReorderDatainLogFiles</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ReorderDatainLogFiles</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array of logs. Each log is a space-delimited string of words,
+//where the first word is the identifier.
+//There are two types of logs:
+//Letter-logs: All words (except the identifier) consist of lowercase English
+//letters.
+//Digit-logs: All words (except the identifier) consist of digits.
+//Reorder these logs so that:
+//The letter-logs come before all digit-logs.
+//The letter-logs are sorted lexicographically by their contents. If their
+//contents are the same, then sort them lexicographically by their identifiers.
+//The digit-logs maintain their relative ordering.
+//Return the final order of the logs.
+// 
+//
+//Example 1:
+//Input: logs = ["dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit
+//dig","let3 art zero"]
+//Output: ["let1 art can","let3 art zero","let2 own kit dig","dig1 8 1 5 1","dig2
+//3 6"]
+//Explanation:
+//The letter-log contents are all different, so their ordering is "art can", "art
+//zero", "own kit dig".
+//The digit-logs have a relative order of "dig1 8 1 5 1", "dig2 3 6".
+//
+//Example 2:
+//Input: logs = ["a1 9 2 3 1","g1 act car","zo4 4 7","ab1 off key dog","a8 act
+//zoo"]
+//Output: ["g1 act car","a8 act zoo","ab1 off key dog","a1 9 2 3 1","zo4 4 7"]
+// 
+//Constraints:
+//1 &lt;= logs.length &lt;= 100
+//3 &lt;= logs[i].length &lt;= 100
+//All the tokens of logs[i] are separated by a single space.
+//logs[i] is guaranteed to have an identifier and at least one word after the
+//identifier.
+
+namespace Solution2022
+{
+	namespace ReorderDatainLogFiles
+	{
+	    vector&lt;string&gt; reorderLogFiles(vector&lt;string&gt;& logs) {
+			auto comp = [](string a, string b) {
+				int p1 = a.find(' ');
+				int p2 = b.find(' ');
+
+				if (isalpha(a[p1 + 1]) && isalpha(b[p2 + 1])) {
+					if (a.substr(p1 + 1) != b.substr(p2 + 1)) {
+						return a.substr(p1 + 1) &lt; b.substr(p2 + 1);
+					}
+					else {
+						return a.substr(0, p1) &lt; b.substr(0, p2);
+					}
+				}
+				else {
+					if (isalpha(a[p1 + 1])) { return true; }
+					return false;
+				}
+			};
+
+			stable_sort(logs.begin(), logs.end(), comp);
+			return logs;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

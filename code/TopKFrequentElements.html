@@ -1,0 +1,121 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TopKFrequentElements</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TopKFrequentElements</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums and an integer k, return the k most frequent
+//elements. You may return the answer in any order.
+// 
+//
+//Example 1:
+//Input: nums = [1,1,1,2,2,3], k = 2
+//Output: [1,2]
+//
+//Example 2:
+//Input: nums = [1], k = 1
+//Output: [1]
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 105
+//k is in the range [1, the number of unique elements in the array].
+//It is guaranteed that the answer is unique.
+// 
+//Follow up: Your algorithm's time complexity must be better than O(n log n),
+//where n is the array's size.
+
+namespace Solution2022
+{
+	namespace TopKFrequentElements
+	{
+		namespace BucketSort {
+
+			vector&lt;int&gt; topKFrequent(vector&lt;int&gt;& nums, int k) {
+				int len = nums.size();
+				if (len == 0) { return {}; }
+
+				unordered_map&lt;int, int&gt; map;
+				for (int v : nums) { map[v]++; }
+
+				vector&lt;vector&lt;int&gt;&gt; freq(len + 1);
+				for (auto& [key, val] : map) {
+					freq[val].push_back(key);
+				}
+
+				vector&lt;int&gt; result;
+				for (int i = len; i &gt; 0 && k &gt; 0; i--) {
+					int count = min(k, (int)freq[i].size());
+					result.insert(result.end(), freq[i].begin(), freq[i].begin() + count);
+					k -= count;
+				}
+				return result;
+			}
+
+		}
+
+
+		namespace PriorityQueue {
+			vector&lt;int&gt; topKFrequent(vector&lt;int&gt;& nums, int k) {
+				unordered_map&lt;int, int&gt; map;
+				for (int v : nums) { map[v]++; }
+
+				auto comp = [](pair&lt;int, int&gt;& a, pair&lt;int, int&gt;& b) {
+					return a.second &gt; b.second;
+				};
+
+				priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, decltype(comp)&gt; pq(comp);
+
+				for (auto& p : map) {
+					pq.push(p);
+					if (pq.size() &gt; k) { pq.pop(); }
+				}
+
+				vector&lt;int&gt; result;
+				while (!pq.empty()) {
+					result.push_back(pq.top().first);
+					pq.pop();
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
