@@ -64,6 +64,7 @@ namespace Solution2022
 
 		// Definition for a Node.
 		class Node {
+		public:
 			int val;
 			Node* left;
 			Node* right;
@@ -81,46 +82,47 @@ namespace Solution2022
 				left = _left;
 				right = _right;
 			}
+		};
 
 
-			void helper(Node* n, Node*& head, Node*& prev) {
-				if (!head && !n-&gt;left) {
-					head = n;
-					prev = n;
-				}
-
-				Node* left = n-&gt;left;
-				Node* right = n-&gt;right;
-
-				if (left) { helper(left, head, prev); }
-
-				prev-&gt;right = n;
-				n-&gt;left = prev;
+		void helper(Node* n, Node*& head, Node*& prev) {
+			if (!head && !n-&gt;left) {
+				head = n;
 				prev = n;
-
-				if (right) { helper(right, head, prev); }			
 			}
 
+			Node* left = n-&gt;left;
+			Node* right = n-&gt;right;
 
-			Node* treeToDoublyList(Node* root) {
-				if (!root) { return nullptr; }
+			if (left) { helper(left, head, prev); }
 
-				Node* head = nullptr;
-				Node* prev = nullptr;
+			prev-&gt;right = n;
+			n-&gt;left = prev;
+			prev = n;
 
-				helper(root, head, prev);
+			if (right) { helper(right, head, prev); }
+		}
 
-				head-&gt;left = prev;
-				prev-&gt;right = head;
-				return head;
-			}
 
-			void Main() {
-				string test = "tst test test";
-				print(test);
-			}
+		Node* treeToDoublyList(Node* root) {
+			if (!root) { return nullptr; }
+
+			Node* head = nullptr;
+			Node* prev = nullptr;
+
+			helper(root, head, prev);
+
+			head-&gt;left = prev;
+			prev-&gt;right = head;
+			return head;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
 		}
 	}
+}
 
 	</code>
 	</pre>

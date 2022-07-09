@@ -1,0 +1,88 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MinimumAddtoMakeParenthesesValid</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MinimumAddtoMakeParenthesesValid</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//A parentheses string is valid if and only if:
+//It is the empty string,
+//It can be written as AB (A concatenated with B), where A and B are valid
+//strings, or
+//It can be written as (A), where A is a valid string.
+//You are given a parentheses string s. In one move, you can insert a parenthesis
+//at any position of the string.
+//For example, if s = "()))", you can insert an opening parenthesis to be "(()))"
+//or a closing parenthesis to be "())))".
+//Return the minimum number of moves required to make s valid.
+// 
+//
+//Example 1:
+//Input: s = "())"
+//Output: 1
+//
+//Example 2:
+//Input: s = "((("
+//Output: 3
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 1000
+//s[i] is either '(' or ')'.
+
+namespace Solution2022
+{
+	namespace MinimumAddtoMakeParenthesesValid
+	{
+	    int minAddToMakeValid(string str) {
+			int result = 0;
+			int cur = 0;
+			for (char c : str) {
+				if (c == '(') { cur++; }
+				else if (c == ')') {
+					if (cur &gt; 0) { cur--; }
+					else { result++; }
+				}
+			}
+			result += cur;
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

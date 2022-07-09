@@ -1,0 +1,115 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LoggerRateLimiter</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LoggerRateLimiter</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Design a logger system that receives a stream of messages along with their
+//timestamps. Each unique message should only be printed at most every 10 seconds
+//(i.e. a message printed at timestamp t will prevent other identical messages
+//from being printed until timestamp t + 10).
+//All messages will come in chronological order. Several messages may arrive at
+//the same timestamp.
+//Implement the Logger class:
+//Logger() Initializes the logger object.
+//bool shouldPrintMessage(int timestamp, string message) Returns true if the
+//message should be printed in the given timestamp, otherwise returns false.
+// 
+//
+//Example 1:
+//Input
+//["Logger", "shouldPrintMessage", "shouldPrintMessage", "shouldPrintMessage",
+//"shouldPrintMessage", "shouldPrintMessage", "shouldPrintMessage"]
+//[[], [1, "foo"], [2, "bar"], [3, "foo"], [8, "bar"], [10, "foo"], [11, "foo"]]
+//Output
+//[null, true, true, false, false, false, true]
+//Explanation
+//Logger logger = new Logger();
+//logger.shouldPrintMessage(1, "foo");  // return true, next allowed timestamp
+//for "foo" is 1 + 10 = 11
+//logger.shouldPrintMessage(2, "bar");  // return true, next allowed timestamp
+//for "bar" is 2 + 10 = 12
+//logger.shouldPrintMessage(3, "foo");  // 3 &lt; 11, return false
+//logger.shouldPrintMessage(8, "bar");  // 8 &lt; 12, return false
+//logger.shouldPrintMessage(10, "foo"); // 10 &lt; 11, return false
+//logger.shouldPrintMessage(11, "foo"); // 11 &gt;= 11, return true, next allowed
+//timestamp for "foo" is 11 + 10 = 21
+// 
+//Constraints:
+//0 &lt;= timestamp &lt;= 109
+//Every timestamp will be passed in non-decreasing order (chronological order).
+//1 &lt;= message.length &lt;= 30
+//At most 104 calls will be made to shouldPrintMessage.
+
+namespace Solution2022
+{
+	namespace LoggerRateLimiter
+	{
+		class Logger {
+		private:
+			unordered_map&lt;string, int&gt; map;
+		public:
+			Logger() {
+
+			}
+
+			bool shouldPrintMessage(int timestamp, string message) {
+				if (map.find(message) == map.end()) {
+					map[message] = timestamp;
+					return true;
+				}
+
+				if (timestamp - map[message] &gt;= 10) {
+					map[message] = timestamp;
+					return true;
+				}
+				return false;
+			}
+		};
+	​
+	/**
+	 * Your Logger object will be instantiated and called as such:
+	 * Logger* obj = new Logger();
+	 * bool param_1 = obj-&gt;shouldPrintMessage(timestamp,message);
+	 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
