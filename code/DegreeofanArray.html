@@ -1,0 +1,99 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>DegreeofanArray</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>DegreeofanArray</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a non-empty array of non-negative integers nums, the degree of this array
+//is defined as the maximum frequency of any one of its elements.
+//Your task is to find the smallest possible length of a (contiguous) subarray of
+//nums, that has the same degree as nums.
+// 
+//
+//Example 1:
+//Input: nums = [1,2,2,3,1]
+//Output: 2
+//Explanation: 
+//The input array has a degree of 2 because both elements 1 and 2 appear twice.
+//Of the subarrays that have the same degree:
+//[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]
+//The shortest length is 2. So return 2.
+//
+//Example 2:
+//Input: nums = [1,2,2,3,1,4,2]
+//Output: 6
+//Explanation: 
+//The degree is 3 because the element 2 is repeated 3 times.
+//So [2,2,3,1,4,2] is the shortest subarray, therefore returning 6.
+// 
+//Constraints:
+//nums.length will be between 1 and 50,000.
+//nums[i] will be an integer between 0 and 49,999.
+
+namespace Solution2022
+{
+	namespace DegreeofanArray
+	{
+	    int findShortestSubArray(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			if (len &lt; 2) { return len; }
+
+			unordered_map&lt;int, vector&lt;int&gt;&gt; map;
+			for (int i = 0; i &lt; len; i++) { map[nums[i]].push_back(i); }
+
+			int maxFreq = 0;
+			int result = INT_MAX;
+			for (auto& [val, arr] : map) {
+				int freq = arr.size();
+				int size = arr.back() - arr.front() + 1;
+				if (freq &gt; maxFreq) {
+					maxFreq = freq;
+					result = size;
+				}
+				else if (freq == maxFreq) {
+					result = min(result, size);
+				}
+			}
+			return result;
+	    }
+
+		void Main() {
+			vector&lt;int&gt; test = {1,2,2,3,1};
+			print(findShortestSubArray(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

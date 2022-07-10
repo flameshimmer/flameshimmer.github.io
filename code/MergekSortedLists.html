@@ -1,0 +1,123 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MergekSortedLists</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MergekSortedLists</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array of k linked-lists lists, each linked-list is sorted in
+//ascending order.
+//Merge all the linked-lists into one sorted linked-list and return it.
+// 
+//
+//Example 1:
+//Input: lists = [[1,4,5],[1,3,4],[2,6]]
+//Output: [1,1,2,3,4,4,5,6]
+//Explanation: The linked-lists are:
+//[
+//  1-&gt;4-&gt;5,
+//  1-&gt;3-&gt;4,
+//  2-&gt;6
+//]
+//merging them into one sorted list:
+//1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6
+//
+//Example 2:
+//Input: lists = []
+//Output: []
+//
+//Example 3:
+//Input: lists = [[]]
+//Output: []
+// 
+//Constraints:
+//k == lists.length
+//0 &lt;= k &lt;= 104
+//0 &lt;= lists[i].length &lt;= 500
+//-104 &lt;= lists[i][j] &lt;= 104
+//lists[i] is sorted in ascending order.
+//The sum of lists[i].length will not exceed 104.
+
+namespace Solution2022
+{
+	namespace MergekSortedLists
+	{
+	/**
+	 * Definition for singly-linked list.
+	 * struct ListNode {
+	 *     int val;
+	 *     ListNode *next;
+	 *     ListNode() : val(0), next(nullptr) {}
+	 *     ListNode(int x) : val(x), next(nullptr) {}
+	 *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+	 * };
+	 */
+	    ListNode* mergeKLists(vector&lt;ListNode*&gt;& lists) {
+			int len = lists.size();
+			if (len == 0) { return nullptr; }
+
+			ListNode* head = nullptr;
+			ListNode* tail = nullptr;
+
+			auto comp = [](ListNode* a, ListNode* b) {return a-&gt;val &gt; b-&gt;val; };
+
+			priority_queue&lt;ListNode*, vector&lt;ListNode*&gt;, decltype(comp)&gt; pq(comp);
+
+			for (ListNode* l : lists) {
+				if (l) {
+					pq.push(l);
+				}
+			}
+
+			while (!pq.empty()) {
+				ListNode* top = pq.top();
+				pq.pop();
+				
+				if (top-&gt;next) { pq.push(top-&gt;next); }
+
+				if (!head) { head = top; }
+				else { tail-&gt;next = top; }
+				tail = top;
+			}
+			return head;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
