@@ -1,0 +1,98 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CustomSortString</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CustomSortString</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given two strings order and s. All the words of order are unique and
+//were sorted in some custom order previously.
+//Permute the characters of s so that they match the order that order was sorted.
+//More specifically, if a character x occurs before a character y in order, then
+//x should occur before y in the permuted string.
+//Return any permutation of s that satisfies this property.
+// 
+//
+//Example 1:
+//Input: order = "cba", s = "abcd"
+//Output: "cbad"
+//Explanation: 
+//"a", "b", "c" appear in order, so the order of "a", "b", "c" should be "c",
+//"b", and "a". 
+//Since "d" does not appear in order, it can be at any position in the returned
+//string. "dcba", "cdba", "cbda" are also valid outputs.
+//
+//Example 2:
+//Input: order = "cbafg", s = "abcd"
+//Output: "cbad"
+// 
+//Constraints:
+//1 &lt;= order.length &lt;= 26
+//1 &lt;= s.length &lt;= 200
+//order and s consist of lowercase English letters.
+//All the characters of order are unique.
+
+namespace Solution2022
+{
+	namespace CustomSortString
+	{
+		string customSortString(string order, string s) {
+			auto comp = [&](char a, char b) {return order.find(a) &lt; order.find(b); };
+			sort(s.begin(), s.end(), comp);
+			return s;
+		}
+
+		namespace RecordPriorityIndex {
+
+			string customSortString(string order, string s) {
+				unordered_map&lt;char, int&gt; map;
+				for (int i = 0; i &lt; order.size(); i++) { map[order[i]] = i; }
+
+				auto comp = [&map](char a, char b) {
+					int pa = map.find(a) != map.end() ? map[a] : INT_MAX;
+					int pb = map.find(b) != map.end() ? map[b] : INT_MAX;
+					return pa &lt; pb;
+				};
+				sort(s.begin(), s.end(), comp);
+				return s;
+			}
+		}
+
+		void Main() {
+			print(customSortString("cba", "abcd"));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

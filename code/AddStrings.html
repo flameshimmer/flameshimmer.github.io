@@ -1,0 +1,95 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>AddStrings</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>AddStrings</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given two non-negative integers, num1 and num2 represented as string, return
+//the sum of num1 and num2 as a string.
+//You must solve the problem without using any built-in library for handling
+//large integers (such as BigInteger). You must also not convert the inputs to
+//integers directly.
+// 
+//
+//Example 1:
+//Input: num1 = "11", num2 = "123"
+//Output: "134"
+//
+//Example 2:
+//Input: num1 = "456", num2 = "77"
+//Output: "533"
+//
+//Example 3:
+//Input: num1 = "0", num2 = "0"
+//Output: "0"
+// 
+//Constraints:
+//1 &lt;= num1.length, num2.length &lt;= 104
+//num1 and num2 consist of only digits.
+//num1 and num2 don't have any leading zeros except for the zero itself.
+
+namespace Solution2022
+{
+	namespace AddStrings
+	{
+	    string addStrings(string num1, string num2) {
+			int len1 = num1.size();
+			int len2 = num2.size();
+			if (!len1 || !len2) { return len1 ? num1 : num2; }
+
+			int i = len1 - 1;
+			int j = len2 - 1;
+			int carry = 0;
+			string result = "";
+			while (i &gt;= 0 || j &gt;= 0 || carry) {
+				int v1 = i &gt;= 0 ? num1[i] - '0' : 0;
+				int v2 = j &gt;= 0 ? num2[j] - '0' : 0;
+				int sum = v1 + v2 + carry;
+				result = to_string(sum % 10) + result;
+				carry = sum / 10;
+				i--; // Note: don't forget to update indexes!!!
+				j--;
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
