@@ -1,0 +1,118 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FindWinneronaTicTacToeGame</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FindWinneronaTicTacToeGame</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Tic-tac-toe is played by two players A and B on a 3 x 3 grid. The rules of
+//Tic-Tac-Toe are:
+//Players take turns placing characters into empty squares ' '.
+//The first player A always places 'X' characters, while the second player B
+//always places 'O' characters.
+//'X' and 'O' characters are always placed into empty squares, never on filled
+//ones.
+//The game ends when there are three of the same (non-empty) character filling
+//any row, column, or diagonal.
+//The game also ends if all squares are non-empty.
+//No more moves can be played if the game is over.
+//Given a 2D integer array moves where moves[i] = [rowi, coli] indicates that the
+//ith move will be played on grid[rowi][coli]. return the winner of the game if
+//it exists (A or B). In case the game ends in a draw return "Draw". If there are
+//still movements to play return "Pending".
+//You can assume that moves is valid (i.e., it follows the rules of Tic-Tac-Toe),
+//the grid is initially empty, and A will play first.
+// 
+//
+//Example 1:
+//Input: moves = [[0,0],[2,0],[1,1],[2,1],[2,2]]
+//Output: "A"
+//Explanation: A wins, they always play first.
+//
+//Example 2:
+//Input: moves = [[0,0],[1,1],[0,1],[0,2],[1,0],[2,0]]
+//Output: "B"
+//Explanation: B wins.
+//
+//Example 3:
+//Input: moves = [[0,0],[1,1],[2,0],[1,0],[1,2],[2,1],[0,1],[0,2],[2,2]]
+//Output: "Draw"
+//Explanation: The game ends in a draw since there are no moves to make.
+// 
+//Constraints:
+//1 &lt;= moves.length &lt;= 9
+//moves[i].length == 2
+//0 &lt;= rowi, coli &lt;= 2
+//There are no repeated elements on moves.
+//moves follow the rules of tic tac toe.
+
+namespace Solution2022
+{
+	namespace FindWinneronaTicTacToeGame
+	{
+		string tictactoe(vector&lt;vector&lt;int&gt;&gt;& moves) {
+			int n = 3;
+			vector&lt;int&gt; r(n, 0);
+			vector&lt;int&gt; c(n, 0);
+			int diag = 0;
+			int aDiag = 0;
+
+			int player = 1;
+			for (vector&lt;int&gt; m : moves) {
+				int row = m[0];
+				int col = m[1];
+				r[row] += player;
+				c[col] += player;
+
+				if (row == col) { diag += player; }
+				if (row + col == n - 1) { aDiag += player; }
+
+				if (abs(r[row] == n) || abs(c[col] == n) || abs(diag) == n || abs(aDiag) == n) {
+					return player == 1 ? "A" : "B";
+				}
+				player *= -1;
+			}
+			return moves.size() &lt; n * n ? "Pending" : "Draw";
+		}
+
+		void Main() {
+			vector&lt;vector&lt;int&gt;&gt; test = { {0,0},{1,1},{0,1},{0,2},{1,0},{2,0} };
+			//vector&lt;vector&lt;int&gt;&gt; test = { {0,0},{2,0},{1,1},{2,1},{2,2} };
+			//vector&lt;vector&lt;int&gt;&gt; test = { {1,2},{2,1},{1,0},{0,0},{0,1},{2,0},{1,1} };
+			print(tictactoe(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
