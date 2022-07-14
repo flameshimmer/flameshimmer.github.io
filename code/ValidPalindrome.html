@@ -1,0 +1,92 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ValidPalindrome</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ValidPalindrome</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//A phrase is a palindrome if, after converting all uppercase letters into
+//lowercase letters and removing all non-alphanumeric characters, it reads the
+//same forward and backward. Alphanumeric characters include letters and numbers.
+//Given a string s, return true if it is a palindrome, or false otherwise.
+// 
+//
+//Example 1:
+//Input: s = "A man, a plan, a canal: Panama"
+//Output: true
+//Explanation: "amanaplanacanalpanama" is a palindrome.
+//
+//Example 2:
+//Input: s = "race a car"
+//Output: false
+//Explanation: "raceacar" is not a palindrome.
+//
+//Example 3:
+//Input: s = " "
+//Output: true
+//Explanation: s is an empty string "" after removing non-alphanumeric characters.
+//Since an empty string reads the same forward and backward, it is a palindrome.
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 2 * 105
+//s consists only of printable ASCII characters.
+
+namespace Solution2022
+{
+	namespace ValidPalindrome
+	{
+	    bool isPalindrome(string s) {
+			int len = s.size();
+			if (len &lt; 2) { return true; }
+
+			int i = 0;
+			int j = len - 1;
+			while (i &lt; j) {
+				while (i &lt; j && !isalnum(s[i])) { i++; }
+				while (i &lt; j && !isalnum(s[j])) { j--; }
+				if (tolower(s[i]) != tolower(s[j])) { return false; }
+				i++;
+				j--;
+			}
+			return true;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
