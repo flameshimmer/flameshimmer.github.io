@@ -1,0 +1,124 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>Minesweeper</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>Minesweeper</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Let's play the minesweeper game (Wikipedia, online game)!
+//You are given an m x n char matrix board representing the game board where:
+//'M' represents an unrevealed mine,
+//'E' represents an unrevealed empty square,
+//'B' represents a revealed blank square that has no adjacent mines (i.e., above,
+//below, left, right, and all 4 diagonals),
+//digit ('1' to '8') represents how many mines are adjacent to this revealed
+//square, and
+//'X' represents a revealed mine.
+//You are also given an integer array click where click = [clickr, clickc]
+//represents the next click position among all the unrevealed squares ('M' or
+//'E').
+//Return the board after revealing this position according to the following rules:
+//If a mine 'M' is revealed, then the game is over. You should change it to 'X'.
+//If an empty square 'E' with no adjacent mines is revealed, then change it to a
+//revealed blank 'B' and all of its adjacent unrevealed squares should be
+//revealed recursively.
+//If an empty square 'E' with at least one adjacent mine is revealed, then change
+//it to a digit ('1' to '8') representing the number of adjacent mines.
+//Return the board when no more squares will be revealed.
+// 
+//
+//Example 1:
+//[["E","E","E","E","E"],["E","E","M","E","E"],["E","E","E","E","E"],["E","E","E","E","E"]],
+//click = [3,0]
+//[["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+//
+//Example 2:
+//[["B","1","E","1","B"],["B","1","M","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]],
+//click = [1,2]
+//[["B","1","E","1","B"],["B","1","X","1","B"],["B","1","1","1","B"],["B","B","B","B","B"]]
+// 
+//Constraints:
+//m == board.length
+//n == board[i].length
+//1 &lt;= m, n &lt;= 50
+//board[i][j] is either 'M', 'E', 'B', or a digit from '1' to '8'.
+//click.length == 2
+//0 &lt;= clickr &lt; m
+//0 &lt;= clickc &lt; n
+//board[clickr][clickc] is either 'M' or 'E'.
+
+namespace Solution2022
+{
+	namespace Minesweeper
+	{
+		vector&lt;vector&lt;char&gt;&gt; updateBoard(vector&lt;vector&lt;char&gt;&gt;& board, vector&lt;int&gt;& click) {
+			int rowCount = board.size();
+			if (rowCount == 0) { return board; }
+			int colCount = board[0].size();
+			if (colCount == 0) { return board; }
+
+			int x = click[0];
+			int y = click[1];
+
+			if (board[x][y] == 'M') { board[x][y] = 'X'; return board; }
+			if (isdigit(board[x][y]) || board[x][y] == 'B') { return board; }
+
+			vector&lt;pair&lt;int, int&gt;&gt; dirs = { {-1, -1}, {-1, 0},{-1, 1},{0, -1},{0, 1},{1, -1},{1, 0},{1, 1} };
+			int adjCount = 0;
+			for (auto [xx, yy] : dirs) {
+				int a = x + xx;
+				int b = y + yy;
+				if (a &lt; 0 || a &gt;= rowCount || b &lt; 0 || b &gt;= colCount) { continue; }
+				if (board[a][b] == 'M') { adjCount++; }
+			}
+			if (adjCount &gt; 0) { board[x][y] = '0' + adjCount; return board; }
+			board[x][y] = 'B';
+			for (auto [xx, yy] : dirs) {
+				int a = x + xx;
+				int b = y + yy;
+				if (a &lt; 0 || a &gt;= rowCount || b &lt; 0 || b &gt;= colCount) { continue; }
+				vector&lt;int&gt; newClick = { a, b };
+				updateBoard(board, newClick);
+			}
+			return board;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
