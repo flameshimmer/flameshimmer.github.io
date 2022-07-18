@@ -1,0 +1,109 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RemoveDuplicatesfromSortedArray</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RemoveDuplicatesfromSortedArray</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums sorted in non-decreasing order, remove the
+//duplicates in-place such that each unique element appears only once. The
+//relative order of the elements should be kept the same.
+//Since it is impossible to change the length of the array in some languages, you
+//must instead have the result be placed in the first part of the array nums.
+//More formally, if there are k elements after removing the duplicates, then the
+//first k elements of nums should hold the final result. It does not matter what
+//you leave beyond the first k elements.
+//Return k after placing the final result in the first k slots of nums.
+//Do not allocate extra space for another array. You must do this by modifying
+//the input array in-place with O(1) extra memory.
+//Custom Judge:
+//The judge will test your solution with the following code:
+//int[] nums = [...]; // Input array
+//int[] expectedNums = [...]; // The expected answer with correct length
+//int k = removeDuplicates(nums); // Calls your implementation
+//assert k == expectedNums.length;
+//for (int i = 0; i &lt; k; i++) {
+//    assert nums[i] == expectedNums[i];
+//}
+//If all assertions pass, then your solution will be accepted.
+// 
+//
+//Example 1:
+//Input: nums = [1,1,2]
+//Output: 2, nums = [1,2,_]
+//Explanation: Your function should return k = 2, with the first two elements of
+//nums being 1 and 2 respectively.
+//It does not matter what you leave beyond the returned k (hence they are
+//underscores).
+//
+//Example 2:
+//Input: nums = [0,0,1,1,1,2,2,3,3,4]
+//Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+//Explanation: Your function should return k = 5, with the first five elements of
+//nums being 0, 1, 2, 3, and 4 respectively.
+//It does not matter what you leave beyond the returned k (hence they are
+//underscores).
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 3 * 104
+//-100 &lt;= nums[i] &lt;= 100
+//nums is sorted in non-decreasing order.
+
+namespace Solution2022
+{
+	namespace RemoveDuplicatesfromSortedArray
+	{
+	    int removeDuplicates(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			if (len &lt; 2) { return len; }
+
+			int front = 1;
+			int back = 0;
+			for (; front &lt; len; front++) {
+				if (nums[back] != nums[front]) {
+					back++;
+					nums[back] = nums[front];
+				}				
+			}
+			return back + 1;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
