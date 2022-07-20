@@ -1,0 +1,88 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ExcelSheetColumnNumber</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ExcelSheetColumnNumber</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string columnTitle that represents the column title as appears in an
+//Excel sheet, return its corresponding column number.
+//For example:
+//A -&gt; 1
+//B -&gt; 2
+//C -&gt; 3
+//...
+//Z -&gt; 26
+//AA -&gt; 27
+//AB -&gt; 28 
+//...
+// 
+//
+//Example 1:
+//Input: columnTitle = "A"
+//Output: 1
+//
+//Example 2:
+//Input: columnTitle = "AB"
+//Output: 28
+//
+//Example 3:
+//Input: columnTitle = "ZY"
+//Output: 701
+// 
+//Constraints:
+//1 &lt;= columnTitle.length &lt;= 7
+//columnTitle consists only of uppercase English letters.
+//columnTitle is in the range ["A", "FXSHRXW"].
+
+namespace Solution2022
+{
+	namespace ExcelSheetColumnNumber
+	{
+	    int titleToNumber(string columnTitle) {
+			int result = 0;
+			for (char c : columnTitle) {
+				result = result * 26 + (c - 'A' + 1); // Note: A is 1, not 0! So need to add 1.
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
