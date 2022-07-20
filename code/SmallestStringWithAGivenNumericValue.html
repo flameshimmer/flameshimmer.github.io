@@ -1,0 +1,91 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SmallestStringWithAGivenNumericValue</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SmallestStringWithAGivenNumericValue</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//The numeric value of a lowercase character is defined as its position
+//(1-indexed) in the alphabet, so the numeric value of a is 1, the numeric value
+//of b is 2, the numeric value of c is 3, and so on.
+//The numeric value of a string consisting of lowercase characters is defined as
+//the sum of its characters' numeric values. For example, the numeric value of
+//the string "abe" is equal to 1 + 2 + 5 = 8.
+//You are given two integers n and k. Return the lexicographically smallest
+//string with length equal to n and numeric value equal to k.
+//
+//Note that a string x is lexicographically smaller than string y if x comes
+//before y in dictionary order, that is, either x is a prefix of y, or if i is
+//the first position such that x[i] != y[i], then x[i] comes before y[i] in
+//alphabetic order.
+// 
+//
+//Example 1:
+//Input: n = 3, k = 27
+//Output: "aay"
+//Explanation: The numeric value of the string is 1 + 1 + 25 = 27, and it is the
+//smallest string with such a value and length equal to 3.
+//
+//Example 2:
+//Input: n = 5, k = 73
+//Output: "aaszz"
+// 
+//Constraints:
+//1 &lt;= n &lt;= 105
+//n &lt;= k &lt;= 26 * n
+
+namespace Solution2022
+{
+	namespace SmallestStringWithAGivenNumericValue
+	{
+	    string getSmallestString(int n, int k) {
+			string result(n, 'a');
+			k -= n;
+			for (int i = n - 1; i &gt;= 0; i--) {
+				int add = min(k, 25);
+				result[i] = 'a' + add;
+				k -= add;
+				if (k == 0) { break; }
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
