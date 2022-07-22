@@ -1,0 +1,101 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FourSum</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FourSum</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array nums of n integers, return an array of all the unique
+//quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+//0 &lt;= a, b, c, d &lt; n
+//a, b, c, and d are distinct.
+//nums[a] + nums[b] + nums[c] + nums[d] == target
+//You may return the answer in any order.
+// 
+//
+//Example 1:
+//Input: nums = [1,0,-1,0,-2,2], target = 0
+//Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+//
+//Example 2:
+//Input: nums = [2,2,2,2,2], target = 8
+//Output: [[2,2,2,2]]
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 200
+//-109 &lt;= nums[i] &lt;= 109
+//-109 &lt;= target &lt;= 109
+
+namespace Solution2022
+{
+	namespace FourSum
+	{
+	    vector&lt;vector&lt;int&gt;&gt; fourSum(vector&lt;int&gt;& nums, int target) {
+			vector&lt;vector&lt;int&gt;&gt; result;
+			int len = nums.size();
+			if (len &lt; 4) { return result; }
+
+			sort(nums.begin(), nums.end());
+
+			for (int d = len - 1; d &gt;= 3; d--) {
+				for (int c = d - 1; c &gt;= 2; c--) {
+					int a = 0;
+					int b = c - 1;
+					while (a &lt; b) {
+						long long sum = (long long)nums[a] + (long long)nums[b] + (long long)nums[c] + (long long)nums[d];
+						if (sum == target) {
+							result.push_back({nums[a], nums[b], nums[c], nums[d] });
+							while (a &lt; b && nums[a] == nums[a + 1]) { a++; }
+							while (a &lt; b && nums[b] == nums[b - 1]) { b--; }
+							a++;
+							b--;
+						} 
+						else if (sum &lt; target) { a++; }
+						else { b--; }
+					}
+					while (c &gt;= 2 && nums[c] == nums[c - 1]) { c--; }				
+				}
+				while (d &gt;= 3 && nums[d] == nums[d - 1]) { d--; }
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
