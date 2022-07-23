@@ -1,0 +1,116 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ValidSudoku</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ValidSudoku</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be
+//validated according to the following rules:
+//Each row must contain the digits 1-9 without repetition.
+//Each column must contain the digits 1-9 without repetition.
+//Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9
+//without repetition.
+//
+//Note:
+//A Sudoku board (partially filled) could be valid but is not necessarily
+//solvable.
+//Only the filled cells need to be validated according to the mentioned rules.
+// 
+//
+//Example 1:
+//Input: board = 
+//[["5","3",".",".","7",".",".",".","."]
+//,["6",".",".","1","9","5",".",".","."]
+//,[".","9","8",".",".",".",".","6","."]
+//,["8",".",".",".","6",".",".",".","3"]
+//,["4",".",".","8",".","3",".",".","1"]
+//,["7",".",".",".","2",".",".",".","6"]
+//,[".","6",".",".",".",".","2","8","."]
+//,[".",".",".","4","1","9",".",".","5"]
+//,[".",".",".",".","8",".",".","7","9"]]
+//Output: true
+//
+//Example 2:
+//Input: board = 
+//[["8","3",".",".","7",".",".",".","."]
+//,["6",".",".","1","9","5",".",".","."]
+//,[".","9","8",".",".",".",".","6","."]
+//,["8",".",".",".","6",".",".",".","3"]
+//,["4",".",".","8",".","3",".",".","1"]
+//,["7",".",".",".","2",".",".",".","6"]
+//,[".","6",".",".",".",".","2","8","."]
+//,[".",".",".","4","1","9",".",".","5"]
+//,[".",".",".",".","8",".",".","7","9"]]
+//Output: false
+//Explanation: Same as 
+//Example 1, except with the 5 in the top left corner being
+//modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is
+//invalid.
+// 
+//Constraints:
+//board.length == 9
+//board[i].length == 9
+//board[i][j] is a digit 1-9 or '.'.
+
+namespace Solution2022
+{
+	namespace ValidSudoku
+	{
+		bool isValidSudoku(vector&lt;vector&lt;char&gt;&gt;& board) {
+			bool row[9][10] = { false };
+			bool col[9][10] = { false };
+			bool nineGrid[3][3][10] = { false };
+
+			for (int i = 0; i &lt; 9; i++) {
+				for (int j = 0; j &lt; 9; j++) {
+					if (board[i][j] == '.') { continue; }
+					int v = board[i][j] - '0';
+					if (v &lt; 1 || v &gt; 9 || row[i][v] || col[j][v] || nineGrid[i / 3][j / 3][v]) { return false; }
+					row[i][v] = true;
+					col[j][v] = true;
+					nineGrid[i/3][j/3][v] = true;
+				}
+			}
+			return true;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
