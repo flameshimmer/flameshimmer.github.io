@@ -1,0 +1,107 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ShortestWaytoFormString</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ShortestWaytoFormString</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//A subsequence of a string is a new string that is formed from the original
+//string by deleting some (can be none) of the characters without disturbing the
+//relative positions of the remaining characters. (i.e., "ace" is a subsequence
+//of "abcde" while "aec" is not).
+//Given two strings source and target, return the minimum number of subsequences
+//of source such that their concatenation equals target. If the task is
+//impossible, return -1.
+// 
+//
+//Example 1:
+//Input: source = "abc", target = "abcbc"
+//Output: 2
+//Explanation: The target "abcbc" can be formed by "abc" and "bc", which are
+//subsequences of source "abc".
+//
+//Example 2:
+//Input: source = "abc", target = "acdbc"
+//Output: -1
+//Explanation: The target string cannot be constructed from the subsequences of
+//source string due to the character "d" in target string.
+//
+//Example 3:
+//Input: source = "xyz", target = "xzyxz"
+//Output: 3
+//Explanation: The target string can be constructed as follows "xz" + "y" + "xz".
+// 
+//Constraints:
+//1 &lt;= source.length, target.length &lt;= 1000
+//source and target consist of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace ShortestWaytoFormString
+	{
+	    int shortestWay(string source, string target) {
+			int len = source.size();
+			vector&lt;vector&lt;int&gt;&gt; map(len, vector&lt;int&gt;(26, -1));
+
+			map[len - 1][source[len - 1] - 'a'] = len - 1;
+			for (int i = len - 2; i &gt;= 0; i--) {
+				map[i] = map[i + 1];
+				map[i][source[i] - 'a'] = i;
+			}
+
+			int result = 1;
+			int i = 0;
+			for (char c : target) {
+				int t = c - 'a';
+				if (map[0][t] == -1) { return -1; }
+
+				if (i == len || map[i][t] == -1) {
+					result++;
+					i = map[0][t] + 1;
+				}
+				else {
+					i = map[i][t] + 1;
+				}			
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,113 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>NumberofWaystoBuildSturdyBrickWall</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>NumberofWaystoBuildSturdyBrickWall</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given integers height and width which specify the dimensions of a brick
+//wall you are building. You are also given a 0-indexed array of unique integers
+//bricks, where the ith brick has a height of 1 and a width of bricks[i]. You
+//have an infinite supply of each type of brick and bricks may not be rotated.
+//Each row in the wall must be exactly width units long. For the wall to be
+//sturdy, adjacent rows in the wall should not join bricks at the same location,
+//except at the ends of the wall.
+//Return the number of ways to build a sturdy wall. Since the answer may be very
+//large, return it modulo 109 + 7.
+// 
+//
+//Example 1:
+//Input: height = 2, width = 3, bricks = [1,2]
+//Output: 2
+//Explanation:
+//The first two walls in the diagram show the only two ways to build a sturdy
+//brick wall.
+//
+//Note that the third wall in the diagram is not sturdy because adjacent rows
+//join bricks 2 units from the left.
+//
+//Example 2:
+//Input: height = 1, width = 1, bricks = [5]
+//Output: 0
+//Explanation:
+//There are no ways to build a sturdy wall because the only type of brick we have
+//is longer than the width of the wall.
+// 
+//Constraints:
+//1 &lt;= height &lt;= 100
+//1 &lt;= width &lt;= 10
+//1 &lt;= bricks.length &lt;= 10
+//1 &lt;= bricks[i] &lt;= 10
+//All the values of bricks are unique.
+
+namespace Solution2022
+{
+	namespace NumberofWaystoBuildSturdyBrickWall
+	{
+		int dp[101][1024] = {};
+		int dfs_h(int h, int prev, const vector&lt;int&gt;& masks) {
+			if (h == 0)
+				return 1;
+			if (dp[h][prev] == 0)
+				for (int mask : masks)
+					if ((mask & prev) == 0)
+						dp[h][prev] = (dp[h][prev] + dfs_h(h - 1, mask, masks)) % 1000000007;
+			return dp[h][prev];
+		}
+
+		vector&lt;int&gt; dfs_w(int w, int width, vector&lt;int&gt;& bricks, int mask, vector&lt;int&gt;& masks) {
+			if (w == width)
+				masks.push_back(mask);
+			else {
+				if (w)
+					mask += (1 &lt;&lt; (w - 1));
+				for (int b : bricks)
+					if (w + b &lt;= width)
+						dfs_w(w + b, width, bricks, mask, masks);
+			}
+			return masks;
+		}
+
+		int buildWall(int height, int width, vector&lt;int&gt;& bricks) {
+			return dfs_h(height, 0, dfs_w(0, width, bricks, 0, vector&lt;int&gt;() = {}));
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

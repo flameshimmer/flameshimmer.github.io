@@ -1,0 +1,99 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MaximumPointsYouCanObtainfromCards</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MaximumPointsYouCanObtainfromCards</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are several cards arranged in a row, and each card has an associated
+//number of points. The points are given in the integer array cardPoints.
+//In one step, you can take one card from the beginning or from the end of the
+//row. You have to take exactly k cards.
+//Your score is the sum of the points of the cards you have taken.
+//Given the integer array cardPoints and the integer k, return the maximum score
+//you can obtain.
+// 
+//
+//Example 1:
+//Input: cardPoints = [1,2,3,4,5,6,1], k = 3
+//Output: 12
+//Explanation: After the first step, your score will always be 1. However,
+//choosing the rightmost card first will maximize your total score. The optimal
+//strategy is to take the three cards on the right, giving a final score of 1 + 6
+//+ 5 = 12.
+//
+//Example 2:
+//Input: cardPoints = [2,2,2], k = 2
+//Output: 4
+//Explanation: Regardless of which two cards you take, your score will always be
+//4.
+//
+//Example 3:
+//Input: cardPoints = [9,7,7,9,7,7,9], k = 7
+//Output: 55
+//Explanation: You have to take all the cards. Your score is the sum of points of
+//all cards.
+// 
+//Constraints:
+//1 &lt;= cardPoints.length &lt;= 105
+//1 &lt;= cardPoints[i] &lt;= 104
+//1 &lt;= k &lt;= cardPoints.length
+
+namespace Solution2022
+{
+	namespace MaximumPointsYouCanObtainfromCards
+	{
+	    int maxScore(vector&lt;int&gt;& cardPoints, int k) {
+			int len = cardPoints.size();
+			if (k &gt;= len) { return accumulate(cardPoints.begin(), cardPoints.end(), 0);  }
+
+			int leftSum = accumulate(cardPoints.begin(), cardPoints.begin() + k, 0);
+			int result = leftSum;
+			int rightSum = 0;
+			for (int i = 0; i &lt; k; i++) {
+				rightSum += cardPoints[len - 1 - i];
+				leftSum -= cardPoints[k - 1 - i];
+				result = max(result, leftSum + rightSum);
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

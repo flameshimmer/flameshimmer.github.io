@@ -1,0 +1,103 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SwapAdjacentinLRString</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SwapAdjacentinLRString</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//In a string composed of 'L', 'R', and 'X' characters, like "RXXLRXRXL", a move
+//consists of either replacing one occurrence of "XL" with "LX", or replacing one
+//occurrence of "RX" with "XR". Given the starting string start and the ending
+//string end, return True if and only if there exists a sequence of moves to
+//transform one string to the other.
+// 
+//
+//Example 1:
+//Input: start = "RXXLRXRXL", end = "XRLXXRRLX"
+//Output: true
+//Explanation: We can transform start to end following these steps:
+//RXXLRXRXL -&gt;
+//XRXLRXRXL -&gt;
+//XRLXRXRXL -&gt;
+//XRLXXRRXL -&gt;
+//XRLXXRRLX
+//
+//Example 2:
+//Input: start = "X", end = "L"
+//Output: false
+// 
+//Constraints:
+//1 &lt;= start.length &lt;= 104
+//start.length == end.length
+//Both start and end will only consist of characters in 'L', 'R', and 'X'.
+
+namespace Solution2022
+{
+	namespace SwapAdjacentinLRString
+	{
+
+	    bool canTransform(string start, string end) {
+			int len = start.size();
+			string s1, s2;
+			for (char c : start) {
+				if (c != 'X') { s1.push_back(c); }
+			}
+			for (char c : end) {
+				if (c != 'X') { s2.push_back(c); }
+			}
+			if (s1 != s2) { return false; }
+
+			int i = 0;
+			int j = 0;
+			while (i &lt; len && j &lt; len) {
+				while (i &lt; len && start[i] == 'X') { i++; }
+				while (j &lt; len && end[j] == 'X') { j++; }
+				if (i == len && j == len) { return true; }
+				if (i == len || j == len) { return false; }
+
+				if ((start[i] == 'L' && i &lt; j) || (start[i] == 'R' && i &gt; j)) { return false; }
+				i++;
+				j++;
+			}
+			return true;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
