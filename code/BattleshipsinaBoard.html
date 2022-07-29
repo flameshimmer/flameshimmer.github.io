@@ -1,0 +1,90 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BattleshipsinaBoard</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BattleshipsinaBoard</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n matrix board where each cell is a battleship 'X' or empty '.',
+//return the number of the battleships on board.
+//Battleships can only be placed horizontally or vertically on board. In other
+//words, they can only be made of the shape 1 x k (1 row, k columns) or k x 1 (k
+//rows, 1 column), where k can be of any size. At least one horizontal or
+//vertical cell separates between two battleships (i.e., there are no adjacent
+//battleships).
+// 
+//
+//Example 1:
+//Input: board = [["X",".",".","X"],[".",".",".","X"],[".",".",".","X"]]
+//Output: 2
+//
+//Example 2:
+//Input: board = [["."]]
+//Output: 0
+// 
+//Constraints:
+//m == board.length
+//n == board[i].length
+//1 &lt;= m, n &lt;= 200
+//board[i][j] is either '.' or 'X'.
+// 
+//Follow up: Could you do it in one-pass, using only O(1) extra memory and
+//without modifying the values board?
+
+namespace Solution2022
+{
+	namespace BattleshipsinaBoard
+	{
+	    int countBattleships(vector&lt;vector&lt;char&gt;&gt;& board) {
+			int rowCount = board.size();
+			int colCount = board[0].size();
+
+			int result = 0;
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					if (board[i][j] == '.' || (i-1 &gt;= 0 && board[i - 1][j] == 'X') || (j-1 &gt;= 0 && board[i][j-1] == 'X')) { continue; }
+					result++;
+				}
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
