@@ -1,0 +1,119 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RLEIterator</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RLEIterator</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//We can use run-length encoding (i.e., RLE) to encode a sequence of integers. In
+//a run-length encoded array of even length encoding (0-indexed), for all even i,
+//encoding[i] tells us the number of times that the non-negative integer value
+//encoding[i + 1] is repeated in the sequence.
+//For example, the sequence arr = [8,8,8,5,5] can be encoded to be encoding =
+//[3,8,2,5]. encoding = [3,8,0,9,2,5] and encoding = [2,8,1,8,2,5] are also valid
+//RLE of arr.
+//Given a run-length encoded array, design an iterator that iterates through it.
+//Implement the RLEIterator class:
+//RLEIterator(int[] encoded) Initializes the object with the encoded array
+//encoded.
+//int next(int n) Exhausts the next n elements and returns the last element
+//exhausted in this way. If there is no element left to exhaust, return -1
+//instead.
+// 
+//
+//Example 1:
+//Input
+//["RLEIterator", "next", "next", "next", "next"]
+//[[[3, 8, 0, 9, 2, 5]], [2], [1], [1], [2]]
+//Output
+//[null, 8, 8, 5, -1]
+//Explanation
+//RLEIterator rLEIterator = new RLEIterator([3, 8, 0, 9, 2, 5]); // This maps to
+//the sequence [8,8,8,5,5].
+//rLEIterator.next(2); // exhausts 2 terms of the sequence, returning 8. The
+//remaining sequence is now [8, 5, 5].
+//rLEIterator.next(1); // exhausts 1 term of the sequence, returning 8. The
+//remaining sequence is now [5, 5].
+//rLEIterator.next(1); // exhausts 1 term of the sequence, returning 5. The
+//remaining sequence is now [5].
+//rLEIterator.next(2); // exhausts 2 terms, returning -1. This is because the
+//first term exhausted was 5,
+//but the second term did not exist. Since the last term exhausted does not
+//exist, we return -1.
+// 
+//Constraints:
+//2 &lt;= encoding.length &lt;= 1000
+//encoding.length is even.
+//0 &lt;= encoding[i] &lt;= 109
+//1 &lt;= n &lt;= 109
+//At most 1000 calls will be made to next.
+
+namespace Solution2022
+{
+	namespace RLEIterator
+	{
+		class RLEIterator {
+		private:
+			vector&lt;int&gt; A;
+			int index;
+		public:
+			RLEIterator(vector&lt;int&gt;& encoding) : A(encoding), index(0) {
+			}
+
+			int next(int n) {
+				int len = A.size();
+				while (index &lt; len && A[index] &lt; n) {
+					n -= A[index];
+					index += 2;
+				}
+				if (index &gt;= len) { return -1; }
+				A[index] -= n;
+				return A[index + 1];
+			}
+		};
+
+		/**
+		 * Your RLEIterator object will be instantiated and called as such:
+		 * RLEIterator* obj = new RLEIterator(encoding);
+		 * int param_1 = obj-&gt;next(n);
+		 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
