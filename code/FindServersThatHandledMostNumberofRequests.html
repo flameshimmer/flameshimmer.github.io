@@ -90,9 +90,45 @@ namespace Solution2022
 {
 	namespace FindServersThatHandledMostNumberofRequests
 	{
-	    vector&lt;int&gt; busiestServers(int k, vector&lt;int&gt;& arrival, vector&lt;int&gt;& load) {
-	        
-	    }
+		namespace UsePriorityQueue {
+			vector&lt;int&gt; busiestServers(int k, vector&lt;int&gt;& arrival, vector&lt;int&gt;& load) {
+				vector&lt;int&gt; count(k);
+
+				set&lt;int&gt; free;
+				for (int i = 0; i &lt; k; k++) { free.insert(i); }
+
+				priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;&gt;&gt; busy; // {end time, serverIndex}
+
+				for (int i = 0; i &lt; arrival.size(); i++) {
+					int start = arrival[i];
+					int end = start + load[i];
+
+					while (!busy.empty() && busy.top().first &lt;= start) {
+						int server = busy.top().second;
+						busy.pop();
+						free.insert(server);
+					}
+					if (free.empty()) { continue; }
+					auto it = free.lower_bound(i % k);
+					if (it == free.end()) {
+						it = free.begin();
+					}
+					int serverId = *it;
+					count[serverId]++;
+					busy.push({ end, serverId });
+					free.erase(serverId);
+				}
+
+				vector&lt;int&gt; result;
+				int max = *max_element(count.begin(), count.end());
+				for (int i = 0; i &lt; k; i++) {
+					if (count[i] == max) {
+						result.push_back(i);
+					}
+				}
+				return result;
+			}
+		}
 
 		void Main() {
 			string test = "tst test test";
