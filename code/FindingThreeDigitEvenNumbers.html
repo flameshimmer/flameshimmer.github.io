@@ -1,0 +1,107 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FindingThreeDigitEvenNumbers</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FindingThreeDigitEvenNumbers</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an integer array digits, where each element is a digit. The array
+//may contain duplicates.
+//You need to find all the unique integers that follow the given requirements:
+//The integer consists of the concatenation of three elements from digits in any
+//arbitrary order.
+//The integer does not have leading zeros.
+//The integer is even.
+//For example, if the given digits were [1, 2, 3], integers 132 and 312 follow
+//the requirements.
+//Return a sorted array of the unique integers.
+// 
+//
+//Example 1:
+//Input: digits = [2,1,3,0]
+//Output: [102,120,130,132,210,230,302,310,312,320]
+//Explanation: All the possible integers that follow the requirements are in the
+//output array. 
+//Notice that there are no odd integers or integers with leading zeros.
+//
+//Example 2:
+//Input: digits = [2,2,8,8,2]
+//Output: [222,228,282,288,822,828,882]
+//Explanation: The same digit can be used as many times as it appears in digits. 
+//In this example, the digit 8 is used twice each time in 288, 828, and 882. 
+//
+//Example 3:
+//Input: digits = [3,7,5]
+//Output: []
+//Explanation: No even integers can be formed using the given digits.
+// 
+//Constraints:
+//3 &lt;= digits.length &lt;= 100
+//0 &lt;= digits[i] &lt;= 9
+
+namespace Solution2022
+{
+	namespace FindingThreeDigitEvenNumbers
+	{
+		vector&lt;int&gt; findEvenNumbers(vector&lt;int&gt;& digits) {
+			vector&lt;int&gt; result;
+			vector&lt;int&gt; freq(10, 0);
+			for (int d : digits) { freq[d]++; }
+
+			for (int num = 100; num &lt; 999; num+=2) {
+				int ones = num % 10;
+				int tens = (num / 10) % 10;
+				int hundreds = num / 100;
+
+				freq[ones]--;
+				freq[tens]--;
+				freq[hundreds]--;
+				if (freq[ones] &gt;= 0 && freq[tens] &gt;= 0 && freq[hundreds] &gt;= 0) {
+					result.push_back(num);
+				}
+				freq[ones]++;
+				freq[tens]++;
+				freq[hundreds]++;
+			}
+			return result;
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 1,8,7,7,1,1,5,4,0,0,7,5,1,7,9 };
+			print(findEvenNumbers(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
