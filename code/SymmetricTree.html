@@ -1,0 +1,116 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SymmetricTree</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SymmetricTree</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given the root of a binary tree, check whether it is a mirror of itself (i.e.,
+//symmetric around its center).
+// 
+//
+//Example 1:
+//Input: root = [1,2,2,3,4,4,3]
+//Output: true
+//
+//Example 2:
+//Input: root = [1,2,2,null,3,null,3]
+//Output: false
+// 
+//Constraints:
+//The number of nodes in the tree is in the range [1, 1000].
+//-100 &lt;= Node.val &lt;= 100
+// 
+//Follow up: Could you solve it both recursively and iteratively?
+
+namespace Solution2022
+{
+	namespace SymmetricTree
+	{
+
+		//Definition for a binary tree node.
+		struct TreeNode {
+			int val;
+			TreeNode* left;
+			TreeNode* right;
+			TreeNode() : val(0), left(nullptr), right(nullptr) {}
+			TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+			TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+		};
+
+		namespace Recursive {
+			bool helper(TreeNode* l, TreeNode* r) {
+				if (!l && !r) { return true; }
+				if (!l || !r) { return false; }
+				if (l-&gt;val != r-&gt;val) { return false; }
+				return helper(l-&gt;right, r-&gt;left) && helper(l-&gt;left, r-&gt;right);
+			}
+
+			bool isSymmetric(TreeNode* root) {
+				if (!root) { return true; }
+				return helper(root-&gt;left, root-&gt;right);
+			}
+		}
+
+
+		namespace Iterative {
+			bool isSymmetric(TreeNode* root) {
+				if (!root) { return true; }
+				queue&lt;TreeNode*&gt; q;
+				q.push(root);
+				q.push(root);
+				while (!q.empty()) {
+					TreeNode* n1 = q.front();
+					q.pop();
+					TreeNode* n2 = q.front();
+					q.pop();
+					if (!n1 && !n2) { continue; }
+					if (!n1 || !n2 || n1-&gt;val != n2-&gt;val) { return false; }
+					q.push(n1-&gt;left);
+					q.push(n2-&gt;right);
+					q.push(n1-&gt;right);
+					q.push(n2-&gt;left);
+				}
+				return true;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
