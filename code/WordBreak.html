@@ -1,0 +1,100 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>WordBreak</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>WordBreak</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s and a dictionary of strings wordDict, return true if s can be
+//segmented into a space-separated sequence of one or more dictionary words.
+//
+//Note that the same word in the dictionary may be reused multiple times in the
+//segmentation.
+// 
+//
+//Example 1:
+//Input: s = "leetcode", wordDict = ["leet","code"]
+//Output: true
+//Explanation: Return true because "leetcode" can be segmented as "leet code".
+//
+//Example 2:
+//Input: s = "applepenapple", wordDict = ["apple","pen"]
+//Output: true
+//Explanation: Return true because "applepenapple" can be segmented as "apple pen
+//apple".
+//
+//Note that you are allowed to reuse a dictionary word.
+//
+//Example 3:
+//Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+//Output: false
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 300
+//1 &lt;= wordDict.length &lt;= 1000
+//1 &lt;= wordDict[i].length &lt;= 20
+//s and wordDict[i] consist of only lowercase English letters.
+//All the strings of wordDict are unique.
+
+namespace Solution2022
+{
+	namespace WordBreak
+	{
+		bool wordBreak(string s, vector&lt;string&gt;& wordDict) {
+			int len = s.size();
+			if (len == 0) { return false; }
+
+			unordered_set&lt;string&gt; dict(wordDict.begin(), wordDict.end());
+			if (dict.size() == 0) { return false; }
+
+			vector&lt;int&gt; M(len + 1, false);
+			M[0] = true;
+			for (int i = 1; i &lt;= len; i++) {
+				for (int j = 0; j &lt; i; j++) {
+					if (M[j] && dict.find(s.substr(j, i - j)) != dict.end()) {
+						M[i] = true;
+					}
+				}
+			}
+			return M[len];
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
