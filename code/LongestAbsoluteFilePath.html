@@ -92,7 +92,21 @@ namespace Solution2022
 	namespace LongestAbsoluteFilePath
 	{
 	    int lengthLongestPath(string input) {
-	        
+			vector&lt;string&gt; v;
+			stringstream ss(input);
+			string cur;
+			while (getline(ss, cur)) {
+				v.push_back(cur);
+			}
+
+			int result = 0;
+			vector&lt;int&gt;level(v.size() + 1, 0);
+			for (string& s : v) {
+				int lv = s.find_last_of('\t') + 1;
+				level[lv + 1] = level[lv] + (s.size() - lv) + 1;
+				if (s.find('.') != string::npos) { result = max(result, level[lv + 1] - 1); }
+			}
+			return result;
 	    }
 
 		void Main() {

@@ -103,9 +103,29 @@ namespace Solution2022
 {
 	namespace OddEvenJump
 	{
-	    int oddEvenJumps(vector&lt;int&gt;& arr) {
-			return 0;
-	    }
+		// https://www.youtube.com/watch?v=MEqDu4hA_Wo
+		int oddEvenJumps(vector&lt;int&gt;& arr) {
+			int len = arr.size();
+			vector&lt;vector&lt;int&gt;&gt; dp(len, vector&lt;int&gt;(2));
+			dp[len - 1][0] = 1;
+			dp[len - 1][1] = 1;
+
+			map&lt;int, int&gt; m;
+			m[arr[len - 1]] = len - 1;
+			int result = 1;
+
+			for (int i = len - 2; i &gt;= 0; i--) {
+				auto o = m.lower_bound(arr[i]);
+				if (o != m.end()) { dp[i][0] = dp[o-&gt;second][1]; }
+
+				auto e = m.upper_bound(arr[i]);
+				if (e != m.begin()) { dp[i][1] = dp[prev(e)-&gt;second][0]; }
+
+				if (dp[i][0] != 0) { result++; }
+				m[arr[i]] = i;
+			}
+			return result;
+		}
 
 		void Main() {
 			string test = "tst test test";

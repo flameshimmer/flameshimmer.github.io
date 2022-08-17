@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>CountSquareSubmatriceswithAllOnes</title>
+	<title>RemoveAllOnesWithRowandColumnFlipsII</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,69 +23,58 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>CountSquareSubmatriceswithAllOnes</h1>
+	<h1>RemoveAllOnesWithRowandColumnFlipsII</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a m * n matrix of ones and zeros, return how many square submatrices have
-//all ones.
+//You are given a 0-indexed m x n binary matrix grid.
+//In one operation, you can choose any i and j that meet the following conditions:
+//0 &lt;= i &lt; m
+//0 &lt;= j &lt; n
+//grid[i][j] == 1
+//and change the values of all cells in row i and column j to zero.
+//Return the minimum number of operations needed to remove all 1's from grid.
 // 
 //
 //Example 1:
-//Input: matrix =
-//[
-//  [0,1,1,1],
-//  [1,1,1,1],
-//  [0,1,1,1]
-//]
-//Output: 15
-//Explanation: 
-//There are 10 squares of side 1.
-//There are 4 squares of side 2.
-//There is  1 square of side 3.
-//Total number of squares = 10 + 4 + 1 = 15.
+//Input: grid = [[1,1,1],[1,1,1],[0,1,0]]
+//Output: 2
+//Explanation:
+//In the first operation, change all cell values of row 1 and column 1 to zero.
+//In the second operation, change all cell values of row 0 and column 0 to zero.
 //
 //Example 2:
-//Input: matrix = 
-//[
-//  [1,0,1],
-//  [1,1,0],
-//  [1,1,0]
-//]
-//Output: 7
-//Explanation: 
-//There are 6 squares of side 1.  
-//There is 1 square of side 2. 
-//Total number of squares = 6 + 1 = 7.
+//Input: grid = [[0,1,0],[1,0,1],[0,1,0]]
+//Output: 2
+//Explanation:
+//In the first operation, change all cell values of row 1 and column 0 to zero.
+//In the second operation, change all cell values of row 2 and column 1 to zero.
+//
+//Note that we cannot perform an operation using row 1 and column 1 because
+//grid[1][1] != 1.
+//
+//Example 3:
+//Input: grid = [[0,0],[0,0]]
+//Output: 0
+//Explanation:
+//There are no 1's to remove so return 0.
 // 
 //Constraints:
-//1 &lt;= arr.length &lt;= 300
-//1 &lt;= arr[0].length &lt;= 300
-//0 &lt;= arr[i][j] &lt;= 1
+//m == grid.length
+//n == grid[i].length
+//1 &lt;= m, n &lt;= 15
+//1 &lt;= m * n &lt;= 15
+//grid[i][j] is either 0 or 1.
 
 namespace Solution2022
 {
-	namespace CountSquareSubmatriceswithAllOnes
+	namespace RemoveAllOnesWithRowandColumnFlipsII
 	{
-		//https://www.youtube.com/watch?v=GfGsM2G1tP8
-	    int countSquares(vector&lt;vector&lt;int&gt;&gt;& M) {
-			int rowCount = M.size();
-			int colCount = M[0].size();
-			
-			int result = 0;
-
-			for (int i = 0; i &lt; rowCount; i++) {
-				for (int j = 0; j &lt; colCount; j++) {
-					if (M[i][j] &gt; 0 && i - 1 &gt;= 0 && j - 1 &gt;= 0) {
-						M[i][j] = min(M[i - 1][j], min(M[i][j - 1], M[i - 1][j - 1])) + 1;						
-					}
-					result += M[i][j]; // Note that this addition should not be included in the above if statment!!
-				}
-			}
-			return result;			
+	    int removeOnes(vector&lt;vector&lt;int&gt;&gt;& grid) {
+	        
 	    }
 
 		void Main() {

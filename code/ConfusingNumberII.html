@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>CountSquareSubmatriceswithAllOnes</title>
+	<title>ConfusingNumberII</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,69 +23,52 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>CountSquareSubmatriceswithAllOnes</h1>
+	<h1>ConfusingNumberII</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a m * n matrix of ones and zeros, return how many square submatrices have
-//all ones.
+//A confusing number is a number that when rotated 180 degrees becomes a
+//different number with each digit valid.
+//We can rotate digits of a number by 180 degrees to form new digits.
+//When 0, 1, 6, 8, and 9 are rotated 180 degrees, they become 0, 1, 9, 8, and 6
+//respectively.
+//When 2, 3, 4, 5, and 7 are rotated 180 degrees, they become invalid.
+//
+//Note that after rotating a number, we can ignore leading zeros.
+//For example, after rotating 8000, we have 0008 which is considered as just 8.
+//Given an integer n, return the number of confusing numbers in the inclusive
+//range [1, n].
 // 
 //
 //Example 1:
-//Input: matrix =
-//[
-//  [0,1,1,1],
-//  [1,1,1,1],
-//  [0,1,1,1]
-//]
-//Output: 15
-//Explanation: 
-//There are 10 squares of side 1.
-//There are 4 squares of side 2.
-//There is  1 square of side 3.
-//Total number of squares = 10 + 4 + 1 = 15.
+//Input: n = 20
+//Output: 6
+//Explanation: The confusing numbers are [6,9,10,16,18,19].
+//6 converts to 9.
+//9 converts to 6.
+//10 converts to 01 which is just 1.
+//16 converts to 91.
+//18 converts to 81.
+//19 converts to 61.
 //
 //Example 2:
-//Input: matrix = 
-//[
-//  [1,0,1],
-//  [1,1,0],
-//  [1,1,0]
-//]
-//Output: 7
-//Explanation: 
-//There are 6 squares of side 1.  
-//There is 1 square of side 2. 
-//Total number of squares = 6 + 1 = 7.
+//Input: n = 100
+//Output: 19
+//Explanation: The confusing numbers are
+//[6,9,10,16,18,19,60,61,66,68,80,81,86,89,90,91,98,99,100].
 // 
 //Constraints:
-//1 &lt;= arr.length &lt;= 300
-//1 &lt;= arr[0].length &lt;= 300
-//0 &lt;= arr[i][j] &lt;= 1
+//1 &lt;= n &lt;= 109
 
 namespace Solution2022
 {
-	namespace CountSquareSubmatriceswithAllOnes
+	namespace ConfusingNumberII
 	{
-		//https://www.youtube.com/watch?v=GfGsM2G1tP8
-	    int countSquares(vector&lt;vector&lt;int&gt;&gt;& M) {
-			int rowCount = M.size();
-			int colCount = M[0].size();
-			
-			int result = 0;
-
-			for (int i = 0; i &lt; rowCount; i++) {
-				for (int j = 0; j &lt; colCount; j++) {
-					if (M[i][j] &gt; 0 && i - 1 &gt;= 0 && j - 1 &gt;= 0) {
-						M[i][j] = min(M[i - 1][j], min(M[i][j - 1], M[i - 1][j - 1])) + 1;						
-					}
-					result += M[i][j]; // Note that this addition should not be included in the above if statment!!
-				}
-			}
-			return result;			
+	    int confusingNumberII(int n) {
+	        
 	    }
 
 		void Main() {
