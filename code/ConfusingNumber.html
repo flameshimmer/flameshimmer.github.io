@@ -65,13 +65,42 @@ namespace Solution2022
 {
 	namespace ConfusingNumber
 	{
-	    bool confusingNumber(int n) {
-	        
-	    }
+		bool confusingNumber(int n) {
+			int N = n;
+			int reversed = 0;
+
+			while (n) {
+				int remain = n % 10;
+				if (remain == 2 || remain == 3 || remain == 4 || remain == 5 || remain == 7) { return false; }
+				else if (remain == 6) { remain = 9; }
+				else if (remain == 9) { remain = 6; }
+				reversed = reversed * 10 + remain;
+				n /= 10;
+			}
+			return reversed != N;
+		}
+
+
+		namespace UseString {
+			bool confusingNumber(int n) {
+				if (n == 0) { return false; } // Need to take care of 0 as a special case!!!
+				string s = to_string(n);
+				reverse(s.begin(), s.end());
+				s = s.substr(s.find_first_not_of('0'));
+
+				string s2 = "";
+				for (char c : s) {
+					if (c == '2' || c == '3' || c == '4' || c == '5' || c == '7') { return false; }
+					else if (c == '6') { c = '9'; }
+					else if (c == '9') { c = '6'; }
+					s2.push_back(c);
+				}
+				return s2 != to_string(n);
+			}
+		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			print(confusingNumber(9));
 		}
 	}
 }

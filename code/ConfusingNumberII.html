@@ -67,8 +67,38 @@ namespace Solution2022
 {
 	namespace ConfusingNumberII
 	{
+		bool isConfusingNumber(int n) {
+			int N = n;
+			int reversed = 0;
+
+			while (n) {
+				int remain = n % 10;
+				if (remain == 2 || remain == 3 || remain == 4 || remain == 5 || remain == 7) { return false; }
+				else if (remain == 6) { remain = 9; }
+				else if (remain == 9) { remain = 6; }
+				reversed = reversed * 10 + remain;
+				n /= 10;
+			}
+			return reversed != N;
+		}
+
+		void helper(long long x, vector&lt;int&gt;& map, vector&lt;int&gt;& candidate, int n, int& result)
+		{
+			if (x &gt; n) { return; }
+			if (isConfusingNumber(x)) { result++; }
+			for (int c : candidate) {
+				helper(x * 10 + c, map, candidate, n, result);
+			}
+		}
+
 	    int confusingNumberII(int n) {
-	        
+			int result = 0;
+			vector&lt;int&gt; candidate = { 0, 1, 6, 8, 9 };
+
+			for (int x : {1, 6, 9, 8}) {
+				helper(x, map, candidate, n, result);
+			}
+			return result;
 	    }
 
 		void Main() {
