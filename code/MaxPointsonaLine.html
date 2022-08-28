@@ -1,0 +1,108 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MaxPointsonaLine</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MaxPointsonaLine</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of points where points[i] = [xi, yi] represents a point on the
+//X-Y plane, return the maximum number of points that lie on the same straight
+//line.
+// 
+//
+//Example 1:
+//Input: points = [[1,1],[2,2],[3,3]]
+//Output: 3
+//
+//Example 2:
+//Input: points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+//Output: 4
+// 
+//Constraints:
+//1 &lt;= points.length &lt;= 300
+//points[i].length == 2
+//-104 &lt;= xi, yi &lt;= 104
+//All the points are unique.
+
+namespace Solution2022
+{
+	namespace MaxPointsonaLine
+	{
+		int GCD(int a, int b) { // note: this is different imp than the std::gcd and will return different value.
+			if (b == 0) { return a; }
+			return GCD(b, a % b);
+		}
+
+		int maxPoints(vector&lt;vector&lt;int&gt;&gt;& points) {
+			int len = points.size();
+			if (len &lt; 2) { return len; }
+
+			int x, y, gcd;
+			string key;
+			int result = 0;
+
+			for (int i = 0; i &lt; points.size(); i++) {
+				unordered_map&lt;string, int&gt; map;
+				int dup = 1;
+				int verCount = 0;
+				int maxNonVerCount = 0;
+
+				vector&lt;int&gt; cur = points[i];
+				for (int j = i + 1; j &lt; len; j++) {
+					vector&lt;int&gt; next = points[j];
+					if (cur[0] == next[0] && cur[1] == next[1]) { dup++; }
+					else if (cur[0] == next[0]) { verCount++; }
+					else {
+						x = next[0] - cur[0];
+						y = next[1] - cur[1];
+						gcd = GCD(x, y);
+						key = to_string(y / gcd) + "_" + to_string(x / gcd);
+						map[key]++;
+						maxNonVerCount = max(maxNonVerCount, map[key]);
+					}
+				}
+				int curResult = max(verCount, maxNonVerCount) + dup;
+				result = max(result, curResult);
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,175 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SerializeandDeserializeBST</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SerializeandDeserializeBST</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Serialization is converting a data structure or object into a sequence of bits
+//so that it can be stored in a file or memory buffer, or transmitted across a
+//network connection link to be reconstructed later in the same or another
+//computer environment.
+//Design an algorithm to serialize and deserialize a binary search tree. There is
+//no restriction on how your serialization/deserialization algorithm should work.
+//You need to ensure that a binary search tree can be serialized to a string, and
+//this string can be deserialized to the original tree structure.
+//The encoded string should be as compact as possible.
+// 
+//
+//Example 1:
+//Input: root = [2,1,3]
+//Output: [2,1,3]
+//
+//Example 2:
+//Input: root = []
+//Output: []
+// 
+//Constraints:
+//The number of nodes in the tree is in the range [0, 104].
+//0 &lt;= Node.val &lt;= 104
+//The input tree is guaranteed to be a binary search tree.
+
+namespace Solution2022
+{
+	namespace SerializeandDeserializeBST
+	{
+
+		//Definition for a binary tree node.
+		struct TreeNode {
+			int val;
+			TreeNode* left;
+			TreeNode* right;
+			TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+		};
+
+		class Codec {
+		private:
+			void serializeHelper(TreeNode* node, string& result) {
+				if (!node) { return; }
+				result += to_string(node-&gt;val) + " ";
+				serializeHelper(node-&gt;left, result);
+				serializeHelper(node-&gt;right, result);
+			}
+
+			TreeNode* deserializeHelper(vector&lt;int&gt;& data, int& pos, int minV, int maxV) {
+				if (pos &gt;= data.size()) { return nullptr; } // Note: need this check to ensure the value is not out of bound!!!
+				int val = data[pos];
+				if (val &lt; minV || val &gt; maxV) { 
+					return nullptr; 
+				}
+				pos++;
+
+				TreeNode* newNode = new TreeNode(val);
+				newNode-&gt;left = deserializeHelper(data, pos, minV, val);
+				newNode-&gt;right = deserializeHelper(data, pos, val, maxV);
+				return newNode;
+			}
+
+		public:
+			// Encodes a tree to a single string.
+			string serialize(TreeNode* root) {
+				string result;
+				serializeHelper(root, result);
+				return result;
+			}
+
+			// Decodes your encoded data to tree.
+			TreeNode* deserialize(string data) {
+				vector&lt;int&gt; d;
+				istringstream ss(data);
+				int val;
+				while (ss &gt;&gt; val) { d.push_back(val); }
+
+				int pos = 0;
+				return deserializeHelper(d, pos, INT_MIN, INT_MAX);
+			}
+		};
+
+
+
+		namespace useBinaryStream {
+			class Codec {
+			private:
+				void serializeHelper(TreeNode* node, string& s) {
+					if (!node) { return; }
+					s.append(reinterpret_cast&lt;const char*&gt;(&node-&gt;val), sizeof(node-&gt;val));
+					serializeHelper(node-&gt;left, s);
+					serializeHelper(node-&gt;right, s);
+				}
+
+				TreeNode* deserializeHelper(string& s, int& pos, int minV, int maxV) {
+					if (pos &gt;= s.size()) { return nullptr; }
+
+					int val = *reinterpret_cast&lt;const int*&gt;(s.data() + pos);
+					if (val &lt; minV || val &gt; maxV) { return nullptr; }
+
+					pos += sizeof(val);
+					TreeNode* newNode = new TreeNode(val);
+					newNode-&gt;left = deserializeHelper(s, pos, minV, val);
+					newNode-&gt;right = deserializeHelper(s, pos, val, maxV);
+					return newNode;
+				}
+
+			public:
+				// Encodes a tree to a single string.
+				string serialize(TreeNode* root) {
+					string s;
+					serializeHelper(root, s);
+					return s;
+				}
+
+				// Decodes your encoded data to tree.
+				TreeNode* deserialize(string data) {
+					int pos = 0;
+					return deserializeHelper(data, pos, INT_MIN, INT_MAX);
+				}
+			};
+
+		}
+		
+		void Main() {
+			TreeNode* root = new TreeNode(2);
+			root-&gt;left = new TreeNode(1);
+			root-&gt;right = new TreeNode(3);
+
+			Codec* ser = new Codec();
+			Codec* deser = new Codec();
+			string tree = ser-&gt;serialize(root);
+			TreeNode* ans = deser-&gt;deserialize(tree);
+			
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
