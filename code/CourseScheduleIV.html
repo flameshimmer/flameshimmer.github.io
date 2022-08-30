@@ -1,0 +1,128 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CourseScheduleIV</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CourseScheduleIV</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are a total of numCourses courses you have to take, labeled from 0 to
+//numCourses - 1. You are given an array prerequisites where prerequisites[i] =
+//[ai, bi] indicates that you must take course ai first if you want to take
+//course bi.
+//For example, the pair [0, 1] indicates that you have to take course 0 before
+//you can take course 1.
+//Prerequisites can also be indirect. If course a is a prerequisite of course b,
+//and course b is a prerequisite of course c, then course a is a prerequisite of
+//course c.
+//You are also given an array queries where queries[j] = [uj, vj]. For the jth
+//query, you should answer whether course uj is a prerequisite of course vj or
+//not.
+//Return a boolean array answer, where answer[j] is the answer to the jth query.
+// 
+//
+//Example 1:
+//Input: numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]
+//Output: [false,true]
+//Explanation: The pair [1, 0] indicates that you have to take course 1 before
+//you can take course 0.
+//Course 0 is not a prerequisite of course 1, but the opposite is true.
+//
+//Example 2:
+//Input: numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]
+//Output: [false,false]
+//Explanation: There are no prerequisites, and each course is independent.
+//
+//Example 3:
+//Input: numCourses = 3, prerequisites = [[1,2],[1,0],[2,0]], queries =
+//[[1,0],[1,2]]
+//Output: [true,true]
+// 
+//Constraints:
+//2 &lt;= numCourses &lt;= 100
+//0 &lt;= prerequisites.length &lt;= (numCourses * (numCourses - 1) / 2)
+//prerequisites[i].length == 2
+//0 &lt;= ai, bi &lt;= n - 1
+//ai != bi
+//All the pairs [ai, bi] are unique.
+//The prerequisites graph has no cycles.
+//1 &lt;= queries.length &lt;= 104
+//0 &lt;= ui, vi &lt;= n - 1
+//ui != vi
+
+namespace Solution2022
+{
+	namespace CourseScheduleIV
+	{
+	    vector&lt;bool&gt; checkIfPrerequisite(int numCourses, vector&lt;vector&lt;int&gt;&gt;& prerequisites, vector&lt;vector&lt;int&gt;&gt;& queries) {
+			vector&lt;vector&lt;int&gt;&gt; children(numCourses, vector&lt;int&gt;());
+			vector&lt;int&gt; indegree(numCourses, 0);
+
+			for (vector&lt;int&gt;& p : prerequisites) {
+				children[p[0]].push_back(p[1]);
+				indegree[p[1]]++;
+			}
+
+			queue&lt;int&gt; q;
+			for (int i = 0; i &lt; numCourses; i++) {
+				if (indegree[i] == 0) { q.push(i); }
+			}
+
+			unordered_map&lt;int, unordered_set&lt;int&gt;&gt; parents;
+			while (!q.empty()) {
+				int top = q.front();
+				q.pop();
+
+				for (int child : children[top]) {
+					parents[child].insert(top);
+					parents[child].insert(parents[top].begin(), parents[top].end()); // Because we are already done with the parents, so adding the parent's ancestor here would be sufficient
+					indegree[child]--;
+					if (indegree[child] == 0) { q.push(child); }
+				}
+			}
+
+			vector&lt;bool&gt; results;
+			for (vector&lt;int&gt;& q : queries) {
+				results.push_back(parents[q[1]].count(q[0]) &gt; 0);
+			}	
+			return results;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

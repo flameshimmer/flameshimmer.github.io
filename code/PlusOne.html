@@ -1,0 +1,98 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PlusOne</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PlusOne</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a large integer represented as an integer array digits, where
+//each digits[i] is the ith digit of the integer. The digits are ordered from
+//most significant to least significant in left-to-right order. The large integer
+//does not contain any leading 0's.
+//Increment the large integer by one and return the resulting array of digits.
+// 
+//
+//Example 1:
+//Input: digits = [1,2,3]
+//Output: [1,2,4]
+//Explanation: The array represents the integer 123.
+//Incrementing by one gives 123 + 1 = 124.
+//Thus, the result should be [1,2,4].
+//
+//Example 2:
+//Input: digits = [4,3,2,1]
+//Output: [4,3,2,2]
+//Explanation: The array represents the integer 4321.
+//Incrementing by one gives 4321 + 1 = 4322.
+//Thus, the result should be [4,3,2,2].
+//
+//Example 3:
+//Input: digits = [9]
+//Output: [1,0]
+//Explanation: The array represents the integer 9.
+//Incrementing by one gives 9 + 1 = 10.
+//Thus, the result should be [1,0].
+// 
+//Constraints:
+//1 &lt;= digits.length &lt;= 100
+//0 &lt;= digits[i] &lt;= 9
+//digits does not contain any leading 0's.
+
+namespace Solution2022
+{
+	namespace PlusOne
+	{
+	    vector&lt;int&gt; plusOne(vector&lt;int&gt;& digits) {
+			int len = digits.size();
+			vector&lt;int&gt; result(len, 0);
+			int carry = 1;
+			for (int i = len - 1; i &gt;= 0; i--) {
+				int sum = digits[i] + carry;
+				result[i] = sum % 10;
+				carry = sum / 10;
+			}
+			if (carry == 1) {
+				result.insert(result.begin(), 1);
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

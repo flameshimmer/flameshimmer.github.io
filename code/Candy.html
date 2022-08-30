@@ -1,0 +1,99 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>Candy</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>Candy</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are n children standing in a line. Each child is assigned a rating value
+//given in the integer array ratings.
+//You are giving candies to these children subjected to the following
+//requirements:
+//Each child must have at least one candy.
+//Children with a higher rating get more candies than their neighbors.
+//Return the minimum number of candies you need to have to distribute the candies
+//to the children.
+// 
+//
+//Example 1:
+//Input: ratings = [1,0,2]
+//Output: 5
+//Explanation: You can allocate to the first, second and third child with 2, 1, 2
+//candies respectively.
+//
+//Example 2:
+//Input: ratings = [1,2,2]
+//Output: 4
+//Explanation: You can allocate to the first, second and third child with 1, 2, 1
+//candies respectively.
+//The third child gets 1 candy because it satisfies the above two conditions.
+// 
+//Constraints:
+//n == ratings.length
+//1 &lt;= n &lt;= 2 * 104
+//0 &lt;= ratings[i] &lt;= 2 * 104
+
+namespace Solution2022
+{
+	namespace Candy
+	{
+		int candy(vector&lt;int&gt;& ratings) {
+			int len = ratings.size();
+			if (len == 0) { return 0; }
+
+			vector&lt;int&gt; candy(len, 1);
+			for (int i = 1; i &lt; len; i++) {
+				if (ratings[i] &gt; ratings[i - 1]) {
+					candy[i] = candy[i - 1] + 1;
+				}
+			}
+
+			int total = candy[len - 1];
+			for (int i = len - 2; i &gt;= 0; i--) {
+				if (ratings[i] &gt; ratings[i + 1] && candy[i] &lt;= candy[i + 1]) {
+					candy[i] = candy[i + 1] + 1;
+				}
+				total += candy[i];
+			}
+			return total;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
