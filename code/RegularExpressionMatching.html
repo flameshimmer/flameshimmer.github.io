@@ -1,0 +1,113 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RegularExpressionMatching</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RegularExpressionMatching</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an input string s and a pattern p, implement regular expression matching
+//with support for '.' and '*' where:
+//'.' Matches any single character.​​​​
+//'*' Matches zero or more of the preceding element.
+//The matching should cover the entire input string (not partial).
+// 
+//
+//Example 1:
+//Input: s = "aa", p = "a"
+//Output: false
+//Explanation: "a" does not match the entire string "aa".
+//
+//Example 2:
+//Input: s = "aa", p = "a*"
+//Output: true
+//Explanation: '*' means zero or more of the preceding element, 'a'. Therefore,
+//by repeating 'a' once, it becomes "aa".
+//
+//Example 3:
+//Input: s = "ab", p = ".*"
+//Output: true
+//Explanation: ".*" means "zero or more (*) of any character (.)".
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 20
+//1 &lt;= p.length &lt;= 30
+//s contains only lowercase English letters.
+//p contains only lowercase English letters, '.', and '*'.
+//It is guaranteed for each appearance of the character '*', there will be a
+//previous valid character to match.
+
+namespace Solution2022
+{
+	namespace RegularExpressionMatching
+	{
+		bool matches(string& s, string& p, int i, int j) {
+			return s[i] == p[j] || p[j] == '.';
+		}
+
+		bool isMatch(string s, string p) {
+			int lens = s.size();
+			int lenp = p.size();
+
+			vector&lt;vector&lt;bool&gt;&gt; M(lens + 1, vector&lt;bool&gt;(lenp + 1, false));
+			M[0][0] = true;
+
+			for (int i = 0; i &lt; lens + 1; i++) {
+				for (int j = 1; j &lt; lenp + 1; j++) {
+					if (i - 1 &gt;= 0 && matches(s, p, i - 1, j - 1) && M[i - 1][j - 1]) {
+						M[i][j] = true;
+						continue;
+					}
+
+					if (i - 1 &gt;= 0 && j - 2 &gt;= 0 && p[j-1] == '*' && matches(s, p, i - 1, j - 2) && M[i - 1][j]) {
+						M[i][j] = true;
+						continue;
+					}
+
+					if (j - 2 &gt;= 0 && p[j - 1] == '*' && M[i][j - 2]) {
+						M[i][j] = true;
+						continue;
+					}
+				}
+			}
+			return M[lens][lenp];
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
