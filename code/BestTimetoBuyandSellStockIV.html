@@ -1,0 +1,133 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BestTimetoBuyandSellStockIV</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BestTimetoBuyandSellStockIV</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an integer array prices where prices[i] is the price of a given
+//stock on the ith day, and an integer k.
+//Find the maximum profit you can achieve. You may complete at most k
+//transactions.
+//
+//Note: You may not engage in multiple transactions simultaneously (i.e., you
+//must sell the stock before you buy again).
+// 
+//
+//Example 1:
+//Input: k = 2, prices = [2,4,1]
+//Output: 2
+//Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit =
+//4-2 = 2.
+//
+//Example 2:
+//Input: k = 2, prices = [3,2,6,5,0,3]
+//Output: 7
+//Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit =
+//6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit =
+//3-0 = 3.
+// 
+//Constraints:
+//0 &lt;= k &lt;= 100
+//0 &lt;= prices.length &lt;= 1000
+//0 &lt;= prices[i] &lt;= 1000
+
+namespace Solution2022
+{
+	//https://www.youtube.com/watch?v=lXRe__YD8JY
+	namespace BestTimetoBuyandSellStockIV
+	{
+		int len;
+		int maxProfit(int k, vector&lt;int&gt;& prices)
+		{
+			len = prices.size();
+			prices.insert(prices.begin(), 0);
+			int left = 0;
+			int right = *max_element(prices.begin(), prices.end());
+
+			while (left &lt; right)
+			{
+				int fee = left + (right - left) / 2;
+				if (helper(prices, fee)[1] &gt; k)
+					left = fee + 1;
+				else
+					right = fee;
+			}
+			return helper(prices, left)[0] + left * k;
+		}
+
+		vector&lt;int&gt; helper(vector&lt;int&gt;& prices, int fee)
+		{
+			vector&lt;int&gt;sell(len + 1, 0);
+			vector&lt;int&gt;buy(len + 1, 0);
+			sell[0] = 0;
+			buy[0] = INT_MIN / 2;
+			int sellCount = 0;
+			int buyCount = 0;
+
+			for (int i = 1; i &lt;= len; i++)
+			{
+				if (buy[i - 1] + prices[i] &gt; sell[i - 1])
+				{
+					sell[i] = buy[i - 1] + prices[i];
+					sellCount = buyCount + 1;
+				}
+				else
+				{
+					sell[i] = sell[i - 1];
+				}
+
+				if (sell[i - 1] - prices[i] - fee &gt; buy[i - 1])
+				{
+					buy[i] = sell[i - 1] - prices[i] - fee;
+					buyCount = sellCount;
+				}
+				else
+				{
+					buy[i] = buy[i - 1];
+				}
+			}
+			return { sell[len], sellCount };
+		}
+
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

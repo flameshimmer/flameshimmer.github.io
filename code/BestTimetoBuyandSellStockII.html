@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>LongestIncreasingSubsequence</title>
+	<title>BestTimetoBuyandSellStockII</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,73 +23,60 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>LongestIncreasingSubsequence</h1>
+	<h1>BestTimetoBuyandSellStockII</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an integer array nums, return the length of the longest strictly
-//increasing subsequence.
-//A subsequence is a sequence that can be derived from an array by deleting some
-//or no elements without changing the order of the remaining elements. For
-//example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
+//You are given an integer array prices where prices[i] is the price of a given
+//stock on the ith day.
+//On each day, you may decide to buy and/or sell the stock. You can only hold at
+//most one share of the stock at any time. However, you can buy it then
+//immediately sell it on the same day.
+//Find and return the maximum profit you can achieve.
 // 
 //
 //Example 1:
-//Input: nums = [10,9,2,5,3,7,101,18]
-//Output: 4
-//Explanation: The longest increasing subsequence is [2,3,7,101], therefore the
-//length is 4.
+//Input: prices = [7,1,5,3,6,4]
+//Output: 7
+//Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit =
+//5-1 = 4.
+//Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+//Total profit is 4 + 3 = 7.
 //
 //Example 2:
-//Input: nums = [0,1,0,3,2,3]
+//Input: prices = [1,2,3,4,5]
 //Output: 4
+//Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit =
+//5-1 = 4.
+//Total profit is 4.
 //
 //Example 3:
-//Input: nums = [7,7,7,7,7,7,7]
-//Output: 1
+//Input: prices = [7,6,4,3,1]
+//Output: 0
+//Explanation: There is no way to make a positive profit, so we never buy the
+//stock to achieve the maximum profit of 0.
 // 
 //Constraints:
-//1 &lt;= nums.length &lt;= 2500
-//-104 &lt;= nums[i] &lt;= 104
-// 
-//Follow up: Can you come up with an algorithm that runs in O(n log(n)) time
-//complexity?
+//1 &lt;= prices.length &lt;= 3 * 104
+//0 &lt;= prices[i] &lt;= 104
 
 namespace Solution2022
 {
-	namespace LongestIncreasingSubsequence
+	namespace BestTimetoBuyandSellStockII
 	{
-		namespace NLogN {
-			int lengthOfLIS(vector&lt;int&gt;& nums) {
-				vector&lt;int&gt; result;
-				for (int v : nums) {
-					auto it = lower_bound(result.begin(), result.end(), v);
-					if (it == result.end()) { result.push_back(v); }
-					else { *it = v; }
+	    int maxProfit(vector&lt;int&gt;& prices) {
+			int len = prices.size();
+			int result = 0;
+			for (int i = 1; i &lt; len; i++) {
+				if (prices[i] &gt; prices[i - 1]) {
+					result += prices[i] - prices[i - 1];
 				}
-				return result.size();
 			}
-		}
-		
-		namespace DP {
-			int lengthOfLIS(vector&lt;int&gt;& nums) {
-				int len = nums.size();
-				vector&lt;int&gt; dp(len, 1);
-
-				int result = 1;
-				for (int i = 1; i &lt; len; i++) {
-					for (int j = 0; j &lt; i; j++) {
-						if (nums[j] &lt; nums[i]) { dp[i] = max(dp[i], dp[j] + 1); }
-					}
-					result = max(result, dp[i]);
-				}
-				return result;
-			}
-
-		}
+			return result;
+	    }
 
 		void Main() {
 			string test = "tst test test";
