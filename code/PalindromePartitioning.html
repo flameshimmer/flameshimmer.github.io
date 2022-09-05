@@ -1,0 +1,99 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PalindromePartitioning</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PalindromePartitioning</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s, partition s such that every substring of the partition is a
+//palindrome. Return all possible palindrome partitioning of s.
+//A palindrome string is a string that reads the same backward as forward.
+// 
+//
+//Example 1:
+//Input: s = "aab"
+//Output: [["a","a","b"],["aa","b"]]
+//
+//Example 2:
+//Input: s = "a"
+//Output: [["a"]]
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 16
+//s contains only lowercase English letters.
+
+namespace Solution2022
+{
+	namespace PalindromePartitioning
+	{
+		bool isValidPalindrome(string& s, int start, int end) {
+			while (start &lt; end) {
+				if (s[start] != s[end]) { return false; }
+				start++;
+				end--;
+			}
+			return true;
+		}
+
+		void helper(int start, int len, string& s, vector&lt;string&gt;& result, vector&lt;vector&lt;string&gt;&gt;& results) {
+			if (start == len) { results.push_back(result); }
+
+			for (int i = start; i &lt; len; i++) {
+				if (isValidPalindrome(s, start, i)) {
+					string cur = s.substr(start, i - start + 1);
+					result.push_back(cur);
+					helper(i + 1, len, s, result, results);
+					result.pop_back();
+				}
+			}
+		}
+
+		vector&lt;vector&lt;string&gt;&gt; partition(string s) {
+			vector&lt;vector&lt;string&gt;&gt; results;
+			int len = s.size();
+			if (len == 0) { return results; }
+
+			vector&lt;string&gt; result;
+			helper(0, len, s, result, results);
+			return results;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

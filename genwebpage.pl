@@ -147,7 +147,7 @@ $$CODE$$
 	';
 
 	my $filename = shift;
-  open IN, "<C:\\Users\\flame\\OneDrive\\Desktop\\2022\\Leet2022\\$filename.cpp" or die "can't open Leet2022.cpp!: $!";
+  open IN, "<C:\\Users\\flame\\OneDrive\\Desktop\\2022\\Leet2022\\$filename.cpp" or die "can't open $filename.cpp!: $!";
 	my @lines = <IN>;
 	close IN;
 
