@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>LinkedListCycle</title>
+	<title>LinkedListCycleII</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,38 +23,39 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>LinkedListCycle</h1>
+	<h1>LinkedListCycleII</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given head, the head of a linked list, determine if the linked list has a cycle
-//in it.
+//Given the head of a linked list, return the node where the cycle begins. If
+//there is no cycle, return null.
 //There is a cycle in a linked list if there is some node in the list that can be
 //reached again by continuously following the next pointer. Internally, pos is
-//used to denote the index of the node that tail's next pointer is connected to.
-//
-//Note that pos is not passed as a parameter.
-//Return true if there is a cycle in the linked list. Otherwise, return false.
+//used to denote the index of the node that tail's next pointer is connected to
+//(0-indexed). It is -1 if there is no cycle. 
+//Note that pos is not passed as a
+//parameter.
+//Do not modify the linked list.
 // 
 //
 //Example 1:
 //Input: head = [3,2,0,-4], pos = 1
-//Output: true
-//Explanation: There is a cycle in the linked list, where the tail connects to
-//the 1st node (0-indexed).
+//Output: tail connects to node index 1
+//Explanation: There is a cycle in the linked list, where tail connects to the
+//second node.
 //
 //Example 2:
 //Input: head = [1,2], pos = 0
-//Output: true
-//Explanation: There is a cycle in the linked list, where the tail connects to
-//the 0th node.
+//Output: tail connects to node index 0
+//Explanation: There is a cycle in the linked list, where tail connects to the
+//first node.
 //
 //Example 3:
 //Input: head = [1], pos = -1
-//Output: false
+//Output: no cycle
 //Explanation: There is no cycle in the linked list.
 // 
 //Constraints:
@@ -66,29 +67,37 @@
 
 namespace Solution2022
 {
-	namespace LinkedListCycle
+	namespace LinkedListCycleII
 	{
-		/**
-		 * Definition for singly-linked list.
-		 * struct ListNode {
-		 *     int val;
-		 *     ListNode *next;
-		 *     ListNode(int x) : val(x), next(NULL) {}
-		 * };
-		 */
-		bool hasCycle(ListNode* head) {
-			if (!head || !head-&gt;next) { return false; }
-
+	/**
+	 * Definition for singly-linked list.
+	 * struct ListNode {
+	 *     int val;
+	 *     ListNode *next;
+	 *     ListNode(int x) : val(x), next(NULL) {}
+	 * };
+	 */
+	    ListNode *detectCycle(ListNode *head) {
+			if (!head || !head-&gt;next) { return nullptr; }
+			
 			ListNode* slow = head;
 			ListNode* fast = head;
-		
 			while (fast && fast-&gt;next) {
 				slow = slow-&gt;next;
 				fast = fast-&gt;next-&gt;next;
-				if (fast == slow) { return true; }
+				if (slow == fast) { break; }
 			}
-			return false;
-		}
+
+			if (!fast || !fast-&gt;next) { return nullptr; }
+
+			// Set fast to the beginning of linked list and moving together with slow until they meet. 
+			fast = head;
+			while (slow != fast) {
+				fast = fast-&gt;next;
+				slow = slow-&gt;next;
+			}
+			return fast;
+	    }
 
 		void Main() {
 			string test = "tst test test";

@@ -95,20 +95,39 @@ namespace Solution2022
 {
 	namespace DesignTicTacToe
 	{
-	class TicTacToe {
-	    TicTacToe(int n) {
-	        
-	    }
-	    
-	    int move(int row, int col, int player) {
-	        
-	    }
-	​
-	/**
-	 * Your TicTacToe object will be instantiated and called as such:
-	 * TicTacToe* obj = new TicTacToe(n);
-	 * int param_1 = obj-&gt;move(row,col,player);
-	 */
+		class TicTacToe {
+		private:
+			vector&lt;int&gt; r;
+			vector&lt;int&gt; c;
+			int d;
+			int a;
+			int sz;
+		public:
+			TicTacToe(int n) {
+				sz = n;
+				r.resize(n);
+				c.resize(n);
+				d = 0;
+				a = 0;
+			}
+
+			int move(int row, int col, int player) {
+				int score = player == 1 ? 1 : -1;
+				r[row] += score;
+				c[col] += score;
+				if (row == col) { d += score; }
+				if (row + col + 1 == sz) { a += score; }
+				if (abs(r[row]) == sz || abs(c[col]) == sz || abs(d) == sz || abs(a) == sz) { return player; }
+				return 0;
+			}
+		};
+
+
+		/**
+		 * Your TicTacToe object will be instantiated and called as such:
+		 * TicTacToe* obj = new TicTacToe(n);
+		 * int param_1 = obj-&gt;move(row,col,player);
+		 */
 
 		void Main() {
 			string test = "tst test test";

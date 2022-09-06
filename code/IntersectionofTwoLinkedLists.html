@@ -100,17 +100,63 @@ namespace Solution2022
 {
 	namespace IntersectionofTwoLinkedLists
 	{
-	/**
-	 * Definition for singly-linked list.
-	 * struct ListNode {
-	 *     int val;
-	 *     ListNode *next;
-	 *     ListNode(int x) : val(x), next(NULL) {}
-	 * };
-	 */
-	    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-	        
-	    }
+		/**
+		 * Definition for singly-linked list.
+		 * struct ListNode {
+		 *     int val;
+		 *     ListNode *next;
+		 *     ListNode(int x) : val(x), next(NULL) {}
+		 * };
+		 */
+		ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+			if (!headA || !headB) { return nullptr; }
+
+			ListNode* tailA = headA;
+			while (tailA-&gt;next) { tailA = tailA-&gt;next; }
+			tailA-&gt;next = headB;
+
+			ListNode* slow = headA;
+			ListNode* fast = headA;
+			while (fast && fast-&gt;next) {
+				slow = slow-&gt;next;
+				fast = fast-&gt;next-&gt;next;
+				if (slow == fast) { break; }
+			}
+			if (!fast || !fast-&gt;next) { tailA-&gt;next = nullptr; return nullptr; } // Note: don't forget to change tailA back
+			fast = headA;
+			while (slow != fast) {
+				fast = fast-&gt;next;
+				slow = slow-&gt;next;
+			}
+			tailA-&gt;next = nullptr;
+			return fast;
+		}
+
+		namespace Another {
+			ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+				int lenA = 0;
+				int lenB = 0;
+				ListNode* curA = headA;
+				ListNode* curB = headB;
+				while (curA) { lenA++; curA = curA-&gt;next; }
+				while (curB) { lenB++; curB = curB-&gt;next; }
+
+				bool curALonger = lenA &gt; lenB;
+				ListNode* longer = curALonger ? headA : headB;
+				ListNode* shorter = curALonger ? headB : headA;
+				int diff = curALonger ? (lenA - lenB) : (lenB - lenA);
+				while (diff &gt; 0) {
+					longer = longer-&gt;next;
+					diff--;
+				}
+				while (longer != shorter) { ///--------&gt; note that when both of them are null this also breaks, and returns null
+					longer = longer-&gt;next;
+					shorter = shorter-&gt;next;
+				}
+				return shorter;
+			}
+
+		}
 
 		void Main() {
 			string test = "tst test test";

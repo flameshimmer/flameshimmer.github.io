@@ -60,7 +60,7 @@ namespace Solution2022
 {
 	namespace BestTimetoBuyandSellStock
 	{
-	    int maxProfit(vector&lt;int&gt;& prices) {
+		int maxProfit(vector&lt;int&gt;& prices) {
 			int len = prices.size();
 			if (len &lt; 2) { return 0; }
 
@@ -71,7 +71,28 @@ namespace Solution2022
 				result = max(result, maxRight[i] - prices[i]);
 			}
 			return result;
-	    }
+		}
+
+		namespace Another {
+			int maxProfit(vector&lt;int&gt;& prices) {
+				int len = prices.size();
+				if (len &lt; 2) { return 0; }
+
+				vector&lt;int&gt; minLeft(len, prices[0]);
+				vector&lt;int&gt; maxRight(len, prices[len - 1]);
+
+				for (int i = 1; i &lt; len; i++) {
+					minLeft[i] = min(minLeft[i - 1], prices[i]);
+					maxRight[len - 1 - i] = max(maxRight[len - i], prices[len - 1 - i]);
+				}
+				int result = INT_MIN;
+				for (int i = 0; i &lt; len; i++) {
+					result = max(result, maxRight[i] - minLeft[i]);
+				}
+				return result;
+			}
+		}
+
 
 		void Main() {
 			vector&lt;int&gt; test = { 7,1,5,3,6,4 };
