@@ -1,0 +1,119 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PerfectSquares</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PerfectSquares</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer n, return the least number of perfect square numbers that sum
+//to n.
+//A perfect square is an integer that is the square of an integer; in other
+//words, it is the product of some integer with itself. For example, 1, 4, 9, and
+//16 are perfect squares while 3 and 11 are not.
+// 
+//
+//Example 1:
+//Input: n = 12
+//Output: 3
+//Explanation: 12 = 4 + 4 + 4.
+//
+//Example 2:
+//Input: n = 13
+//Output: 2
+//Explanation: 13 = 4 + 9.
+// 
+//Constraints:
+//1 &lt;= n &lt;= 104
+
+namespace Solution2022
+{
+	namespace PerfectSquares
+	{
+		namespace DP {
+			int numSquares(int n) {
+				if (n == 0) { return 0; }
+
+				vector&lt;int&gt; dp(n + 1, 0);
+				for (int i = 0; i &lt;= n; i++) {
+					dp[i] = i; // Note: don't forget dp[i] = i, this means in the worst case, every number can be sum up with 1
+					for (int j = 1; j * j &lt;= i; j++) {
+						dp[i] = min(dp[i], dp[i - j * j] + 1);
+					}
+				}
+				return dp[n];
+			}
+		}
+
+		namespace BFS {
+			int numSquares(int n) {
+				queue&lt;int&gt; q;
+				unordered_set&lt;int&gt; visited;
+
+				q.push(0);
+				visited.insert(0);
+				int level = 0;
+
+				while (!q.empty()) {
+					int sz = q.size();
+					level++; // Note: level increase must be at the beginning of the while loop to ensure it is 1 based. 
+					while (sz) {
+						sz--;
+
+						int top = q.front();
+						q.pop();
+						
+						for (int i = 1; i * i &lt;= n; i++) {
+							int sum = top + i * i;
+							if (sum == n) { return level; }
+							else if (sum &gt; n) { break; }
+							else if (visited.find(sum) == visited.end()){
+								visited.insert(sum);
+								q.push(sum);
+							}
+						}					
+					}
+				}
+				return level;
+			}
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

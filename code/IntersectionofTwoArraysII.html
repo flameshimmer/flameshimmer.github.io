@@ -1,0 +1,135 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>IntersectionofTwoArraysII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>IntersectionofTwoArraysII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given two integer arrays nums1 and nums2, return an array of their
+//intersection. Each element in the result must appear as many times as it shows
+//in both arrays and you may return the result in any order.
+// 
+//
+//Example 1:
+//Input: nums1 = [1,2,2,1], nums2 = [2,2]
+//Output: [2,2]
+//
+//Example 2:
+//Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+//Output: [4,9]
+//Explanation: [9,4] is also accepted.
+// 
+//Constraints:
+//1 &lt;= nums1.length, nums2.length &lt;= 1000
+//0 &lt;= nums1[i], nums2[i] &lt;= 1000
+// 
+//Follow up:
+//What if the given array is already sorted? How would you optimize your
+//algorithm?
+//What if nums1's size is small compared to nums2's size? Which algorithm is
+//better?
+//What if elements of nums2 are stored on disk, and the memory is limited such
+//that you cannot load all elements into the memory at once?
+
+namespace Solution2022
+{
+	namespace IntersectionofTwoArraysII
+	{
+		//If nums1 fits into the memory, we can use Approach 1 which stores all elements of nums1 in the HashMap.Then, we can sequentially loadand process nums2.
+		//	If neither nums1 nor nums2 fits into the memory, we split the numeric range into numeric sub - ranges that fit into the memory.
+		//	We modify Approach 1 to count only elements which belong to the given numeric sub - range.
+		//	We process each numeric sub - ranges one by one, util we process all numeric sub - ranges.
+		//	For example :
+		//Input constraint :
+		//1 &lt;= nums1.length, nums2.length &lt;= 10 ^ 10.
+		//	0 &lt;= nums1[i], nums2[i] &lt; 10 ^ 5
+		//	Our memory can store up to 1000 elements.
+		//	Then we split numeric range into numeric sub - ranges[0...999], [1000...1999], ..., [99000...99999], then call Approach 1 to process 100 numeric sub - ranges.
+
+	    vector&lt;int&gt; intersect(vector&lt;int&gt;& nums1, vector&lt;int&gt;& nums2) {
+			vector&lt;int&gt; result;
+			unordered_map&lt;int, int&gt; map;
+
+			for (int v : nums1) { map[v]++; }
+			
+			for (int v : nums2) {
+				if (map[v] &gt; 0) { 
+					result.push_back(v); 
+					map[v]--;
+				}
+			}
+			return result;
+	    }
+
+		namespace BinarySearch {
+			int findStartIndex(vector&lt;int&gt;& A, int target) {
+				auto it = lower_bound(A.begin(), A.end(), target);
+				if (it!= A.end() && *it == target) { return it - A.begin(); }
+				else { return -1; }
+			}
+
+			int findLen(vector&lt;int&gt;& A, int i) {
+				auto it1 = lower_bound(A.begin(), A.end(), A[i]);
+				auto it2 = upper_bound(A.begin(), A.end(), A[i]);
+				return it2 - it1;
+			}
+
+			vector&lt;int&gt; intersect(vector&lt;int&gt;& nums1, vector&lt;int&gt;& nums2) {
+				vector&lt;int&gt; result;
+				if (nums1.size() == 0 || nums2.size() == 0) { return result; }
+				sort(nums1.begin(), nums1.end());
+				sort(nums2.begin(), nums2.end());
+				for (int i = 0; i &lt; nums1.size(); i++) {
+					int target = nums1[i];
+					int j = findStartIndex(nums2, target);
+					if (j == -1) { continue; }
+
+					int len1 = findLen(nums1, i);
+					int len2 = findLen(nums2, j);
+					for (int k = 0; k &lt; min(len1, len2); k++) {
+						result.push_back(target);
+					}
+					i += len1 - 1;
+				}
+				return result;
+			}
+		}
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
