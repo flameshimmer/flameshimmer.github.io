@@ -49,9 +49,15 @@ namespace Solution2022
 {
 	namespace SumofTwoIntegers
 	{
-	    int getSum(int a, int b) {
-	        
-	    }
+		int getSum(int a, int b) {
+			long long carry; // 64-bit. Why use long long? Otherwise when left shift in line 27 will run into trying to left shift INT_MIN and report undefined behavior error. 
+			while (b != 0) {
+				carry = a & b;
+				a = a ^ b;
+				b = ((carry & 0xffffffff) &lt;&lt; 1); // limited to 32 bits to cast back into int
+			}
+			return a;
+		}
 
 		void Main() {
 			string test = "tst test test";
