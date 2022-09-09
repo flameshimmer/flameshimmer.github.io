@@ -1,0 +1,105 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ReorderedPowerofTwo</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ReorderedPowerofTwo</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an integer n. We reorder the digits in any order (including the
+//original order) such that the leading digit is not zero.
+//Return true if and only if we can do this so that the resulting number is a
+//power of two.
+// 
+//
+//Example 1:
+//Input: n = 1
+//Output: true
+//
+//Example 2:
+//Input: n = 10
+//Output: false
+// 
+//Constraints:
+//1 &lt;= n &lt;= 109
+
+namespace Solution2022
+{
+	namespace ReorderedPowerofTwo
+	{
+		vector&lt;int&gt; getDigitCounts(long long N) {
+			vector&lt;int&gt; result(10);
+			while (N) {
+				result[N % 10]++;
+				N /= 10;
+			}
+			return result;
+		}
+
+		bool reorderedPowerOf2(int N) {
+			vector&lt;int&gt; count = getDigitCounts(N);
+			for (int i = 0; i &lt; 31; i++) { // shifting 30 times instead of 31 times since the highest bits is for sign
+				if (getDigitCounts(1 &lt;&lt; i) == count) { return true; }
+			}
+			return false;
+		}
+
+		namespace Another {
+			/*counter will counter the number of digits 9876543210 in the given number.
+			Then I just compare counter(N) with all counter(power of 2).
+			1 &lt;= N &lt;= 10 ^ 9, so up to 8 same digits.
+			If N &gt; 10 ^ 9, we can use a hash map.*/
+
+			long counter(int N) {
+				long res = 0;
+				for (; N; N /= 10) {
+					res += pow(10, N % 10);
+				}
+				return res;
+			}
+
+			bool reorderedPowerOf2(int N) {
+				long c = counter(N);
+				for (int i = 0; i &lt; 32; i++)
+					if (counter(1 &lt;&lt; i) == c) return true;
+				return false;
+			}
+		}
+
+		void Main() {
+			print(reorderedPowerOf2(10));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

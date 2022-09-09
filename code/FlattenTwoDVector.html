@@ -1,0 +1,121 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FlattenTwoDVector</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FlattenTwoDVector</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Design an iterator to flatten a 2D vector. It should support the next and
+//hasNext operations.
+//Implement the Vector2D class:
+//Vector2D(int[][] vec) initializes the object with the 2D vector vec.
+//next() returns the next element from the 2D vector and moves the pointer one
+//step forward. You may assume that all the calls to next are valid.
+//hasNext() returns true if there are still some elements in the vector, and
+//false otherwise.
+// 
+//
+//Example 1:
+//Input
+//["Vector2D", "next", "next", "next", "hasNext", "hasNext", "next", "hasNext"]
+//[[[[1, 2], [3], [4]]], [], [], [], [], [], [], []]
+//Output
+//[null, 1, 2, 3, true, true, 4, false]
+//Explanation
+//Vector2D vector2D = new Vector2D([[1, 2], [3], [4]]);
+//vector2D.next();    // return 1
+//vector2D.next();    // return 2
+//vector2D.next();    // return 3
+//vector2D.hasNext(); // return True
+//vector2D.hasNext(); // return True
+//vector2D.next();    // return 4
+//vector2D.hasNext(); // return False
+// 
+//Constraints:
+//0 &lt;= vec.length &lt;= 200
+//0 &lt;= vec[i].length &lt;= 500
+//-500 &lt;= vec[i][j] &lt;= 500
+//At most 105 calls will be made to next and hasNext.
+// 
+//Follow up: As an added challenge, try to code it using only iterators in C++ or
+//iterators in Java.
+
+namespace Solution2022
+{
+	namespace FlattenTwoDVector
+	{
+		class Vector2D {
+		private:
+			vector&lt;vector&lt;int&gt;&gt;::iterator i;
+			vector&lt;vector&lt;int&gt;&gt;::iterator iEnd;
+			vector&lt;int&gt;::iterator j;
+
+		public:
+			Vector2D(vector&lt;vector&lt;int&gt;&gt;& vec) {
+				i = vec.begin();
+				iEnd = vec.end();
+				if (i != iEnd) { j = i-&gt;begin(); }  // Note: check i before setting j
+			}
+
+			int next() {
+				hasNext();
+				int result = *j;
+				j++;
+				return result;
+			}
+
+			bool hasNext() {
+				while (i != iEnd && j == i-&gt;end()) {
+					i++;
+					if (i != iEnd) { j = i-&gt;begin(); } // Note: check i before setting j
+				}
+				return i != iEnd;
+			}
+		};
+
+		/**
+		 * Your Vector2D object will be instantiated and called as such:
+		 * Vector2D* obj = new Vector2D(vec);
+		 * int param_1 = obj-&gt;next();
+		 * bool param_2 = obj-&gt;hasNext();
+		 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
