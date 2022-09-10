@@ -83,7 +83,7 @@ namespace Solution2022
 			TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
 				if (!root || !p) { return nullptr; }
 
-				TreeNode* result;
+				TreeNode* result = nullptr;
 				while (root) {
 					if (root-&gt;val &lt;= p-&gt;val) { root = root-&gt;right; }
 					else {
