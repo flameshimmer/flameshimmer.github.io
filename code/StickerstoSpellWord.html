@@ -1,0 +1,119 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>StickerstoSpellWord</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>StickerstoSpellWord</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//We are given n different types of stickers. Each sticker has a lowercase
+//English word on it.
+//You would like to spell out the given string target by cutting individual
+//letters from your collection of stickers and rearranging them. You can use each
+//sticker more than once if you want, and you have infinite quantities of each
+//sticker.
+//Return the minimum number of stickers that you need to spell out target. If the
+//task is impossible, return -1.
+//
+//Note: In all test cases, all words were chosen randomly from the 1000 most
+//common US English words, and target was chosen as a concatenation of two random
+//words.
+// 
+//
+//Example 1:
+//Input: stickers = ["with","example","science"], target = "thehat"
+//Output: 3
+//Explanation:
+//We can use 2 "with" stickers, and 1 "example" sticker.
+//After cutting and rearrange the letters of those stickers, we can form the
+//target "thehat".
+//Also, this is the minimum number of stickers necessary to form the target
+//string.
+//
+//Example 2:
+//Input: stickers = ["notice","possible"], target = "basicbasic"
+//Output: -1
+//Explanation:
+//We cannot form the target "basicbasic" from cutting letters from the given
+//stickers.
+// 
+//Constraints:
+//n == stickers.length
+//1 &lt;= n &lt;= 50
+//1 &lt;= stickers[i].length &lt;= 10
+//1 &lt;= target.length &lt;= 15
+//stickers[i] and target consist of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace StickerstoSpellWord
+	{
+		int findNewState(int state, string& sticker, string& target) {
+			int n = target.size();
+
+			for (char c : sticker) {
+				for (int i = 0; i &lt; n; i++) {
+					if (((state &gt;&gt; i) & 1) == 0 && target[i] == c) {
+						state += (1 &lt;&lt; i);
+						break;
+					}
+				}
+			}
+			return state;
+		}
+
+		int minStickers(vector&lt;string&gt;& stickers, string target) {
+			int n = target.size();
+			int totalStateCount = 1 &lt;&lt; n;
+
+			vector&lt;int&gt; dp(totalStateCount, INT_MAX);
+			dp[0] = 0;
+
+			for (int state = 0; state &lt; totalStateCount; state++) {
+				if (dp[state] == INT_MAX) { continue; }
+				for (string& sticker : stickers) {
+					int newState = findNewState(state, sticker, target);
+					dp[newState] = min(dp[newState], dp[state] + 1);
+				}
+			}
+			return dp[totalStateCount - 1] == INT_MAX ? -1 : dp[totalStateCount - 1];
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -76,9 +76,48 @@ namespace Solution2022
 {
 	namespace TheSkylineProblem
 	{
-	    vector&lt;vector&lt;int&gt;&gt; getSkyline(vector&lt;vector&lt;int&gt;&gt;& buildings) {
-	        
-	    }
+		int maxHeight(multiset&lt;int&gt;& heights) {
+			if (heights.empty()) { return 0; }
+			return *heights.rbegin();
+		}
+
+		vector&lt;vector&lt;int&gt;&gt; getSkyline(vector&lt;vector&lt;int&gt;&gt;& buildings) {
+			typedef pair&lt;int, int&gt; Event;
+			vector&lt;Event&gt; events;
+			multiset&lt;int&gt; heights;
+
+			for (vector&lt;int&gt;& b : buildings) {
+				events.push_back({ b[0], b[2] });
+				events.push_back({ b[1], -b[2] });
+			}
+
+			auto comp = [](Event& a, Event& b) {
+				if (a.first == b.first) { return a.second &gt; b.second; }
+				return a.first &lt; b.first;
+			};
+
+			sort(events.begin(), events.end(), comp);
+
+			vector&lt;vector&lt;int&gt;&gt; results;
+			for (Event& e : events) {
+				int x = e.first;
+				bool entering = e.second &gt; 0;
+				int h = abs(e.second);
+
+				if (entering) {
+					if (h &gt; maxHeight(heights)) {
+						results.push_back({x, h});
+					}
+					heights.insert(h);
+				} else {
+					heights.erase(heights.equal_range(h).first);
+					if (h &gt; maxHeight(heights)) {
+						results.push_back({ x, maxHeight(heights) });
+					}
+				}
+			}
+			return results;
+		}
 
 		void Main() {
 			string test = "tst test test";

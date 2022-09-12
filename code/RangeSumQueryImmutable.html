@@ -62,20 +62,50 @@ namespace Solution2022
 {
 	namespace RangeSumQueryImmutable
 	{
-	class NumArray {
-	    NumArray(vector&lt;int&gt;& nums) {
-	        
-	    }
-	    
-	    int sumRange(int left, int right) {
-	        
-	    }
-	​
-	/**
-	 * Your NumArray object will be instantiated and called as such:
-	 * NumArray* obj = new NumArray(nums);
-	 * int param_1 = obj-&gt;sumRange(left,right);
-	 */
+		class NumArray {
+		private:
+			vector&lt;int&gt; data;
+		public:
+			NumArray(vector&lt;int&gt;& nums) {
+				int sum = 0;
+				for (int v : nums) {
+					sum += v;
+					data.push_back(sum);
+				}
+			}
+
+			int sumRange(int left, int right) {
+				int rV = data[right];
+				int lV = (left - 1 &gt;= 0) ? data[left - 1] : 0;
+				return rV - lV;
+			}
+		};
+
+		namespace Another {
+
+			class NumArray {
+			private:
+				vector&lt;int&gt; data;
+			public:
+				NumArray(vector&lt;int&gt;& nums) {
+					data.push_back(0);
+					int sum = 0;
+					for (int v : nums) {
+						sum += v;
+						data.push_back(sum);
+					}
+				}
+
+				int sumRange(int left, int right) {
+					return data[right + 1] - data[left];
+				}
+			};
+		}
+		/**
+		 * Your NumArray object will be instantiated and called as such:
+		 * NumArray* obj = new NumArray(nums);
+		 * int param_1 = obj-&gt;sumRange(left,right);
+		 */
 
 		void Main() {
 			string test = "tst test test";
