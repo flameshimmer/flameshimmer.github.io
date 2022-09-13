@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>DailyTemperatures</title>
+	<title>ComplementofBaseOneZeroInteger</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,60 +23,61 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>DailyTemperatures</h1>
+	<h1>ComplementofBaseOneZeroInteger</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an array of integers temperatures represents the daily temperatures,
-//return an array answer such that answer[i] is the number of days you have to
-//wait after the ith day to get a warmer temperature. If there is no future day
-//for which this is possible, keep answer[i] == 0 instead.
+//The complement of an integer is the integer you get when you flip all the 0's
+//to 1's and all the 1's to 0's in its binary representation.
+//For example, The integer 5 is "101" in binary and its complement is "010" which
+//is the integer 2.
+//Given an integer n, return its complement.
 // 
 //
 //Example 1:
-//Input: temperatures = [73,74,75,71,69,72,76,73]
-//Output: [1,1,4,2,1,1,0,0]
+//Input: n = 5
+//Output: 2
+//Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2
+//in base-10.
 //
 //Example 2:
-//Input: temperatures = [30,40,50,60]
-//Output: [1,1,1,0]
+//Input: n = 7
+//Output: 0
+//Explanation: 7 is "111" in binary, with complement "000" in binary, which is 0
+//in base-10.
 //
 //Example 3:
-//Input: temperatures = [30,60,90]
-//Output: [1,1,0]
+//Input: n = 10
+//Output: 5
+//Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is
+//5 in base-10.
 // 
 //Constraints:
-//1 &lt;= temperatures.length &lt;= 105
-//30 &lt;= temperatures[i] &lt;= 100
+//0 &lt;= n &lt; 109
+// 
+//
+//Note: This question is the same as 476:
+//https://leetcode.com/problems/number-complement/
 
 namespace Solution2022
 {
-	namespace DailyTemperatures
+	namespace ComplementofBaseOneZeroInteger
 	{
-	    vector&lt;int&gt; dailyTemperatures(vector&lt;int&gt;& t) {			
-			int len = t.size();
-			if (len == 0) { return {}; }
-
-			vector&lt;int&gt; result(len, 0);
-			stack&lt;int&gt; s;
-
-			for (int i = 0; i &lt; len; i++) {
-				while (!s.empty() && t[i] &gt; t[s.top()]) {
-					int top = s.top();
-					s.pop();
-					result[top] = i - top;
-				}
-				s.push(i);
+		// side node: negative number's two's complement is to invert, then +1
+		int bitwiseComplement(int n) {
+			int mask = 1;
+			while (mask &lt; n) {
+				mask = (mask &lt;&lt; 1 | 1);
 			}
-			return result;
-	    }
+			return n ^ mask;
+		}
 
 		void Main() {
-			vector&lt;int&gt; test = { 73,74,75,71,69,72,76,73 };
-			print(dailyTemperatures(test));
+			string test = "tst test test";
+			print(test);
 		}
 	}
 }
