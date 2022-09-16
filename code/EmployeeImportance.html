@@ -69,17 +69,59 @@ namespace Solution2022
 {
 	namespace EmployeeImportance
 	{
-	/*
-	// Definition for Employee.
-	class Employee {
-	    int id;
-	    int importance;
-	    vector&lt;int&gt; subordinates;
-	*/
-	​
-	    int getImportance(vector&lt;Employee*&gt; employees, int id) {
-	        
-	    }
+		class Employee {
+		public:
+			int id;
+			int importance;
+			vector&lt;int&gt; subordinates;
+		};
+
+
+		namespace DFS {
+			void helper(int id, unordered_map&lt;int, Employee*&gt;& map, int& result) {
+				Employee* e = map[id];
+				result += e-&gt;importance;
+				for (int subId : e-&gt;subordinates) {
+					helper(subId, map, result);
+				}
+			}
+
+			int getImportance(vector&lt;Employee*&gt; employees, int id) {
+				unordered_map&lt;int, Employee*&gt; map; // id, employee;
+				for (Employee* e : employees) {
+					map[e-&gt;id] = e;
+				}
+				int result = 0;
+				helper(id, map, result);
+				return result;
+			}
+		}
+
+
+		namespace BFS {
+
+			int getImportance(vector&lt;Employee*&gt; employees, int id) {
+				unordered_map&lt;int, Employee*&gt; map; // id, employee;
+				for (Employee* e : employees) {
+					map[e-&gt;id] = e;
+				}
+
+				queue&lt;int&gt; q;
+				q.push(id);
+				int result = 0;
+
+				while (!q.empty()) {
+					int top = q.front();
+					q.pop();
+					result += map[top]-&gt;importance;
+
+					for (int subId : map[top]-&gt;subordinates) {
+						q.push(subId);
+					}
+				}
+				return result;
+			}
+		}
 
 		void Main() {
 			string test = "tst test test";

@@ -63,9 +63,40 @@ namespace Solution2022
 {
 	namespace RedundantConnection
 	{
-	    vector&lt;int&gt; findRedundantConnection(vector&lt;vector&lt;int&gt;&gt;& edges) {
-	        
-	    }
+		class UnionFind {
+		private:
+			vector&lt;int&gt; parent;
+		public:
+			UnionFind(int sz) { parent.resize(sz, -1); }
+
+			int find(int a) {
+				while (parent[a] != -1) {
+					a = parent[a];
+				}
+				return a;
+			}
+
+			void join(int a, int b) {
+				int pa = find(a);
+				int pb = find(b);
+				parent[pa] = pb;
+			}
+
+		};
+
+		vector&lt;int&gt; findRedundantConnection(vector&lt;vector&lt;int&gt;&gt;& edges) {
+			int edgeCount = edges.size();
+			int nodeCount = edgeCount + 1;
+			UnionFind uf(nodeCount);
+
+			for (vector&lt;int&gt;& e : edges) {
+				int a = uf.find(e[0]);
+				int b = uf.find(e[1]);
+				if (a == b) { return e; }
+				uf.join(e[0], e[1]);
+			}
+			return {};
+		}
 
 		void Main() {
 			string test = "tst test test";

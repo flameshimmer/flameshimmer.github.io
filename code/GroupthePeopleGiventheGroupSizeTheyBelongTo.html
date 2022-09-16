@@ -66,9 +66,49 @@ namespace Solution2022
 {
 	namespace GroupthePeopleGiventheGroupSizeTheyBelongTo
 	{
-	    vector&lt;vector&lt;int&gt;&gt; groupThePeople(vector&lt;int&gt;& groupSizes) {
-	        
-	    }
+		namespace Map {
+
+			vector&lt;vector&lt;int&gt;&gt; groupThePeople(vector&lt;int&gt;& groupSizes) {
+				vector&lt;vector&lt;int&gt;&gt; result;
+				int len = groupSizes.size();
+				if (len == 0) { return result; }
+
+				unordered_map&lt;int, vector&lt;int&gt;&gt; map;
+				for (int i = 0; i &lt; len; i++) {
+					int v = groupSizes[i];
+					map[v].push_back(i);
+					if (map[v].size() == v) {
+						result.push_back(map[v]);
+						map[v] = {};
+					}
+				}
+				return result;
+			}
+
+		}
+
+		namespace MultiMap {
+			vector&lt;vector&lt;int&gt;&gt; groupThePeople(vector&lt;int&gt;& groupSizes) {
+				vector&lt;vector&lt;int&gt;&gt; result;
+				int len = groupSizes.size();
+				if (len == 0) { return result; }
+
+				multimap&lt;int, vector&lt;int&gt;&gt; map;
+				for (int i = 0; i &lt; groupSizes.size(); i++) {
+					int v = groupSizes[i];
+					if (map.find(v) == map.end() || prev(map.equal_range(v).second)-&gt;second.size() &gt;= v) {
+						map.insert({ v, {i} });
+					}
+					else {
+						prev(map.equal_range(v).second)-&gt;second.push_back(i);
+					}
+				}
+				for (auto& [k, v] : map) {
+					result.push_back(v);
+				}
+				return result;
+			}
+		}
 
 		void Main() {
 			string test = "tst test test";
