@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>ReverseVowelsofaString</title>
+	<title>FlippinganImage</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,71 +23,50 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>ReverseVowelsofaString</h1>
+	<h1>FlippinganImage</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a string s, reverse only all the vowels in the string and return it.
-//The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both cases.
+//Given an n x n binary matrix image, flip the image horizontally, then invert
+//it, and return the resulting image.
+//To flip an image horizontally means that each row of the image is reversed.
+//For example, flipping [1,1,0] horizontally results in [0,1,1].
+//To invert an image means that each 0 is replaced by 1, and each 1 is replaced
+//by 0.
+//For example, inverting [0,1,1] results in [1,0,0].
 // 
 //
 //Example 1:
-//Input: s = "hello"
-//Output: "holle"
+//Input: image = [[1,1,0],[1,0,1],[0,0,0]]
+//Output: [[1,0,0],[0,1,0],[1,1,1]]
+//Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
+//Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
 //
 //Example 2:
-//Input: s = "leetcode"
-//Output: "leotcede"
+//Input: image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+//Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+//Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
+//Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
 // 
 //Constraints:
-//1 &lt;= s.length &lt;= 3 * 105
-//s consist of printable ASCII characters.
+//n == image.length
+//n == image[i].length
+//1 &lt;= n &lt;= 20
+//images[i][j] is either 0 or 1.
 
 namespace Solution2022
 {
-	namespace ReverseVowelsofaString
+	namespace FlippinganImage
 	{
-		namespace useStdLib {
-			string reverseVowels(string s) {
-				int len = s.size();
-				int start = 0;
-				int end = len - 1;
-				while (start &lt; end) {
-					start = s.find_first_of("aeiouAEIOU", start);
-					end = s.find_last_of("aeiouAEIOU", end);
-					if (start &lt; end) {
-						swap(s[start], s[end]);
-						start++;
-						end--;
-					}
-				}
-				return s;
+		vector&lt;vector&lt;int&gt;&gt; flipAndInvertImage(vector&lt;vector&lt;int&gt;&gt;& image) {
+			for (vector&lt;int&gt;& r : image) {
+				reverse(r.begin(), r.end());
+				for (int& v : r) { v ^= 1; } // Note this shoudl be int& instead of int! Because we need the value to be modified. 
 			}
-		}
-				
-		namespace UseWhileLoop {
-			bool isVowls(char c) {
-				return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
-			}
-
-			string reverseVowels(string s) {
-				int len = s.size();
-				if (len &lt; 2) { return s; }
-
-				int start = 0;
-				int end = len - 1;
-				while (start &lt; end) {
-					while (start &lt; end && !isVowls(s[start])) { start++; }
-					while (start &lt; end && !isVowls(s[end])) { end--; }
-					swap(s[start], s[end]);
-					start++;
-					end--;
-				}
-				return s;
-			}
+			return image;
 		}
 
 		void Main() {

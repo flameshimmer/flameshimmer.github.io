@@ -49,9 +49,29 @@ namespace Solution2022
 {
 	namespace SpiralMatrixII
 	{
-	    vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {
-	        
-	    }
+		vector&lt;vector&lt;int&gt;&gt; generateMatrix(int n) {
+			vector&lt;vector&lt;int&gt;&gt; result(n, vector&lt;int&gt;(n));
+			if (n == 0) { return result; }
+
+			vector&lt;pair&lt;int, int&gt;&gt; dirs = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+			vector&lt;int&gt; length = { n, n - 1 }; // colCount, rowCount -1
+			int dirIndex = 0;
+			int i = 0;
+			int j = -1;
+
+			int v = 1;
+			while (length[dirIndex % 2]) {
+				for (int k = 0; k &lt; length[dirIndex % 2]; k++) {
+					i += dirs[dirIndex].first;
+					j += dirs[dirIndex].second;
+					result[i][j] = v;
+					v++;
+				}
+				length[dirIndex % 2]--;
+				dirIndex = (dirIndex + 1) % 4;
+			}
+			return result;
+		}
 
 		void Main() {
 			string test = "tst test test";
