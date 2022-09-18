@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>NumberofDigitOne</title>
+	<title>FindLuckyIntegerinanArray</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,56 +23,68 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>NumberofDigitOne</h1>
+	<h1>FindLuckyIntegerinanArray</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an integer n, count the total number of digit 1 appearing in all
-//non-negative integers less than or equal to n.
+//Given an array of integers arr, a lucky integer is an integer that has a
+//frequency in the array equal to its value.
+//Return the largest lucky integer in the array. If there is no lucky integer
+//return -1.
 // 
 //
 //Example 1:
-//Input: n = 13
-//Output: 6
+//Input: arr = [2,2,3,4]
+//Output: 2
+//Explanation: The only lucky number in the array is 2 because frequency[2] == 2.
 //
 //Example 2:
-//Input: n = 0
-//Output: 0
+//Input: arr = [1,2,2,3,3,3]
+//Output: 3
+//Explanation: 1, 2 and 3 are all lucky numbers, return the largest of them.
+//
+//Example 3:
+//Input: arr = [2,2,2,3,3]
+//Output: -1
+//Explanation: There are no lucky numbers in the array.
 // 
 //Constraints:
-//0 &lt;= n &lt;= 109
+//1 &lt;= arr.length &lt;= 500
+//1 &lt;= arr[i] &lt;= 500
 
 namespace Solution2022
 {
-	namespace NumberofDigitOne
+	namespace FindLuckyIntegerinanArray
 	{
-		// https://www.youtube.com/watch?v=QlMyXlhI3Ic
-		int countDigitOne(int n) {
-			string s = to_string(n);
-			int len = s.size();
-			int count = 0;
+		int findLucky(vector&lt;int&gt;& arr) {
+			unordered_map&lt;int, int&gt; map;
+			for (int v : arr) { map[v]++; }
 
-			for (int i = 1; i &lt;= len; i++) {
-				long a = n / pow(10, i);
-				count += a * pow(10, i - 1);
-
-				int digit = s[len - i] - '0';
-				if (digit &gt; 1) {
-					count += pow(10, i - 1);
-				}
-				else if (digit == 1) {
-					count += n % (int)pow(10, i - 1) + 1;
-				}
+			int result = -1;
+			for (auto [k, v] : map) {
+				if (k == v) { result = max(result, v); }
 			}
-			return count;
+			return result;
+		}
+
+		namespace fasterUsingKnownConstraints {
+			int findLucky(vector&lt;int&gt;& arr) {
+				vector&lt;int&gt; map(501, 0);
+				for (int v : arr) { map[v]++; }
+
+				for (int i = 500; i &gt;= 1; i--) {
+					if (map[i] == i) { return i; }
+				}
+				return -1;
+			}
 		}
 
 		void Main() {
 			string test = "tst test test";
-			print(countDigitOne(0));
+			print(test);
 		}
 	}
 }

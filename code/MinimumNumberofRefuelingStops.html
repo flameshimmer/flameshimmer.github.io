@@ -80,9 +80,25 @@ namespace Solution2022
 {
 	namespace MinimumNumberofRefuelingStops
 	{
-	    int minRefuelStops(int target, int startFuel, vector&lt;vector&lt;int&gt;&gt;& stations) {
-	        
-	    }
+		// Runtime is NLogN
+		int minRefuelStops(int target, int startFuel, vector&lt;vector&lt;int&gt;&gt;& s) {
+			int i = 0;
+			int result = 0;
+			priority_queue&lt;int&gt; pq;
+			int curPos = startFuel;
+
+			// For all reachable stops, put the gap amount in pq, select the most amount of pq
+			for (result = 0; curPos &lt; target; result++) {
+				while (i &lt; s.size() && s[i][0] &lt;= curPos) {
+					pq.push(s[i][1]);
+					i++;
+				}
+				if (pq.empty()) { return -1; }
+				curPos += pq.top();
+				pq.pop();
+			}
+			return result;
+		}
 
 		void Main() {
 			string test = "tst test test";
