@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>BinaryTreeVerticalOrderTraversal</title>
+	<title>CheckCompletenessofaBinaryTree</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,38 +23,38 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>BinaryTreeVerticalOrderTraversal</h1>
+	<h1>CheckCompletenessofaBinaryTree</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given the root of a binary tree, return the vertical order traversal of its
-//nodes' values. (i.e., from top to bottom, column by column).
-//If two nodes are in the same row and column, the order should be from left to
-//right.
+//Given the root of a binary tree, determine if it is a complete binary tree.
+//In a complete binary tree, every level, except possibly the last, is completely
+//filled, and all nodes in the last level are as far left as possible. It can
+//have between 1 and 2h nodes inclusive at the last level h.
 // 
 //
 //Example 1:
-//Input: root = [3,9,20,null,null,15,7]
-//Output: [[9],[3,15],[20],[7]]
+//Input: root = [1,2,3,4,5,6]
+//Output: true
+//Explanation: Every level before the last is full (ie. levels with node-values
+//{1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as
+//possible.
 //
 //Example 2:
-//Input: root = [3,9,8,4,0,1,7]
-//Output: [[4],[9],[3,0,1],[8],[7]]
-//
-//Example 3:
-//Input: root = [3,9,8,4,0,1,7,null,null,null,2,5]
-//Output: [[4],[9,5],[3,0,1],[8,2],[7]]
+//Input: root = [1,2,3,4,5,null,7]
+//Output: false
+//Explanation: The node with value 7 isn't as far left as possible.
 // 
 //Constraints:
-//The number of nodes in the tree is in the range [0, 100].
-//-100 &lt;= Node.val &lt;= 100
+//The number of nodes in the tree is in the range [1, 100].
+//1 &lt;= Node.val &lt;= 1000
 
 namespace Solution2022
 {
-	namespace BinaryTreeVerticalOrderTraversal
+	namespace CheckCompletenessofaBinaryTree
 	{
 		/**
 		 * Definition for a binary tree node.
@@ -68,34 +68,39 @@ namespace Solution2022
 		 * };
 		 */
 
+		namespace LevelOrderTraversal {
+			bool isCompleteTree(TreeNode* root) {
+				queue&lt;TreeNode*&gt; q;
+				q.push(root);
+				bool seenNull = false;
 
-		vector&lt;vector&lt;int&gt;&gt; verticalOrder(TreeNode* root) {
-			vector&lt;vector&lt;int&gt;&gt; result;
-
-			if (!root) { return result; }
-
-			queue&lt;pair&lt;TreeNode*, int&gt;&gt; q;
-			q.push({ root, 0 }); // if root node is at column 0;
-			map&lt;int, vector&lt;int&gt;&gt; map;
-
-			while (!q.empty()) {
-				TreeNode* top = q.front().first;
-				int v = q.front().second;
-				q.pop();
-
-				map[v].push_back(top-&gt;val);
-				if (top-&gt;left) {
-					q.push({ top-&gt;left, v - 1 });
+				while (!q.empty()) {
+					TreeNode* top = q.front();
+					q.pop();
+					if (top == nullptr) { seenNull = true; }
+					else {
+						if (seenNull) { return false; } // when level order traversal, once seen null, all following can only be null
+						q.push(top-&gt;left);
+						q.push(top-&gt;right);
+					}
 				}
-				if (top-&gt;right) {
-					q.push({ top-&gt;right, v + 1 });
-				}
+				return true;
 			}
+		}
 
-			for (const auto& v : map) {
-				result.push_back(v.second);
+		namespace BFS {
+			bool isCompleteTree(TreeNode* root) {
+				vector&lt;TreeNode*&gt; bfs;
+				bfs.push_back(root);
+				int i = 0;
+				while (bfs[i]) {
+					bfs.push_back(bfs[i]-&gt;left);
+					bfs.push_back(bfs[i]-&gt;right);
+					i++; // NOTE: don't forget to forward the i!!!
+				}
+				while (i &lt; bfs.size() && !bfs[i]) { i++; } // once run into nullptr, we expect the rest should be nullptr;
+				return i == bfs.size();
 			}
-			return result;
 		}
 
 		void Main() {

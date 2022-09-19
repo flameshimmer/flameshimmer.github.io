@@ -1,0 +1,132 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ValidateIPAddress</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ValidateIPAddress</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string queryIP, return "IPv4" if IP is a valid IPv4 address, "IPv6" if
+//IP is a valid IPv6 address or "Neither" if IP is not a correct IP of any type.
+//A valid IPv4 address is an IP in the form "x1.x2.x3.x4" where 0 &lt;= xi &lt;= 255
+//and xi cannot contain leading zeros. For example, "192.168.1.1" and
+//"192.168.1.0" are valid IPv4 addresses while "192.168.01.1", "192.168.1.00",
+//and "192.168@1.1" are invalid IPv4 addresses.
+//A valid IPv6 address is an IP in the form "x1:x2:x3:x4:x5:x6:x7:x8" where:
+//1 &lt;= xi.length &lt;= 4
+//xi is a hexadecimal string which may contain digits, lowercase English letter
+//('a' to 'f') and upper-case English letters ('A' to 'F').
+//Leading zeros are allowed in xi.
+//For example, "2001:0db8:85a3:0000:0000:8a2e:0370:7334" and
+//"2001:db8:85a3:0:0:8A2E:0370:7334" are valid IPv6 addresses, while
+//"2001:0db8:85a3::8A2E:037j:7334" and "02001:0db8:85a3:0000:0000:8a2e:0370:7334"
+//are invalid IPv6 addresses.
+// 
+//
+//Example 1:
+//Input: queryIP = "172.16.254.1"
+//Output: "IPv4"
+//Explanation: This is a valid IPv4 address, return "IPv4".
+//
+//Example 2:
+//Input: queryIP = "2001:0db8:85a3:0:0:8A2E:0370:7334"
+//Output: "IPv6"
+//Explanation: This is a valid IPv6 address, return "IPv6".
+//
+//Example 3:
+//Input: queryIP = "256.256.256.256"
+//Output: "Neither"
+//Explanation: This is neither a IPv4 address nor a IPv6 address.
+// 
+//Constraints:
+//queryIP consists only of English letters, digits and the characters '.' and ':'.
+
+namespace Solution2022
+{
+	namespace ValidateIPAddress
+	{
+		bool isValidIPv4(string& ip) {
+			if (count(ip.begin(), ip.end(), '.') != 3) { return false; }
+			istringstream ss(ip);
+			string num;
+			int count = 0;
+			while (getline(ss, num, '.')) {
+				count++;
+				int len = num.size();
+				if (len == 0 || len &gt; 3) { return false; }
+				if (len &gt; 1 && num[0] == '0') { return false; }
+				int val = 0;
+				for (char c : num) {
+					if (!isdigit(c)) { return false; }
+					val = val * 10 + (c - '0');
+					if (val &gt; 255) { return false; }
+				}				
+			}
+			if (count != 4) { return false; } // this check is for when there is no char between two '.', Eg: 1.2.3..
+			return true;
+		}
+
+		bool isValidIPv6(string& ip) {
+			if (count(ip.begin(), ip.end(), ':') != 7) { return false; }
+			istringstream ss(ip);
+			string num;
+			int count = 0;
+			string validChars = "0123456789abcdefABCDEF";
+			while (getline(ss, num, ':')) {
+				count++;
+				int len = num.size();
+				if (len == 0 || len &gt; 4) { return false; }
+				for (char c : num) {
+					if (!isalnum(c) || validChars.find(c) == string::npos) { return false; }
+				}			
+			}
+			if (count != 8) { return false; }
+			return true;
+		}
+
+
+
+	    string validIPAddress(string queryIP) {
+			if (isValidIPv4(queryIP)) { return "IPv4"; }
+			if (isValidIPv6(queryIP)) { return "IPv6"; }
+			return "Neither";
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
