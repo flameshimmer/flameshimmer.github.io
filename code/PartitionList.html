@@ -1,0 +1,107 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PartitionList</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PartitionList</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given the head of a linked list and a value x, partition it such that all nodes
+//less than x come before nodes greater than or equal to x.
+//You should preserve the original relative order of the nodes in each of the two
+//partitions.
+// 
+//
+//Example 1:
+//Input: head = [1,4,3,2,5,2], x = 3
+//Output: [1,2,2,4,3,5]
+//
+//Example 2:
+//Input: head = [2,1], x = 2
+//Output: [1,2]
+// 
+//Constraints:
+//The number of nodes in the list is in the range [0, 200].
+//-100 &lt;= Node.val &lt;= 100
+//-200 &lt;= x &lt;= 200
+
+namespace Solution2022
+{
+	namespace PartitionList
+	{
+		/**
+		 * Definition for singly-linked list.
+		 * struct ListNode {
+		 *     int val;
+		 *     ListNode *next;
+		 *     ListNode() : val(0), next(nullptr) {}
+		 *     ListNode(int x) : val(x), next(nullptr) {}
+		 *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+		 * };
+		 */
+		ListNode* partition(ListNode* head, int x) {
+			if (!head || !head-&gt;next) { return head; }
+
+			ListNode* head1 = nullptr;
+			ListNode* tail1 = nullptr;
+			ListNode* head2 = nullptr;
+			ListNode* tail2 = nullptr;
+
+			ListNode* cur = head;
+			while (cur) {
+				if (cur-&gt;val &lt; x) {
+					if (!head1) { head1 = cur; }
+					else { tail1-&gt;next = cur; }
+					tail1 = cur;
+				}
+				else {
+					if (!head2) { head2 = cur; }
+					else { tail2-&gt;next = cur; }
+					tail2 = cur;
+				}
+				cur = cur-&gt;next;
+			}
+
+			if (head1) { tail1-&gt;next = head2; } // NOTE: be careful of how to return the list!!!
+			if (tail2) { tail2-&gt;next = nullptr; }
+			return head1 ? head1 : head2;
+		}
+
+		void Main() {
+			ListNode* test = createList({ 1,4,3,2,5,2 });
+			print(partition(test, 3));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
