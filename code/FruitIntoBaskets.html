@@ -70,13 +70,33 @@ namespace Solution2022
 {
 	namespace FruitIntoBaskets
 	{
-	    int totalFruit(vector&lt;int&gt;& fruits) {
-	        
-	    }
+		// similar to SubarrayswithKDifferentIntegers.
+		int totalFruit(vector&lt;int&gt;& fruits) {
+			int len = fruits.size();
+			if (len &lt;= 2) { return len; }
+
+			unordered_map&lt;int, int&gt; map;
+			int start = 0;
+			int result = 0;
+			int k = 2;
+			for (int end = 0; end &lt; len; end++) {
+				if (map[fruits[end]] == 0) {
+					k--;
+				}
+				map[fruits[end]]++;
+				while (k &lt; 0) {
+					map[fruits[start]]--;
+					if (map[fruits[start]] == 0) { k++; }
+					start++;
+				}
+				result = max(result, end - start + 1);
+			}
+			return result;
+		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			vector&lt;int&gt; test = { 1, 2, 1 };
+			print(totalFruit(test));
 		}
 	}
 }
