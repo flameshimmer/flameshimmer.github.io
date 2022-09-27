@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>ThreeSumSmaller</title>
+	<title>SingleNumberII</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,64 +23,39 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>ThreeSumSmaller</h1>
+	<h1>SingleNumberII</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an array of n integers nums and an integer target, find the number of
-//index triplets i, j, k with 0 &lt;= i &lt; j &lt; k &lt; n that satisfy the condition
-//nums[i] + nums[j] + nums[k] &lt; target.
+//Given an integer array nums where every element appears three times except for
+//one, which appears exactly once. Find the single element and return it.
+//You must implement a solution with a linear runtime complexity and use only
+//constant extra space.
 // 
 //
 //Example 1:
-//Input: nums = [-2,0,1,3], target = 2
-//Output: 2
-//Explanation: Because there are two triplets which sums are less than 2:
-//[-2,0,1]
-//[-2,0,3]
+//Input: nums = [2,2,3,2]
+//Output: 3
 //
 //Example 2:
-//Input: nums = [], target = 0
-//Output: 0
-//
-//Example 3:
-//Input: nums = [0], target = 0
-//Output: 0
+//Input: nums = [0,1,0,1,0,1,99]
+//Output: 99
 // 
 //Constraints:
-//n == nums.length
-//0 &lt;= n &lt;= 3500
-//-100 &lt;= nums[i] &lt;= 100
-//-100 &lt;= target &lt;= 100
+//1 &lt;= nums.length &lt;= 3 * 104
+//-231 &lt;= nums[i] &lt;= 231 - 1
+//Each element in nums appears exactly three times except for one element which
+//appears once.
 
 namespace Solution2022
 {
-	namespace ThreeSumSmaller
+	namespace SingleNumberII
 	{
-	    int threeSumSmaller(vector&lt;int&gt;& nums, int target) {			
-			int len = nums.size();
-			if (len &lt; 3) { return 0; }
-
-			int result = 0;
-			sort(nums.begin(), nums.end());
-			for (int k = len - 1; k &gt;= 2; k--) {
-				int i = 0;
-				int j = k - 1;
-				while (i &lt; j) {
-					int sum = nums[i] + nums[j] + nums[k];
-					if (sum &lt; target) {
-						result += j - i;
-						i++;
-					}
-					else {
-						j--;
-					}
-				}
-			}
-			return result;
+	    int singleNumber(vector&lt;int&gt;& nums) {
+	        
 	    }
 
 		void Main() {

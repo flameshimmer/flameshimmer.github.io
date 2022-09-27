@@ -52,13 +52,22 @@ namespace Solution2022
 {
 	namespace SingleElementinaSortedArray
 	{
-	    int singleNonDuplicate(vector&lt;int&gt;& nums) {
-	        
-	    }
+		int singleNonDuplicate(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			int l = 0;
+			int r = len - 1;
+			while (l &lt; r) {
+				int mid = l + (r - l) / 2;
+				// If it is the two condition where the single element doesn't show up in the left half of the vector
+				if ((mid % 2 && nums[mid] == nums[mid - 1]) || (!(mid % 2) && nums[mid] == nums[mid + 1])) { l = mid + 1; }
+				else { r = mid; }
+			}
+			return nums[l];
+		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			vector&lt;int&gt; test = { 1,1,2,3,3,4,4,8,8 };
+			print(singleNonDuplicate(test));
 		}
 	}
 }

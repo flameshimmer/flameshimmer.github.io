@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>ThreeSumSmaller</title>
+	<title>CountCompleteTreeNodes</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,64 +23,56 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>ThreeSumSmaller</h1>
+	<h1>CountCompleteTreeNodes</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an array of n integers nums and an integer target, find the number of
-//index triplets i, j, k with 0 &lt;= i &lt; j &lt; k &lt; n that satisfy the condition
-//nums[i] + nums[j] + nums[k] &lt; target.
+//Given the root of a complete binary tree, return the number of the nodes in the
+//tree.
+//According to Wikipedia, every level, except possibly the last, is completely
+//filled in a complete binary tree, and all nodes in the last level are as far
+//left as possible. It can have between 1 and 2h nodes inclusive at the last
+//level h.
+//Design an algorithm that runs in less than O(n) time complexity.
 // 
 //
 //Example 1:
-//Input: nums = [-2,0,1,3], target = 2
-//Output: 2
-//Explanation: Because there are two triplets which sums are less than 2:
-//[-2,0,1]
-//[-2,0,3]
+//Input: root = [1,2,3,4,5,6]
+//Output: 6
 //
 //Example 2:
-//Input: nums = [], target = 0
+//Input: root = []
 //Output: 0
 //
 //Example 3:
-//Input: nums = [0], target = 0
-//Output: 0
+//Input: root = [1]
+//Output: 1
 // 
 //Constraints:
-//n == nums.length
-//0 &lt;= n &lt;= 3500
-//-100 &lt;= nums[i] &lt;= 100
-//-100 &lt;= target &lt;= 100
+//The number of nodes in the tree is in the range [0, 5 * 104].
+//0 &lt;= Node.val &lt;= 5 * 104
+//The tree is guaranteed to be complete.
 
 namespace Solution2022
 {
-	namespace ThreeSumSmaller
+	namespace CountCompleteTreeNodes
 	{
-	    int threeSumSmaller(vector&lt;int&gt;& nums, int target) {			
-			int len = nums.size();
-			if (len &lt; 3) { return 0; }
-
-			int result = 0;
-			sort(nums.begin(), nums.end());
-			for (int k = len - 1; k &gt;= 2; k--) {
-				int i = 0;
-				int j = k - 1;
-				while (i &lt; j) {
-					int sum = nums[i] + nums[j] + nums[k];
-					if (sum &lt; target) {
-						result += j - i;
-						i++;
-					}
-					else {
-						j--;
-					}
-				}
-			}
-			return result;
+	/**
+	 * Definition for a binary tree node.
+	 * struct TreeNode {
+	 *     int val;
+	 *     TreeNode *left;
+	 *     TreeNode *right;
+	 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+	 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+	 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+	 * };
+	 */
+	    int countNodes(TreeNode* root) {
+	        
 	    }
 
 		void Main() {

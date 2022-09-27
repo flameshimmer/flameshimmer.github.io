@@ -1,0 +1,107 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MaximumScorefromPerformingMultiplicationOperations</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MaximumScorefromPerformingMultiplicationOperations</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given two integer arrays nums and multipliers of size n and m
+//respectively, where n &gt;= m. The arrays are 1-indexed.
+//You begin with a score of 0. You want to perform exactly m operations. On the
+//ith operation (1-indexed), you will:
+//Choose one integer x from either the start or the end of the array nums.
+//Add multipliers[i] * x to your score.
+//Remove x from the array nums.
+//Return the maximum score after performing m operations.
+// 
+//
+//Example 1:
+//Input: nums = [1,2,3], multipliers = [3,2,1]
+//Output: 14
+//Explanation: An optimal solution is as follows:
+//- Choose from the end, [1,2,3], adding 3 * 3 = 9 to the score.
+//- Choose from the end, [1,2], adding 2 * 2 = 4 to the score.
+//- Choose from the end, [1], adding 1 * 1 = 1 to the score.
+//The total score is 9 + 4 + 1 = 14.
+//
+//Example 2:
+//Input: nums = [-5,-3,-3,-2,7,1], multipliers = [-10,-5,3,4,6]
+//Output: 102
+//Explanation: An optimal solution is as follows:
+//- Choose from the start, [-5,-3,-3,-2,7,1], adding -5 * -10 = 50 to the score.
+//- Choose from the start, [-3,-3,-2,7,1], adding -3 * -5 = 15 to the score.
+//- Choose from the start, [-3,-2,7,1], adding -3 * 3 = -9 to the score.
+//- Choose from the end, [-2,7,1], adding 1 * 4 = 4 to the score.
+//- Choose from the end, [-2,7], adding 7 * 6 = 42 to the score. 
+//The total score is 50 + 15 - 9 + 4 + 42 = 102.
+// 
+//Constraints:
+//n == nums.length
+//m == multipliers.length
+//1 &lt;= m &lt;= 103
+//m &lt;= n &lt;= 105
+//-1000 &lt;= nums[i], multipliers[i] &lt;= 1000
+
+namespace Solution2022
+{
+	namespace MaximumScorefromPerformingMultiplicationOperations
+	{
+		// begin index, end index, len, nums, multiplier begin index, multiplie len, multipliers, memory table
+		int helper(int i, int k, int n, vector&lt;int&gt;& nums, int j, int m, vector&lt;int&gt;& multipliers, vector&lt;vector&lt;int&gt;&gt;& M) {
+			if (i + (n - 1 - k) == m) { return 0; }
+			if (M[i][j] != INT_MIN) { return M[i][j]; }
+
+			int left = helper(i + 1, k, n, nums, j + 1, m, multipliers, M) + nums[i] * multipliers[j];
+			int right = helper(i, k - 1, n, nums, j + 1, m, multipliers, M) + nums[k] * multipliers[j];
+			M[i][j] = max(left, right);
+			return M[i][j];
+		}
+
+
+		int maximumScore(vector&lt;int&gt;& nums, vector&lt;int&gt;& multipliers) {
+			int n = nums.size();
+			int m = multipliers.size();
+			vector&lt;vector&lt;int&gt;&gt; M(m + 1, vector&lt;int&gt;(m + 1, INT_MIN));
+			return helper(0, n - 1, n, nums, 0, m, multipliers, M);
+		}
+
+		void Main() {
+			vector&lt;int&gt; test1 = { 1, 2, 3 };
+			vector&lt;int&gt; test2 = { 3, 2, 1 };
+			print(maximumScore(test1, test2));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

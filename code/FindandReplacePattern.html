@@ -61,13 +61,34 @@ namespace Solution2022
 {
 	namespace FindandReplacePattern
 	{
-	    vector&lt;string&gt; findAndReplacePattern(vector&lt;string&gt;& words, string pattern) {
-	        
-	    }
+		string getPattern(string& s) {
+			unordered_map&lt;char, int&gt; map;
+			for (char c : s) {
+				if (map.find(c) == map.end()) { map[c] = map.size(); } // Assign index to the char the first time we see it
+			}
+
+			string result;
+			for (char c : s) {
+				result.push_back('a' + map[c]);
+			}
+			return result;
+		}
+
+		vector&lt;string&gt; findAndReplacePattern(vector&lt;string&gt; words, string p) {
+			vector&lt;string&gt; result;
+
+			string pattern = getPattern(p);
+			for (string& w : words) {
+				if (getPattern(w) == pattern) { result.push_back(w); }
+			}
+			return result;
+		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			//string test = "tst test test";
+			string s1 = "ccc";
+			string s2 = "abb";
+			print(getPattern(s2));
 		}
 	}
 }

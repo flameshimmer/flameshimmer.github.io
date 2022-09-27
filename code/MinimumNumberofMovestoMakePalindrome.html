@@ -66,9 +66,47 @@ namespace Solution2022
 {
 	namespace MinimumNumberofMovestoMakePalindrome
 	{
-	    int minMovesToMakePalindrome(string s) {
-	        
-	    }
+		namespace Greedy {
+			int minMovesToMakePalindrome(string s) {
+				int result = 0;
+				while (!s.empty()) {
+					int i = s.find(s.back());
+					if (i == s.size() - 1) {
+						result += i / 2;
+					}
+					else {
+						result += i;
+						s.erase(i, 1);
+					}
+					s.pop_back();
+				}
+				return result;
+			}
+		}
+
+		namespace TwoPointers {
+			int minMovesToMakePalindrome(string s) {
+				int n = s.length();
+
+				int left = 0, right = s.size() - 1, ans = 0;
+				while (left &lt; right) {
+					int l = left, r = right;
+					while (s[l] != s[r]) r--;
+					if (l == r) {
+						// here we hit the odd element
+						swap(s[r], s[r + 1]);
+						ans++;
+						continue;
+					}
+					else {
+						// normal element
+						while (r &lt; right) swap(s[r], s[r + 1]), ans++, r++;
+					}
+					left++, right--;
+				}
+				return ans;
+			}
+		}
 
 		void Main() {
 			string test = "tst test test";

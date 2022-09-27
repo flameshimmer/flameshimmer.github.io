@@ -72,9 +72,28 @@ namespace Solution2022
 {
 	namespace MinimumCosttoCutaStick
 	{
-	    int minCost(int n, vector&lt;int&gt;& cuts) {
-	        
-	    }
+		int helper(vector&lt;int&gt;& cuts, int i, int j, vector&lt;vector&lt;int&gt;&gt;& m) {
+			if (j - i &lt;= 1) { return 0; }
+
+			if (m[i][j] != 0) { return m[i][j]; }
+
+			m[i][j] = INT_MAX;
+			for (int k = i + 1; k &lt; j; k++) {
+				m[i][j] = min(m[i][j], cuts[j] - cuts[i] + helper(cuts, i, k, m) + helper(cuts, k, j, m));
+			}
+			return m[i][j];
+		}
+
+		int minCost(int n, vector&lt;int&gt;& cuts) {
+			cuts.push_back(0);
+			cuts.push_back(n);
+
+			sort(cuts.begin(), cuts.end());
+
+			int len = cuts.size();
+			vector&lt;vector&lt;int&gt;&gt; m(len, vector&lt;int&gt;(len, 0));
+			return helper(cuts, 0, len - 1, m);
+		}
 
 		void Main() {
 			string test = "tst test test";
