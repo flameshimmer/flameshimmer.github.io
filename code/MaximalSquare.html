@@ -56,9 +56,25 @@ namespace Solution2022
 {
 	namespace MaximalSquare
 	{
-	    int maximalSquare(vector&lt;vector&lt;char&gt;&gt;& matrix) {
-	        
-	    }
+		int maximalSquare(vector&lt;vector&lt;char&gt;&gt;& matrix) {
+			int rowCount = matrix.size();
+			int colCount = matrix[0].size();
+
+			vector&lt;vector&lt;int&gt;&gt; M(rowCount, vector&lt;int&gt;(colCount, 0));
+			int result = 0;
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					M[i][j] = matrix[i][j] - '0';
+					if (M[i][j] == 0) { continue; }
+					if (i - 1 &gt;= 0 && j - 1 &gt;= 0) {
+						M[i][j] = min(min(M[i - 1][j], M[i][j - 1]), M[i - 1][j - 1]) + 1;
+					}
+					result = max(result, M[i][j] * M[i][j]);
+				}
+			}
+			return result;
+		}
 
 		void Main() {
 			string test = "tst test test";
