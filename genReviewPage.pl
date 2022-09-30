@@ -68,8 +68,11 @@ for my $line (@lines) {
 
 # @allProblems = sort @allProblems;
 
+my $i = 0;
 for my $p (@allProblems) {
+	if ($i % 10 == 0) {$p = "\n<hr>\n" . $p;}
 	$content = $content . $p;
+	$i++;
 }
 
 $content = $content . "</ol>\n</body>\n</html>\n";
