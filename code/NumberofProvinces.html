@@ -1,0 +1,154 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>NumberofProvinces</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>NumberofProvinces</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are n cities. Some of them are connected, while some are not. If city a
+//is connected directly with city b, and city b is connected directly with city
+//c, then city a is connected indirectly with city c.
+//A province is a group of directly or indirectly connected cities and no other
+//cities outside of the group.
+//You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the
+//ith city and the jth city are directly connected, and isConnected[i][j] = 0
+//otherwise.
+//Return the total number of provinces.
+// 
+//
+//Example 1:
+//Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+//Output: 2
+//
+//Example 2:
+//Input: isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+//Output: 3
+// 
+//Constraints:
+//1 &lt;= n &lt;= 200
+//n == isConnected.length
+//n == isConnected[i].length
+//isConnected[i][j] is 1 or 0.
+//isConnected[i][i] == 1
+//isConnected[i][j] == isConnected[j][i]
+
+namespace Solution2022
+{
+	namespace NumberofProvinces
+	{
+
+		namespace DFS {
+
+			void helper(int i, int len, vector&lt;vector&lt;int&gt;&gt;& isConnected, vector&lt;bool&gt;& visited) {
+				visited[i] = true;
+
+				for (int j = 0; j &lt; len; j++) {
+					if (i == j) { continue; }
+					if (!visited[j] && isConnected[i][j]) {
+						helper(j, len, isConnected, visited);
+					}
+				}
+			}
+
+			int findCircleNum(vector&lt;vector&lt;int&gt;&gt;& isConnected) {
+				int len = isConnected.size();
+				if (len == 0) { return 0; }
+
+				vector&lt;bool&gt; visited(len, false);
+				int result = 0;
+
+				for (int i = 0; i &lt; len; i++) {
+					if (!visited[i]) {
+						result++;
+						helper(i, len, isConnected, visited);
+					}
+				}
+				return result;
+			}
+		}
+
+
+		namespace UnionFind {
+
+			class UnionFind {
+			private:
+				vector&lt;int&gt; parent;
+			public:
+				UnionFind(int sz) {
+					parent.resize(sz, -1);
+				}
+
+				int find(int x) {
+					while (parent[x] != -1) {
+						x = parent[x];
+					}
+					return x;
+				}
+
+				void join(int x, int y) {
+					int px = find(x);
+					int py = find(y);
+					if (px != py) {
+						parent[py] = px;
+					}
+				}
+			};
+
+			int findCircleNum(vector&lt;vector&lt;int&gt;&gt;& isConnected) {
+				int len = isConnected.size();
+
+				UnionFind uf(len);
+				int result = len;
+				for (int i = 0; i &lt; len; i++) {
+					for (int j = 0; j &lt; len; j++) {
+						if (isConnected[i][j]) {
+							if (uf.find(i) != uf.find(j)) {
+								result--;
+								uf.join(i, j);
+							}
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

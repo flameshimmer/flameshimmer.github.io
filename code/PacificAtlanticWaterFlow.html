@@ -1,0 +1,115 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PacificAtlanticWaterFlow</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PacificAtlanticWaterFlow</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There is an m x n rectangular island that borders both the Pacific Ocean and
+//Atlantic Ocean. The Pacific Ocean touches the island's left and top edges, and
+//the Atlantic Ocean touches the island's right and bottom edges.
+//The island is partitioned into a grid of square cells. You are given an m x n
+//integer matrix heights where heights[r][c] represents the height above sea
+//level of the cell at coordinate (r, c).
+//The island receives a lot of rain, and the rain water can flow to neighboring
+//cells directly north, south, east, and west if the neighboring cell's height is
+//less than or equal to the current cell's height. Water can flow from any cell
+//adjacent to an ocean into the ocean.
+//Return a 2D list of grid coordinates result where result[i] = [ri, ci] denotes
+//that rain water can flow from cell (ri, ci) to both the Pacific and Atlantic
+//oceans.
+// 
+//
+//Example 1:
+//Input: heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]
+//Output: [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
+//
+//Example 2:
+//Input: heights = [[2,1],[1,2]]
+//Output: [[0,0],[0,1],[1,0],[1,1]]
+// 
+//Constraints:
+//m == heights.length
+//n == heights[r].length
+//1 &lt;= m, n &lt;= 200
+//0 &lt;= heights[r][c] &lt;= 105
+
+namespace Solution2022
+{
+	namespace PacificAtlanticWaterFlow
+	{
+		void helper(int i, int j, int rowCount, int colCount, vector&lt;vector&lt;int&gt;&gt;& heights, vector&lt;vector&lt;bool&gt;&gt;& map) { // NOTE: over here the map serves two purpose, 1 for result, the other for visited map. 
+			if (i &lt; 0 || i &gt;= rowCount || j &lt; 0 || j &gt;= colCount) { return; }
+			map[i][j] = true;
+
+			if (i - 1 &gt;= 0 && !map[i - 1][j] && heights[i - 1][j] &gt;= heights[i][j]) { helper(i - 1, j, rowCount, colCount, heights, map); }
+			if (i + 1 &lt; rowCount && !map[i + 1][j] && heights[i + 1][j] &gt;= heights[i][j]) { helper(i + 1, j, rowCount, colCount, heights, map); }
+			if (j - 1 &gt;= 0 && !map[i][j - 1] && heights[i][j - 1] &gt;= heights[i][j]) { helper(i, j - 1, rowCount, colCount, heights, map); }
+			if (j + 1 &lt; colCount && !map[i][j + 1] && heights[i][j + 1] &gt;= heights[i][j]) { helper(i, j + 1, rowCount, colCount, heights, map); }
+		}
+
+		vector&lt;vector&lt;int&gt;&gt; pacificAtlantic(vector&lt;vector&lt;int&gt;&gt;& heights) {
+			int rowCount = heights.size();
+			int colCount = heights[0].size();
+
+			vector&lt;vector&lt;bool&gt;&gt; pacific(rowCount, vector&lt;bool&gt;(colCount, false));
+			vector&lt;vector&lt;bool&gt;&gt; atlantic(rowCount, vector&lt;bool&gt;(colCount, false));
+			vector&lt;vector&lt;int&gt;&gt; result;
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				helper(i, 0, rowCount, colCount, heights, pacific);
+				helper(i, colCount - 1, rowCount, colCount, heights, atlantic);
+			}
+
+			for (int j = 0; j &lt; colCount; j++) {
+				helper(0, j, rowCount, colCount, heights, pacific);
+				helper(rowCount - 1, j, rowCount, colCount, heights, atlantic);
+			}
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					if (pacific[i][j] && atlantic[i][j]) { result.push_back({ i, j }); }
+				}
+			}
+			return result;
+		}
+
+		void Main() {
+			vector&lt;vector&lt;int&gt;&gt; test = { {1,2,2,3,5},{3,2,3,4,4},{2,4,5,3,1},{6,7,1,4,5},{5,1,1,2,4} };
+			print(pacificAtlantic(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

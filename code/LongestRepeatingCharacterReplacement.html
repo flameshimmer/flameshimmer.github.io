@@ -1,0 +1,94 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LongestRepeatingCharacterReplacement</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LongestRepeatingCharacterReplacement</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a string s and an integer k. You can choose any character of the
+//string and change it to any other uppercase English character. You can perform
+//this operation at most k times.
+//Return the length of the longest substring containing the same letter you can
+//get after performing the above operations.
+// 
+//
+//Example 1:
+//Input: s = "ABAB", k = 2
+//Output: 4
+//Explanation: Replace the two 'A's with two 'B's or vice versa.
+//
+//Example 2:
+//Input: s = "AABABBA", k = 1
+//Output: 4
+//Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+//The substring "BBBB" has the longest repeating letters, which is 4.
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 105
+//s consists of only uppercase English letters.
+//0 &lt;= k &lt;= s.length
+
+namespace Solution2022
+{
+	namespace LongestRepeatingCharacterReplacement
+	{
+		int characterReplacement(string s, int k) {
+			int result = 0;
+
+			vector&lt;int&gt; count(26, 0);
+			int start = 0;
+			int maxFreq = 0;
+			for (int end = 0; end &lt; s.size(); end++) {
+				int index = s[end] - 'A';
+				count[index] ++;
+				maxFreq = max(maxFreq, count[index]);
+
+				if (end - start + 1 - maxFreq &gt; k) {
+					count[s[start] - 'A']--;
+					start++;
+					maxFreq = *max_element(count.begin(), count.end());
+				}
+				result = max(result, end - start + 1);
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,122 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FlattenBinaryTreetoLinkedList</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FlattenBinaryTreetoLinkedList</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given the root of a binary tree, flatten the tree into a "linked list":
+//The "linked list" should use the same TreeNode class where the right child
+//pointer points to the next node in the list and the left child pointer is
+//always null.
+//The "linked list" should be in the same order as a pre-order traversal of the
+//binary tree.
+// 
+//
+//Example 1:
+//Input: root = [1,2,5,3,4,null,6]
+//Output: [1,null,2,null,3,null,4,null,5,null,6]
+//
+//Example 2:
+//Input: root = []
+//Output: []
+//
+//Example 3:
+//Input: root = [0]
+//Output: [0]
+// 
+//Constraints:
+//The number of nodes in the tree is in the range [0, 2000].
+//-100 &lt;= Node.val &lt;= 100
+// 
+//Follow up: Can you flatten the tree in-place (with O(1) extra space)?
+
+namespace Solution2022
+{
+	namespace FlattenBinaryTreetoLinkedList
+	{
+		/**
+		 * Definition for a binary tree node.
+		 * struct TreeNode {
+		 *     int val;
+		 *     TreeNode *left;
+		 *     TreeNode *right;
+		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+		 * };
+		 */
+		namespace Iterative {
+
+			void helper(TreeNode* node, TreeNode*& prev) {
+				if (!node) { return; }
+				helper(node-&gt;right, prev);
+				helper(node-&gt;left, prev);
+				node-&gt;left = nullptr;
+				node-&gt;right = prev;
+				prev = node;
+			}
+
+			void flatten(TreeNode* root) {
+				TreeNode* prev = nullptr;
+				helper(root, prev);
+			}
+		}
+
+		namespace Recursive {
+			void flatten(TreeNode* root) {
+				if (!root) { return; }
+				while (root) {
+					if (root-&gt;left && root-&gt;right) {
+						TreeNode* l = root-&gt;left;
+						while (l-&gt;right) { l = l-&gt;right; }
+						l-&gt;right = root-&gt;right;
+					}
+					if (root-&gt;left) {
+						root-&gt;right = root-&gt;left;
+						root-&gt;left = nullptr;
+					}
+					root = root-&gt;right;
+				}
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
