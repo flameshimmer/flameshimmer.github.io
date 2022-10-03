@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use DateTime;
 
 open IN, "<C:\\Users\\flame\\OneDrive\\Desktop\\2022\\Leet2022\\Leet2022.cpp" or die "can't open Leet2022.cpp!: $!";
 my @lines = <IN>;
@@ -68,9 +69,22 @@ for my $line (@lines) {
 
 # @allProblems = sort @allProblems;
 
+@allProblems = reverse @allProblems;
+
+my $today = DateTime->today(time_zone => 'local');
 my $i = 0;
+my $j = 0;
+my $ii = 0;
 for my $p (@allProblems) {
-	if ($i % 10 == 0) {$p = "\n<hr>\n" . $p;}
+	if ($i > 42) {
+		if ($ii % 50 == 0) {
+			my $date = $today->clone->add(days => $j)->ymd('/');
+			$p = "\n<h2>" . $date."</h2>\n" . $p;
+			$j++;
+		}
+		if ($ii % 10 == 0) {$p = "\n<hr>\n" . $p;}
+		$ii++;
+	}
 	$content = $content . $p;
 	$i++;
 }
