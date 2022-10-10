@@ -63,7 +63,10 @@ for my $line (@lines) {
 		if (exists $hashset{$problemName}) {next;}
 		$hashset{$problemName} = 1;	
 		my $url = './code/' . $problemName . '.html'; 
-		push(@allProblems,  "\t\t<li><a href=\"$url\">$problemName</a></li>\n");
+		my $problemSnakeName = decamelizeAndFix($problemName);
+		my $leetWebsiteUrl = 'https://leetcode.com/problems/'.$problemSnakeName.'/';
+		print "$leetWebsiteUrl\n";
+		push(@allProblems,  "\t\t<li><a href=\"$url\">$problemName</a>&nbsp; &nbsp;<a href=\"$leetWebsiteUrl\">leet</a></li>\n");
 	}	
 }
 
@@ -96,3 +99,50 @@ print OUT $content;
 close OUT;
 print "\n\nCompleted!\n\n";
 
+sub camelize {
+    my ($s) = @_;
+    $s =~ s{(\w+)}{
+        ($a = lc $1) =~ s<(^[a-z]|_[a-z])><
+            ($b = uc $1) =~ s/^_//;
+            $b;
+        >eg;
+        $a;
+    }eg;
+    $s;
+}
+
+sub decamelize {
+    my ($s) = @_;
+    $s =~ s{(\w+)}{
+        ($a = $1) =~ s<(^[A-Z]|(?![a-z])[A-Z])><
+            "-" . lc $1
+        >eg;
+        substr $a, 1;
+    }eg;
+    $s;
+}
+
+sub decamelizeAndFix {
+	my $str = shift;
+	$str =~ s/III/Iii/g;
+	$str =~ s/II/Ii/g;
+	$str =~ s/RLE/Rle/g;
+	$str =~ s/BST/Bst/g;
+	$str =~ s/LRU/Lru/g;
+	$str =~ s/LFU/Lfu/g;
+	$str =~ s/IV/Iv/g;
+	$str =~ s/VI/Vi/g;
+	$str =~ s/VII/Vii/g;
+	$str =~ s/VIII/Viii/g;
+	$str =~ s/AND/And/g;
+	$str =~ s/IX/Ix/g;	
+	$str = decamelize($str);
+	$str =~ s/of\-/\-of\-/g;
+	$str =~ s/to\-/\-to\-/g;
+	$str =~ s/or\-/\-or\-/g;
+	$str =~ s/the\-/\-the\-/g;
+	$str =~ s/from\-/\-from\-/g;
+	$str =~ s/ofa\-/\-of\-a\-/g;
+	$str =~ s/ina\-/\-in\-a\-/g;	
+	return $str;
+}
