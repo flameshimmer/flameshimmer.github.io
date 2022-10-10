@@ -138,6 +138,7 @@ sub decamelizeAndFix {
 	$str =~ s/IX/Ix/g;	
 	$str = decamelize($str);
 	$str =~ s/of\-/\-of\-/g;
+	$str =~ s/in\-/\-in\-/g;
 	$str =~ s/to\-/\-to\-/g;
 	$str =~ s/or\-/\-or\-/g;
 	$str =~ s/the\-/\-the\-/g;
