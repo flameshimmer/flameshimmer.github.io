@@ -1,0 +1,109 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>JumpGameVIII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>JumpGameVIII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a 0-indexed integer array nums of length n. You are initially
+//standing at index 0. You can jump from index i to index j where i &lt; j if:
+//nums[i] &lt;= nums[j] and nums[k] &lt; nums[i] for all indexes k in the range i &lt; k &lt;
+//j, or
+//nums[i] &gt; nums[j] and nums[k] &gt;= nums[i] for all indexes k in the range i &lt; k &lt;
+//j.
+//You are also given an integer array costs of length n where costs[i] denotes
+//the cost of jumping to index i.
+//Return the minimum cost to jump to the index n - 1.
+// 
+//
+//Example 1:
+//Input: nums = [3,2,4,4,1], costs = [3,7,6,4,2]
+//Output: 8
+//Explanation: You start at index 0.
+//- Jump to index 2 with a cost of costs[2] = 6.
+//- Jump to index 4 with a cost of costs[4] = 2.
+//The total cost is 8. It can be proven that 8 is the minimum cost needed.
+//Two other possible paths are from index 0 -&gt; 1 -&gt; 4 and index 0 -&gt; 2 -&gt; 3 -&gt; 4.
+//These have a total cost of 9 and 12, respectively.
+//
+//Example 2:
+//Input: nums = [0,1,2], costs = [1,1,1]
+//Output: 2
+//Explanation: Start at index 0.
+//- Jump to index 1 with a cost of costs[1] = 1.
+//- Jump to index 2 with a cost of costs[2] = 1.
+//The total cost is 2. 
+//Note that you cannot jump directly from index 0 to index 2
+//because nums[0] &lt;= nums[1].
+// 
+//Constraints:
+//n == nums.length == costs.length
+//1 &lt;= n &lt;= 105
+//0 &lt;= nums[i], costs[i] &lt;= 105
+
+namespace Solution2022
+{
+	namespace JumpGameVIII
+	{
+	    long long minCost(vector&lt;int&gt;& nums, vector&lt;int&gt;& costs) {
+			int len = nums.size();
+			vector&lt;int&gt; l(1, 0);
+			vector&lt;int&gt; s(1, 0);
+			vector&lt;long long&gt; total(len, LONG_MAX);
+			total[0] = 0;
+
+			for (int i = 1; i &lt; len; i++) {
+				while (!s.empty() && nums[s.back()] &gt; nums[i]) {
+					total[i] = min(total[i], total[s.back()] + costs[i]);
+					s.pop_back();
+				}
+				s.push_back(i);
+
+				while (!l.empty() && nums[l.back()] &lt;= nums[i]) {
+					total[i] = min(total[i], total[l.back()] + costs[i]);
+					l.pop_back();
+				}
+				l.push_back(i);
+			}
+			return total[len - 1];
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

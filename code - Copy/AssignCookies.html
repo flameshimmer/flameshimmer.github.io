@@ -1,0 +1,94 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>AssignCookies</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>AssignCookies</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Assume you are an awesome parent and want to give your children some cookies.
+//But, you should give each child at most one cookie.
+//Each child i has a greed factor g[i], which is the minimum size of a cookie
+//that the child will be content with; and each cookie j has a size s[j]. If s[j]
+//&gt;= g[i], we can assign the cookie j to the child i, and the child i will be
+//content. Your goal is to maximize the number of your content children and
+//output the maximum number.
+// 
+//
+//Example 1:
+//Input: g = [1,2,3], s = [1,1]
+//Output: 1
+//Explanation: You have 3 children and 2 cookies. The greed factors of 3 children
+//are 1, 2, 3. 
+//And even though you have 2 cookies, since their size is both 1, you could only
+//make the child whose greed factor is 1 content.
+//You need to output 1.
+//
+//Example 2:
+//Input: g = [1,2], s = [1,2,3]
+//Output: 2
+//Explanation: You have 2 children and 3 cookies. The greed factors of 2 children
+//are 1, 2. 
+//You have 3 cookies and their sizes are big enough to gratify all of the
+//children, 
+//You need to output 2.
+// 
+//Constraints:
+//1 &lt;= g.length &lt;= 3 * 104
+//0 &lt;= s.length &lt;= 3 * 104
+//1 &lt;= g[i], s[j] &lt;= 231 - 1
+
+namespace Solution2022
+{
+	namespace AssignCookies
+	{
+	    int findContentChildren(vector&lt;int&gt;& g, vector&lt;int&gt;& s) {
+			sort(g.begin(), g.end());
+			sort(s.begin(), s.end());
+			int i = 0;
+			int j = 0;
+			while (i &lt; g.size() && j &lt; s.size()) {
+				if (g[i] &lt;= s[j]) { i++; }
+				j++;
+			}
+			return i;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

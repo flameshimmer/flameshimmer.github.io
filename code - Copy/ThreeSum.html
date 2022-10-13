@@ -1,0 +1,100 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ThreeSum</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ThreeSum</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums, return all the triplets [nums[i], nums[j],
+//nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k]
+//== 0.
+//Notice that the solution set must not contain duplicate triplets.
+// 
+//
+//Example 1:
+//Input: nums = [-1,0,1,2,-1,-4]
+//Output: [[-1,-1,2],[-1,0,1]]
+//
+//Example 2:
+//Input: nums = []
+//Output: []
+//
+//Example 3:
+//Input: nums = [0]
+//Output: []
+// 
+//Constraints:
+//0 &lt;= nums.length &lt;= 3000
+//-105 &lt;= nums[i] &lt;= 105
+
+namespace Solution2022
+{
+	namespace ThreeSum
+	{
+	    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;& nums) {
+			vector&lt;vector&lt;int&gt;&gt; result;
+			int len = nums.size();
+			if (len == 0) { return result; }
+			sort(nums.begin(), nums.end());
+
+			for (int k = len - 1; k &gt;= 2; k--) {
+				int i = 0;
+				int j = k - 1;
+				while (i &lt; j) {
+					int sum = nums[i] + nums[j] + nums[k];
+					if (sum == 0) {
+						while (i &lt; j && nums[i] == nums[i + 1]) { i++; }
+						while (i &lt; j && nums[j] == nums[j - 1]) { j--; }
+						result.push_back({nums[i], nums[j], nums[k]});
+						i++;
+						j--;
+					}
+					else if (sum &lt; 0) { i++; }
+					else { j--; }
+				}
+				while (k &gt;= 2 && nums[k] == nums[k - 1]) {
+					k--;
+				}
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

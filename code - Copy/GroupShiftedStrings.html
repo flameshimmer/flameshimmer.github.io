@@ -1,0 +1,94 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>GroupShiftedStrings</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>GroupShiftedStrings</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//We can shift a string by shifting each of its letters to its successive letter.
+//For example, "abc" can be shifted to be "bcd".
+//We can keep shifting the string to form a sequence.
+//For example, we can keep shifting "abc" to form the sequence: "abc" -&gt; "bcd" -&gt;
+//... -&gt; "xyz".
+//Given an array of strings strings, group all strings[i] that belong to the same
+//shifting sequence. You may return the answer in any order.
+// 
+//
+//Example 1:
+//Input: strings = ["abc","bcd","acef","xyz","az","ba","a","z"]
+//Output: [["acef"],["a","z"],["abc","bcd","xyz"],["az","ba"]]
+//
+//Example 2:
+//Input: strings = ["a"]
+//Output: [["a"]]
+// 
+//Constraints:
+//1 &lt;= strings.length &lt;= 200
+//1 &lt;= strings[i].length &lt;= 50
+//strings[i] consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace GroupShiftedStrings
+	{
+		string getKey(string& s) {
+			string key;
+			for (int i = 1; i &lt; s.size(); i++) {
+				int diff = (s[i] - s[i - 1] + 26) % 26;
+				key += 'a' + diff + '_';
+			}
+			return key;
+		}
+
+		vector&lt;vector&lt;string&gt;&gt; groupStrings(vector&lt;string&gt;& strings) {			
+			unordered_map&lt;string, vector&lt;string&gt;&gt; map;
+			for (string& s : strings) {
+				map[getKey(s)].push_back(s);
+			}
+
+			vector&lt;vector&lt;string&gt;&gt; result;
+			for (auto& p : map) {
+				result.push_back(p.second);
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

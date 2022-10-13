@@ -1,0 +1,145 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CountDifferentPalindromicSubsequences</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CountDifferentPalindromicSubsequences</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s, return the number of different non-empty palindromic
+//subsequences in s. Since the answer may be very large, return it modulo 109 + 7.
+//A subsequence of a string is obtained by deleting zero or more characters from
+//the string.
+//A sequence is palindromic if it is equal to the sequence reversed.
+//Two sequences a1, a2, ... and b1, b2, ... are different if there is some i for
+//which ai != bi.
+// 
+//
+//Example 1:
+//Input: s = "bccb"
+//Output: 6
+//Explanation: The 6 different non-empty palindromic subsequences are 'b', 'c',
+//'bb', 'cc', 'bcb', 'bccb'.
+//
+//Note that 'bcb' is counted only once, even though it occurs twice.
+//
+//Example 2:
+//Input: s = "abcdabcdabcdabcdabcdabcdabcdabcddcbadcbadcbadcbadcbadcbadcbadcba"
+//Output: 104860361
+//Explanation: There are 3104860382 different non-empty palindromic subsequences,
+//which is 104860361 modulo 109 + 7.
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 1000
+//s[i] is either 'a', 'b', 'c', or 'd'.
+
+namespace Solution2022
+{
+	namespace CountDifferentPalindromicSubsequences
+	{
+		//https://www.youtube.com/watch?v=UjiFFYU3EKM
+
+		namespace Recursion {
+			vector&lt;int&gt; m;
+			long long kMod = 1e9 + 7;
+
+			long long count(string& S, int s, int e) {
+				if (s &gt; e) { return 0; }
+				if (s == e) { return 1; }
+				int key = s * S.size() + e;
+				if (m[key] &gt; 0) { return m[key]; }
+
+				long long result = 0;
+				if (S[s] == S[e]) {
+					int l = s + 1;
+					int r = e - 1;
+					while (l &lt;= r && S[l] != S[s]) { l++; }
+					while (l &lt;= r && S[r] != S[e]) { r--; }
+					if (l &gt; r) { result = count(S, s + 1, e - 1) * 2 + 2; }
+					else if (l == r) { result = count(S, s + 1, e - 1) * 2 + 1; }
+					else { result = count(S, s + 1, e - 1) * 2 - count(S, l + 1, r - 1); }
+				}
+				else {
+					result = count(S, s, e - 1) + count(S, s + 1, e) - count(S, s + 1, e - 1);
+				}
+				m[key] = (result + kMod) % kMod;
+				return m[key];
+			}
+
+			int countPalindromicSubsequences(string s) {
+				int len = s.size();
+				m = vector&lt;int&gt;(len * (len + 1) + 1, 0);
+				return count(s, 0, len - 1);
+			}
+		}
+
+
+		namespace DP {
+			int countPalindromicSubsequences(string s) {
+				int len = s.size();
+				vector&lt;vector&lt;int&gt;&gt; dp(len, vector&lt;int&gt;(len, 0));
+				for (int i = 0; i &lt; len; i++) { dp[i][i] = 1; }
+
+				long long kMod = 1e9 + 7;
+				for (int curLen = 1; curLen &lt;= len; curLen++) {
+					for (int i = 0; i &lt; len - curLen; i++) {
+						int j = i + curLen;
+						if (s[i] == s[j]) {
+							dp[i][j] = dp[i + 1][j - 1] * 2;
+							int l = i + 1;
+							int r = j - 1;
+							while (l &lt;= r && s[l] != s[i]) { l++; }
+							while (l &lt;= r && s[r] != s[j]) { r--; }
+							if (l &gt; r) { dp[i][j] += 2; }
+							else if (l == r) { dp[i][j] += 1; }
+							else { dp[i][j] -= dp[l + 1][r - 1]; }
+						}
+						else {
+							dp[i][j] = dp[i][j - 1] + dp[i + 1][j] - dp[i + 1][j - 1];
+						}
+						dp[i][j] = (dp[i][j] + kMod) % kMod;
+					}
+				}
+				return dp[0][len - 1];
+			}
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

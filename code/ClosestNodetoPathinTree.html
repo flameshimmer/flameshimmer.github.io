@@ -42,8 +42,20 @@
 // 
 //
 //Example 1:
-//Input: n = 7, edges = [[0,1],[0,2],[0,3],[1,4],[2,5],[2,6]], query =
-//[[5,3,4],[5,3,6]]
+//Input: n = 7, edges = 
+[
+[0,1],
+[0,2],
+[0,3],
+[1,4],
+[2,5],
+[2,6]
+], query =
+//
+[
+[5,3,4],
+[5,3,6]
+]
 //Output: [0,2]
 //Explanation:
 //The path from node 5 to node 3 consists of the nodes 5, 2, 0, and 3.
@@ -55,7 +67,14 @@
 //query is 2.
 //
 //Example 2:
-//Input: n = 3, edges = [[0,1],[1,2]], query = [[0,1,2]]
+//Input: n = 3, edges = 
+[
+[0,1],
+[1,2]
+], query = 
+[
+[0,1,2]
+]
 //Output: [1]
 //Explanation:
 //The path from node 0 to node 1 consists of the nodes 0, 1.
@@ -64,7 +83,14 @@
 //query is 1.
 //
 //Example 3:
-//Input: n = 3, edges = [[0,1],[1,2]], query = [[0,0,0]]
+//Input: n = 3, edges = 
+[
+[0,1],
+[1,2]
+], query = 
+[
+[0,0,0]
+]
 //Output: [0]
 //Explanation:
 //The path from node 0 to node 0 consists of the node 0.

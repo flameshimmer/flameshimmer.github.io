@@ -1,0 +1,90 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>IncreasingTripletSubsequence</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>IncreasingTripletSubsequence</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums, return true if there exists a triple of indices
+//(i, j, k) such that i &lt; j &lt; k and nums[i] &lt; nums[j] &lt; nums[k]. If no such
+//indices exists, return false.
+// 
+//
+//Example 1:
+//Input: nums = [1,2,3,4,5]
+//Output: true
+//Explanation: Any triplet where i &lt; j &lt; k is valid.
+//
+//Example 2:
+//Input: nums = [5,4,3,2,1]
+//Output: false
+//Explanation: No triplet exists.
+//
+//Example 3:
+//Input: nums = [2,1,5,0,4,6]
+//Output: true
+//Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 &lt; nums[4] == 4
+//&lt; nums[5] == 6.
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 5 * 105
+//-231 &lt;= nums[i] &lt;= 231 - 1
+// 
+//Follow up: Could you implement a solution that runs in O(n) time complexity and
+//O(1) space complexity?
+
+namespace Solution2022
+{
+	namespace IncreasingTripletSubsequence
+	{
+	    bool increasingTriplet(vector&lt;int&gt;& nums) {
+			int min1 = INT_MAX;
+			int min2 = INT_MAX;
+
+			for (int v : nums) {
+				if (v &lt;= min1) { min1 = v; }
+				else if (v &lt;= min2) { min2 = v; }
+				else { return true; }
+			}
+			return false;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

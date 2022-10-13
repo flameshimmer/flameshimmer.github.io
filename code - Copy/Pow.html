@@ -1,0 +1,95 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>Pow</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>Pow</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+// 
+//
+//Example 1:
+//Input: x = 2.00000, n = 10
+//Output: 1024.00000
+//
+//Example 2:
+//Input: x = 2.10000, n = 3
+//Output: 9.26100
+//
+//Example 3:
+//Input: x = 2.00000, n = -2
+//Output: 0.25000
+//Explanation: 2-2 = 1/22 = 1/4 = 0.25
+// 
+//Constraints:
+//-100.0 &lt; x &lt; 100.0
+//-231 &lt;= n &lt;= 231-1
+//-104 &lt;= xn &lt;= 104
+
+namespace Solution2022
+{
+	namespace Pow
+	{
+		double myPowIterative(double x, int n) {
+			double result = 1;
+			long long n2 = n;
+			if (n2 &lt; 0) {
+				n2 = -n2;
+				x = 1 / x;
+			}
+			while (n2) {
+				if (n2 % 2 == 1) { result *= x; }
+				x *= x;
+				n2 /= 2;
+			}
+			return result;
+		}
+		
+		double myPow(double x, int n) {
+			if (n == 0) { return 1; }
+			long long n2 = n;
+			if (n2 &lt; 0) {
+				x = 1 / x;
+				n2 = -n2;
+			}
+			return (n2 % 2 == 0) ? myPow(x * x, n2 / 2) : x * myPow(x * x, n2 / 2);
+	    }
+
+		void Main() {
+			print(myPow(2, 10));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

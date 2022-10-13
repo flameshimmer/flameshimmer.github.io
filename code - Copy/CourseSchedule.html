@@ -1,0 +1,108 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CourseSchedule</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CourseSchedule</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are a total of numCourses courses you have to take, labeled from 0 to
+//numCourses - 1. You are given an array prerequisites where prerequisites[i] =
+//[ai, bi] indicates that you must take course bi first if you want to take
+//course ai.
+//For example, the pair [0, 1], indicates that to take course 0 you have to first
+//take course 1.
+//Return true if you can finish all courses. Otherwise, return false.
+// 
+//
+//Example 1:
+//Input: numCourses = 2, prerequisites = [[1,0]]
+//Output: true
+//Explanation: There are a total of 2 courses to take. 
+//To take course 1 you should have finished course 0. So it is possible.
+//
+//Example 2:
+//Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+//Output: false
+//Explanation: There are a total of 2 courses to take. 
+//To take course 1 you should have finished course 0, and to take course 0 you
+//should also have finished course 1. So it is impossible.
+// 
+//Constraints:
+//1 &lt;= numCourses &lt;= 2000
+//0 &lt;= prerequisites.length &lt;= 5000
+//prerequisites[i].length == 2
+//0 &lt;= ai, bi &lt; numCourses
+//All the pairs prerequisites[i] are unique.
+
+namespace Solution2022
+{
+	namespace CourseSchedule
+	{
+	    bool canFinish(int numCourses, vector&lt;vector&lt;int&gt;&gt;& prerequisites) {
+			int len = prerequisites.size();
+			if (len == 0) { return true; }
+
+			vector&lt;vector&lt;int&gt;&gt; children(numCourses, vector&lt;int&gt;());
+			vector&lt;int&gt; indegree(numCourses, 0); // NOTE: if indegree is using map to do, ensure the empty node also has a entry in the map!
+			for (vector&lt;int&gt;& p : prerequisites) {
+				children[p[1]].push_back(p[0]);
+				indegree[p[0]]++;
+			}
+
+			queue&lt;int&gt; q;
+			for (int i = 0; i &lt; numCourses; i++) {
+				if (indegree[i] == 0) { q.push(i); }
+			}
+
+			int count = 0;
+			while (!q.empty()) {
+				int top = q.front();
+				q.pop();
+				count++;
+				for (int child : children[top]) {
+					indegree[child]--;
+					if (indegree[child] == 0) { q.push(child); }
+				}
+			}
+			return count == numCourses;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

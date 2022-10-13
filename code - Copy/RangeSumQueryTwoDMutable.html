@@ -1,0 +1,151 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RangeSumQueryTwoDMutable</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RangeSumQueryTwoDMutable</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a 2D matrix matrix, handle multiple queries of the following types:
+//Update the value of a cell in matrix.
+//Calculate the sum of the elements of matrix inside the rectangle defined by its
+//upper left corner (row1, col1) and lower right corner (row2, col2).
+//Implement the NumMatrix class:
+//NumMatrix(int[][] matrix) Initializes the object with the integer matrix matrix.
+//void update(int row, int col, int val) Updates the value of matrix[row][col] to
+//be val.
+//int sumRegion(int row1, int col1, int row2, int col2) Returns the sum of the
+//elements of matrix inside the rectangle defined by its upper left corner (row1,
+//col1) and lower right corner (row2, col2).
+// 
+//
+//Example 1:
+//Input
+//["NumMatrix", "sumRegion", "update", "sumRegion"]
+//[[[[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0,
+//3, 0, 5]]], [2, 1, 4, 3], [3, 2, 2], [2, 1, 4, 3]]
+//Output
+//[null, 8, null, 10]
+//Explanation
+//NumMatrix numMatrix = new NumMatrix([[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2,
+//0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]);
+//numMatrix.sumRegion(2, 1, 4, 3); // return 8 (i.e. sum of the left red
+//rectangle)
+//numMatrix.update(3, 2, 2);       // matrix changes from left image to right
+//image
+//numMatrix.sumRegion(2, 1, 4, 3); // return 10 (i.e. sum of the right red
+//rectangle)
+// 
+//Constraints:
+//m == matrix.length
+//n == matrix[i].length
+//1 &lt;= m, n &lt;= 200
+//-105 &lt;= matrix[i][j] &lt;= 105
+//0 &lt;= row &lt; m
+//0 &lt;= col &lt; n
+//-105 &lt;= val &lt;= 105
+//0 &lt;= row1 &lt;= row2 &lt; m
+//0 &lt;= col1 &lt;= col2 &lt; n
+//At most 104 calls will be made to sumRegion and update.
+
+namespace Solution2022
+{
+	namespace RangeSumQueryTwoDMutable
+	{
+		class NumMatrix {
+		private:
+			class FenwickTree {
+			private:
+				vector&lt;vector&lt;int&gt;&gt; data;
+				int lowBits(int i) { return i & -i; }
+			public:
+				FenwickTree(int rowCount, int colCount) {
+					data.resize(rowCount + 1, vector&lt;int&gt;(colCount + 1, 0));
+				}
+
+				void update(int row, int col, int delta) {
+					for (int i = row; i &lt; data.size(); i += lowBits(i)) {
+						for (int j = col; j &lt; data[0].size(); j += lowBits(j)) {
+							data[i][j] += delta;
+						}
+					}
+				}
+
+				int query(int row, int col) {
+					int result = 0;
+					for (int i = row; i &gt; 0; i -= lowBits(i)) {
+						for (int j = col; j &gt; 0; j -= lowBits(j)) {
+							result += data[i][j];
+						}
+					}
+					return result;
+				}
+			};
+
+			FenwickTree tree;
+			vector&lt;vector&lt;int&gt;&gt; data;
+		public:
+			NumMatrix(vector&lt;vector&lt;int&gt;&gt;& matrix) : data(matrix), tree(matrix.size(), matrix[0].size()) {
+				for (int i = 0; i &lt; matrix.size(); i++) {
+					for (int j = 0; j &lt; matrix[0].size(); j++) {
+						tree.update(i + 1, j + 1, matrix[i][j]);
+					}
+				}
+			}
+
+			void update(int row, int col, int val) {
+				tree.update(row + 1, col + 1, val - data[row][col]);
+				data[row][col] = val;
+			}
+
+			int sumRegion(int row1, int col1, int row2, int col2) {
+				return tree.query(row2 + 1, col2 + 1) - tree.query(row1, col2 + 1) - tree.query(row2 + 1, col1) + tree.query(row1, col1);
+			}
+		};
+
+
+		/**
+		 * Your NumMatrix object will be instantiated and called as such:
+		 * NumMatrix* obj = new NumMatrix(matrix);
+		 * obj-&gt;update(row,col,val);
+		 * int param_2 = obj-&gt;sumRegion(row1,col1,row2,col2);
+		 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

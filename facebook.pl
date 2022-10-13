@@ -38,7 +38,7 @@ my @lines;
 
 
 my %hash = ();
-my $filedir = "./Leet2019";
+my $filedir = "./Leet2022";
 
 opendir(my $dir, $filedir) or die "Could not load directory";
 my @read_dir = sort grep {!-d}readdir($dir);
@@ -48,7 +48,7 @@ foreach my $fileInDir(@read_dir)
     my $fh = "$filedir/$fileInDir";
 	my $timestamp = ctime(stat($fh)->mtime);
 	#print "Filename: $fileInDir modtime: $timestamp\n";
-    if ($timestamp !~ m/Wed Sep  4 19:52:\d+ 2019/)
+    if ($timestamp !~ m/Wed Sep  4 19:52:\d+ 2022/)
     {        
         $fileInDir =~ s/\.cpp//g;
         $hash{$fileInDir} = 1;

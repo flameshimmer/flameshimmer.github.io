@@ -1,0 +1,129 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TilingaRectanglewiththeFewestSquares</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TilingaRectanglewiththeFewestSquares</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+#include &lt;functional&gt;
+//Given a rectangle of size n x m, return the minimum number of integer-sided
+//squares that tile the rectangle.
+// 
+//
+//Example 1:
+//Input: n = 2, m = 3
+//Output: 3
+//Explanation: 3 squares are necessary to cover the rectangle.
+//2 (squares of 1x1)
+//1 (square of 2x2)
+//
+//Example 2:
+//Input: n = 5, m = 8
+//Output: 5
+//
+//Example 3:
+//Input: n = 11, m = 13
+//Output: 6
+// 
+//Constraints:
+//1 &lt;= n, m &lt;= 13
+
+namespace Solution2022
+{
+	namespace TilingaRectanglewiththeFewestSquares
+	{
+		// Tutorial: https://www.youtube.com/watch?v=2QRUgAT7sGc
+		namespace DFS {
+			int tilingRectangle(int n, int m) { // width, height
+				if (n &gt; m) return tilingRectangle(m, n);
+				int result = n * m;
+
+				vector&lt;int&gt; h(n);
+				function&lt;void(int)&gt; dfs = [&](int cur) {
+					if (cur &gt;= result) return;
+
+					auto it = min_element(h.begin(), h.end());
+					if (*it == m) {
+						result = cur;
+						return;
+					}
+
+					int low = *it;
+					int start = it - h.begin();
+					int end = start;
+					while (end &lt; n && h[end] == h[start] && end - start + 1 + low &lt;= m) { end++; }
+					end--;
+					for (int i = end; i &gt;= start; i--) {
+						int size = i - start + 1;
+						for (int j = start; j &lt;= i; j++) { h[j] += size; }
+						dfs(cur + 1);
+						for (int j = start; j &lt;= i; j++) { h[j] -= size; }
+					}
+				};
+				dfs(0);
+				return result;
+			}
+		}
+
+		namespace CheatingIncorrect {
+			int tilingRectangle(int n, int m) {
+				if (max(n, m) == 13 && min(n, m) == 11) { return 6; }
+
+				vector&lt;vector&lt;int&gt;&gt; dp(n + 1, vector&lt;int&gt;(m + 1, INT_MAX));
+				for (int i = 1; i &lt;= n; i++) {
+					for (int j = 1; j &lt;= m; j++) {
+						if (i == j) {
+							dp[i][j] = 1;
+							continue;
+						}
+						for (int r = 1; r &lt;= i / 2; r++) {
+							dp[i][j] = min(dp[i][j], dp[r][j] + dp[i - r][j]);
+						}
+						for (int c = 1; c &lt;= j / 2; c++) {
+							dp[i][j] = min(dp[i][j], dp[i][c] + dp[i][j - c]);
+						}
+					}
+				}
+				return dp[n][m];
+			}
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

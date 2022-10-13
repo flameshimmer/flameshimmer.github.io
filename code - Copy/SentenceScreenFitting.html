@@ -1,0 +1,106 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SentenceScreenFitting</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SentenceScreenFitting</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a rows x cols screen and a sentence represented as a list of strings,
+//return the number of times the given sentence can be fitted on the screen.
+//The order of words in the sentence must remain unchanged, and a word cannot be
+//split into two lines. A single space must separate two consecutive words in a
+//line.
+// 
+//
+//Example 1:
+//Input: sentence = ["hello","world"], rows = 2, cols = 8
+//Output: 1
+//Explanation:
+//hello---
+//world---
+//The character '-' signifies an empty space on the screen.
+//
+//Example 2:
+//Input: sentence = ["a", "bcd", "e"], rows = 3, cols = 6
+//Output: 2
+//Explanation:
+//a-bcd- 
+//e-a---
+//bcd-e-
+//The character '-' signifies an empty space on the screen.
+//
+//Example 3:
+//Input: sentence = ["i","had","apple","pie"], rows = 4, cols = 5
+//Output: 1
+//Explanation:
+//i-had
+//apple
+//pie-i
+//had--
+//The character '-' signifies an empty space on the screen.
+// 
+//Constraints:
+//1 &lt;= sentence.length &lt;= 100
+//1 &lt;= sentence[i].length &lt;= 10
+//sentence[i] consists of lowercase English letters.
+//1 &lt;= rows, cols &lt;= 2 * 104
+
+namespace Solution2022
+{
+	namespace SentenceScreenFitting
+	{
+		int wordsTyping(vector&lt;string&gt;& sentence, int rows, int cols) {
+			string s = "";
+			for (string& sen : sentence) { s += sen + " "; }
+			int len = s.size();
+
+			int start = 0;
+			for (int i = 0; i &lt; rows; i++) {
+				start += cols;
+				if (s[start % len] == ' ') { start++; }
+				else {
+					while (start - 1 &gt;= 0 && s[(start - 1) % len] != ' ') { start--; }
+				}
+			}
+			return start / len;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

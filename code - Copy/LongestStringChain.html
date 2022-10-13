@@ -1,0 +1,106 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LongestStringChain</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LongestStringChain</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array of words where each word consists of lowercase English
+//letters.
+//wordA is a predecessor of wordB if and only if we can insert exactly one letter
+//anywhere in wordA without changing the order of the other characters to make it
+//equal to wordB.
+//For example, "abc" is a predecessor of "abac", while "cba" is not a predecessor
+//of "bcad".
+//A word chain is a sequence of words [word1, word2, ..., wordk] with k &gt;= 1,
+//where word1 is a predecessor of word2, word2 is a predecessor of word3, and so
+//on. A single word is trivially a word chain with k == 1.
+//Return the length of the longest possible word chain with words chosen from the
+//given list of words.
+// 
+//
+//Example 1:
+//Input: words = ["a","b","ba","bca","bda","bdca"]
+//Output: 4
+//Explanation: One of the longest word chains is ["a","ba","bda","bdca"].
+//
+//Example 2:
+//Input: words = ["xbc","pcxbcf","xb","cxbc","pcxbc"]
+//Output: 5
+//Explanation: All the words can be put in a word chain ["xb", "xbc", "cxbc",
+//"pcxbc", "pcxbcf"].
+//
+//Example 3:
+//Input: words = ["abcd","dbqca"]
+//Output: 1
+//Explanation: The trivial word chain ["abcd"] is one of the longest word chains.
+//["abcd","dbqca"] is not a valid word chain because the ordering of the letters
+//is changed.
+// 
+//Constraints:
+//1 &lt;= words.length &lt;= 1000
+//1 &lt;= words[i].length &lt;= 16
+//words[i] only consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace LongestStringChain
+	{
+	    int longestStrChain(vector&lt;string&gt;& words) {
+			auto comp = [](string& s1, string& s2) {return s1.size() &lt; s2.size(); };
+			sort(words.begin(), words.end(), comp);
+
+			unordered_map&lt;string, int&gt; dp;
+			int result = 0;
+
+			for (string& w : words) {
+				int best = 0;
+				for (int i = 0; i &lt; w.size(); i++) {
+					string word = w.substr(0, i) + w.substr(i + 1);
+					best = max(best, dp[word] + 1);
+				}
+				dp[w] = best;
+				result = max(result, best);
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

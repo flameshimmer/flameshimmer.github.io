@@ -1,0 +1,137 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>AnalyzeUserWebsiteVisitPattern</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>AnalyzeUserWebsiteVisitPattern</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given two string arrays username and website and an integer array
+//timestamp. All the given arrays are of the same length and the tuple
+//[username[i], website[i], timestamp[i]] indicates that the user username[i]
+//visited the website website[i] at time timestamp[i].
+//A pattern is a list of three websites (not necessarily distinct).
+//For example, ["home", "away", "love"], ["leetcode", "love", "leetcode"], and
+//["luffy", "luffy", "luffy"] are all patterns.
+//The score of a pattern is the number of users that visited all the websites in
+//the pattern in the same order they appeared in the pattern.
+//For example, if the pattern is ["home", "away", "love"], the score is the
+//number of users x such that x visited "home" then visited "away" and visited
+//"love" after that.
+//Similarly, if the pattern is ["leetcode", "love", "leetcode"], the score is the
+//number of users x such that x visited "leetcode" then visited "love" and
+//visited "leetcode" one more time after that.
+//Also, if the pattern is ["luffy", "luffy", "luffy"], the score is the number of
+//users x such that x visited "luffy" three different times at different
+//timestamps.
+//Return the pattern with the largest score. If there is more than one pattern
+//with the same largest score, return the lexicographically smallest such pattern.
+// 
+//
+//Example 1:
+//Input: username =
+//["joe","joe","joe","james","james","james","james","mary","mary","mary"],
+//timestamp = [1,2,3,4,5,6,7,8,9,10], website =
+//["home","about","career","home","cart","maps","home","home","about","career"]
+//Output: ["home","about","career"]
+//Explanation: The tuples in this example are:
+//["joe","home",1],["joe","about",2],["joe","career",3],["james","home",4],["james","cart",5],["james","maps",6],["james","home",7],["mary","home",8],["mary","about",9],
+//and ["mary","career",10].
+//The pattern ("home", "about", "career") has score 2 (joe and mary).
+//The pattern ("home", "cart", "maps") has score 1 (james).
+//The pattern ("home", "cart", "home") has score 1 (james).
+//The pattern ("home", "maps", "home") has score 1 (james).
+//The pattern ("cart", "maps", "home") has score 1 (james).
+//The pattern ("home", "home", "home") has score 0 (no user visited home 3 times).
+//
+//Example 2:
+//Input: username = ["ua","ua","ua","ub","ub","ub"], timestamp = [1,2,3,4,5,6],
+//website = ["a","b","a","a","b","c"]
+//Output: ["a","b","a"]
+// 
+//Constraints:
+//3 &lt;= username.length &lt;= 50
+//1 &lt;= username[i].length &lt;= 10
+//timestamp.length == username.length
+//1 &lt;= timestamp[i] &lt;= 109
+//website.length == username.length
+//1 &lt;= website[i].length &lt;= 10
+//username[i] and website[i] consist of lowercase English letters.
+//It is guaranteed that there is at least one user who visited at least three
+//websites.
+//All the tuples [username[i], timestamp[i], website[i]] are unique.
+
+namespace Solution2022
+{
+	namespace AnalyzeUserWebsiteVisitPattern
+	{
+	    vector&lt;string&gt; mostVisitedPattern(vector&lt;string&gt;& username, vector&lt;int&gt;& timestamp, vector&lt;string&gt;& website) {
+			int len = username.size();
+			unordered_map&lt;string, map&lt;int, string&gt;&gt; m; // note that the second map is sorted map!!!
+			for (int i = 0; i &lt; len; i++) {
+				m[username[i]][timestamp[i]] = website[i];
+			}
+
+			map&lt;vector&lt;string&gt;, int&gt; counter;
+			for (auto& [user, ts] : m) {
+				vector&lt;string&gt; allSites;
+				for (auto& [ts, site] : m[user]) {
+					allSites.push_back(site);
+				}
+				set&lt;vector&lt;string&gt;&gt; pattern;
+				for (int k = 0; k &lt; allSites.size(); k++) {
+					for (int j = 0; j &lt; k; j++) {
+						for (int i = 0; i &lt; j; i++) {
+							pattern.insert({allSites[i], allSites[j], allSites[k]});
+						}
+					}
+				}
+				for (auto& p : pattern) {
+					counter[p]++;
+				}
+			}
+			auto comp = [](auto& p1, auto& p2) {
+				return p1.second &lt; p2.second || p1.second == p2.second && p1.first&gt;p2.first;
+			};
+
+			return max_element(counter.begin(), counter.end(), comp)-&gt;first;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,100 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>GroupAnagrams</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>GroupAnagrams</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of strings strs, group the anagrams together. You can return the
+//answer in any order.
+//An Anagram is a word or phrase formed by rearranging the letters of a different
+//word or phrase, typically using all the original letters exactly once.
+// 
+//
+//Example 1:
+//Input: strs = ["eat","tea","tan","ate","nat","bat"]
+//Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+//
+//Example 2:
+//Input: strs = [""]
+//Output: [[""]]
+//
+//Example 3:
+//Input: strs = ["a"]
+//Output: [["a"]]
+// 
+//Constraints:
+//1 &lt;= strs.length &lt;= 104
+//0 &lt;= strs[i].length &lt;= 100
+//strs[i] consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace GroupAnagrams
+	{
+		string getAnagram(string& s) {
+			vector&lt;int&gt; map(26, 0);
+			for (char c : s) {
+				map[c - 'a']++;
+			}
+			string result = "";
+			for (int i = 0; i &lt; 26; i++) {
+				result += string(1, ('a' + i)) + to_string(map[i]);
+			}
+			return result;
+		}
+		
+		vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;& strs) {
+			vector&lt;vector&lt;string&gt;&gt; result;
+			int len = strs.size();
+			if (len == 0) { return result; }
+
+			unordered_map&lt;string, vector&lt;string&gt;&gt; map;
+			for (string& s : strs) {
+				map[getAnagram(s)].push_back(s);
+			}
+			for (auto& [key, group] : map) {
+				result.push_back(group);
+			}
+			return result;
+	    }
+
+		void Main() {
+			vector&lt;string&gt; test = { "eat","tea","tan","ate","nat","bat"};
+			print(groupAnagrams(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

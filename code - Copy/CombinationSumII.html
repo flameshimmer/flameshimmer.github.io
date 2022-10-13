@@ -1,0 +1,103 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CombinationSumII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CombinationSumII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a collection of candidate numbers (candidates) and a target number
+//(target), find all unique combinations in candidates where the candidate
+//numbers sum to target.
+//Each number in candidates may only be used once in the combination.
+//
+//Note: The solution set must not contain duplicate combinations.
+// 
+//
+//Example 1:
+//Input: candidates = [10,1,2,7,6,1,5], target = 8
+//Output: 
+//[
+//[1,1,6],
+//[1,2,5],
+//[1,7],
+//[2,6]
+//]
+//
+//Example 2:
+//Input: candidates = [2,5,2,1,2], target = 5
+//Output: 
+//[
+//[1,2,2],
+//[5]
+//]
+// 
+//Constraints:
+//1 &lt;= candidates.length &lt;= 100
+//1 &lt;= candidates[i] &lt;= 50
+//1 &lt;= target &lt;= 30
+
+namespace Solution2022
+{
+	namespace CombinationSumII
+	{
+		void comboHelper(vector&lt;int&gt;& can, int start, int len, int sum, int target, vector&lt;int&gt;& result, vector&lt;vector&lt;int&gt;&gt;& results) {
+			if (sum == target) { results.push_back(result); }
+			if (sum &gt;= target) { return; }
+
+			for (int i = start; i &lt; len; i++) {
+				result.push_back(can[i]);
+				comboHelper(can, i + 1, len, sum + can[i], target, result, results);
+				result.pop_back();
+				while (i + 1 &lt; len && can[i] == can[i + 1]) { i++; }
+			}
+		}
+
+		vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;& candidates, int target) {
+			sort(candidates.begin(), candidates.end());
+			vector&lt;vector&lt;int&gt;&gt; results;
+			vector&lt;int&gt; result;
+			int len = candidates.size();
+			int sum = 0;
+			comboHelper(candidates, 0, len, sum, target, result, results);
+			return results;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

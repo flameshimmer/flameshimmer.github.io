@@ -1,0 +1,149 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MaximumEarningsFromTaxi</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MaximumEarningsFromTaxi</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are n points on a road you are driving your taxi on. The n points on the
+//road are labeled from 1 to n in the direction you are going, and you want to
+//drive from point 1 to point n to make money by picking up passengers. You
+//cannot change the direction of the taxi.
+//The passengers are represented by a 0-indexed 2D integer array rides, where
+//rides[i] = [starti, endi, tipi] denotes the ith passenger requesting a ride
+//from point starti to point endi who is willing to give a tipi dollar tip.
+//For each passenger i you pick up, you earn endi - starti + tipi dollars. You
+//may only drive at most one passenger at a time.
+//Given n and rides, return the maximum number of dollars you can earn by picking
+//up the passengers optimally.
+//
+//Note: You may drop off a passenger and pick up a different passenger at the
+//same point.
+// 
+//
+//Example 1:
+//Input: n = 5, rides = [[2,5,4],[1,5,1]]
+//Output: 7
+//Explanation: We can pick up passenger 0 to earn 5 - 2 + 4 = 7 dollars.
+//
+//Example 2:
+//Input: n = 20, rides =
+//[[1,6,1],[3,10,2],[10,12,3],[11,12,2],[12,15,2],[13,18,1]]
+//Output: 20
+//Explanation: We will pick up the following passengers:
+//- Drive passenger 1 from point 3 to point 10 for a profit of 10 - 3 + 2 = 9
+//dollars.
+//- Drive passenger 2 from point 10 to point 12 for a profit of 12 - 10 + 3 = 5
+//dollars.
+//- Drive passenger 5 from point 13 to point 18 for a profit of 18 - 13 + 1 = 6
+//dollars.
+//We earn 9 + 5 + 6 = 20 dollars in total.
+// 
+//Constraints:
+//1 &lt;= n &lt;= 105
+//1 &lt;= rides.length &lt;= 3 * 104
+//rides[i].length == 3
+//1 &lt;= starti &lt; endi &lt;= n
+//1 &lt;= tipi &lt;= 105
+
+namespace Solution2022
+{
+	namespace MaximumEarningsFromTaxi
+	{
+		namespace DP {
+			long long maxTaxiEarnings(int n, vector&lt;vector&lt;int&gt;&gt;& rides) {
+				vector&lt;long long&gt; dp(n + 1);
+				unordered_map&lt;int, vector&lt;pair&lt;int, int&gt;&gt;&gt; map;
+				for (vector&lt;int&gt;& r : rides) {
+					map[r[1]].push_back({ r[0], r[1] - r[0] + r[2] });
+				}
+
+				for (int i = 1; i &lt;= n; i++) {
+					dp[i] = dp[i - 1];
+					for (auto [start, gain] : map[i]) {
+						dp[i] = max(dp[i], dp[start] + gain);
+					}
+				}
+				return dp[n];
+			}
+		}
+
+		namespace DPOptimized {
+			long long maxTaxiEarnings(int n, vector&lt;vector&lt;int&gt;&gt;& rides) {
+				int m = rides.size();
+				rides.push_back({ 0, 0, 0 });
+
+				vector&lt;long long&gt; dp(m + 1);
+				sort(rides.begin(), rides.end(), [](vector&lt;int&gt;& a, vector&lt;int&gt;& b) {return a[1] &lt; b[1]; });
+
+				vector&lt;int&gt; times;
+				for (auto& r : rides) { times.push_back(r[1]); }
+
+				for (int i = 1; i &lt;= m; i++) {
+					dp[i] = dp[i - 1];
+					int start = rides[i][0];
+					auto it = upper_bound(times.begin(), times.end(), start);
+					if (it != times.begin()) {
+						int j = prev(it) - times.begin();
+						int gain = rides[i][1] - rides[i][0] + rides[i][2];
+						dp[i] = max(dp[i], dp[j] + gain);
+					}
+				}
+				return dp[m];
+			}
+		}
+
+		namespace AnotherDP {
+			long long maxTaxiEarnings(int n, vector&lt;vector&lt;int&gt;&gt;& A) {
+				sort(A.begin(), A.end());
+				vector&lt;long long&gt; dp(n + 1);
+				int j = 0;
+				for (int i = 1; i &lt;= n; ++i) {
+					dp[i] = max(dp[i], dp[i - 1]);
+					while (j &lt; A.size() && A[j][0] == i)
+						dp[A[j++][1]] = max(dp[A[j][1]], dp[i] + A[j][1] - A[j][0] + A[j][2]);
+				}
+				return dp[n];
+			}		
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

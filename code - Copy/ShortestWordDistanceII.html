@@ -1,0 +1,111 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ShortestWordDistanceII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ShortestWordDistanceII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Design a data structure that will be initialized with a string array, and then
+//it should answer queries of the shortest distance between two different strings
+//from the array.
+//Implement the WordDistance class:
+//WordDistance(String[] wordsDict) initializes the object with the strings array
+//wordsDict.
+//int shortest(String word1, String word2) returns the shortest distance between
+//word1 and word2 in the array wordsDict.
+// 
+//
+//Example 1:
+//Input
+//["WordDistance", "shortest", "shortest"]
+//[[["practice", "makes", "perfect", "coding", "makes"]], ["coding", "practice"],
+//["makes", "coding"]]
+//Output
+//[null, 3, 1]
+//Explanation
+//WordDistance wordDistance = new WordDistance(["practice", "makes", "perfect",
+//"coding", "makes"]);
+//wordDistance.shortest("coding", "practice"); // return 3
+//wordDistance.shortest("makes", "coding");    // return 1
+// 
+//Constraints:
+//1 &lt;= wordsDict.length &lt;= 3 * 104
+//1 &lt;= wordsDict[i].length &lt;= 10
+//wordsDict[i] consists of lowercase English letters.
+//word1 and word2 are in wordsDict.
+//word1 != word2
+//At most 5000 calls will be made to shortest.
+
+namespace Solution2022
+{
+	namespace ShortestWordDistanceII
+	{
+		class WordDistance {
+		private:
+			unordered_map&lt;string, vector&lt;int&gt;&gt; map;
+		public:
+			WordDistance(vector&lt;string&gt;& wordsDict) {
+				for (int i = 0; i &lt; wordsDict.size(); i++) {
+					map[wordsDict[i]].push_back(i);
+				}
+			}
+
+			int shortest(string word1, string word2) {
+				vector&lt;int&gt;& l1 = map[word1];
+				vector&lt;int&gt;& l2 = map[word2];
+
+				int result = INT_MAX;
+				int i = 0;
+				int j = 0;
+				while (i &lt; l1.size() && j &lt; l2.size()) {
+					result = min(result, abs(l1[i] - l2[j]));
+					if (l1[i] &lt; l2[j]) { i++; }
+					else { j++; }
+				}
+				return result;
+			}
+		};
+		/**
+		 * Your WordDistance object will be instantiated and called as such:
+		 * WordDistance* obj = new WordDistance(wordsDict);
+		 * int param_1 = obj-&gt;shortest(word1,word2);
+		 */
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

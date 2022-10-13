@@ -1,0 +1,119 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>OptimalAccountBalancing</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>OptimalAccountBalancing</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array of transactions transactions where transactions[i] =
+//[fromi, toi, amounti] indicates that the person with ID = fromi gave amounti $
+//to the person with ID = toi.
+//Return the minimum number of transactions required to settle the debt.
+// 
+//
+//Example 1:
+//Input: transactions = [[0,1,10],[2,0,5]]
+//Output: 2
+//Explanation:
+//Person #0 gave person #1 $10.
+//Person #2 gave person #0 $5.
+//Two transactions are needed. One way to settle the debt is person #1 pays
+//person #0 and #2 $5 each.
+//
+//Example 2:
+//Input: transactions = [[0,1,10],[1,0,1],[1,2,5],[2,0,5]]
+//Output: 1
+//Explanation:
+//Person #0 gave person #1 $10.
+//Person #1 gave person #0 $1.
+//Person #1 gave person #2 $5.
+//Person #2 gave person #0 $5.
+//Therefore, person #1 only need to give person #0 $4, and all debt is settled.
+// 
+//Constraints:
+//1 &lt;= transactions.length &lt;= 8
+//transactions[i].length == 3
+//0 &lt;= fromi, toi &lt; 12
+//fromi != toi
+//1 &lt;= amounti &lt;= 100
+
+namespace Solution2022
+{
+	namespace OptimalAccountBalancing
+	{
+		int dfs(int start, int len, vector&lt;int&gt;& debts) {
+			if (start == len) { return 0; }
+
+			int cur = debts[start];
+			if (cur == 0) { return dfs(start +1, len, debts); }
+
+			int result = INT_MAX;
+			for (int i = start + 1; i &lt; len; i++) {
+				int tmp = debts[i];
+				if (tmp * cur &lt; 0) {
+					debts[i] += cur;
+					result = min(result, 1 + dfs(start + 1, len, debts));
+					debts[i] = tmp;
+				}
+				if (tmp + cur == 0) { break; }
+			}
+			return result;
+		}
+
+
+	    int minTransfers(vector&lt;vector&lt;int&gt;&gt;& transactions) {
+			int len = transactions.size();
+			if (len &lt; 2) { return len; }
+
+			unordered_map&lt;int, int&gt; map;
+			for (vector&lt;int&gt;& t : transactions) {
+				map[t[0]] -= t[2];
+				map[t[1]] += t[2];
+			}
+
+			vector&lt;int&gt; list;
+			for (auto& p : map) {
+				if (p.second != 0) { list.push_back(p.second); }
+			}
+			return dfs(0, list.size(), list); // note that the second param is list.size, not transactions.size()!!!
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

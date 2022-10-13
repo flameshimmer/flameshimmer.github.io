@@ -1,0 +1,110 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BestTimetoBuyandSellStock</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BestTimetoBuyandSellStock</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array prices where prices[i] is the price of a given stock on
+//the ith day.
+//You want to maximize your profit by choosing a single day to buy one stock and
+//choosing a different day in the future to sell that stock.
+//Return the maximum profit you can achieve from this transaction. If you cannot
+//achieve any profit, return 0.
+// 
+//
+//Example 1:
+//Input: prices = [7,1,5,3,6,4]
+//Output: 5
+//Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit =
+//6-1 = 5.
+//
+//Note that buying on day 2 and selling on day 1 is not allowed because you must
+//buy before you sell.
+//
+//Example 2:
+//Input: prices = [7,6,4,3,1]
+//Output: 0
+//Explanation: In this case, no transactions are done and the max profit = 0.
+// 
+//Constraints:
+//1 &lt;= prices.length &lt;= 105
+//0 &lt;= prices[i] &lt;= 104
+
+namespace Solution2022
+{
+	namespace BestTimetoBuyandSellStock
+	{
+		int maxProfit(vector&lt;int&gt;& prices) {
+			int len = prices.size();
+			if (len &lt; 2) { return 0; }
+
+			vector&lt;int&gt;maxRight(len, 0);
+			int result = 0;
+			for (int i = len - 2; i &gt;= 0; i--) {
+				maxRight[i] = max(maxRight[i + 1], prices[i + 1]);
+				result = max(result, maxRight[i] - prices[i]);
+			}
+			return result;
+		}
+
+		namespace Another {
+			int maxProfit(vector&lt;int&gt;& prices) {
+				int len = prices.size();
+				if (len &lt; 2) { return 0; }
+
+				vector&lt;int&gt; minLeft(len, prices[0]);
+				vector&lt;int&gt; maxRight(len, prices[len - 1]);
+
+				for (int i = 1; i &lt; len; i++) {
+					minLeft[i] = min(minLeft[i - 1], prices[i]);
+					maxRight[len - 1 - i] = max(maxRight[len - i], prices[len - 1 - i]);
+				}
+				int result = INT_MIN;
+				for (int i = 0; i &lt; len; i++) {
+					result = max(result, maxRight[i] - minLeft[i]);
+				}
+				return result;
+			}
+		}
+
+
+		void Main() {
+			vector&lt;int&gt; test = { 7,1,5,3,6,4 };
+			print(maxProfit(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

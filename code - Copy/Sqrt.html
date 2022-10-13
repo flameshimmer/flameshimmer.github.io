@@ -1,0 +1,99 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>Sqrt</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>Sqrt</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a non-negative integer x, compute and return the square root of x.
+//Since the return type is an integer, the decimal digits are truncated, and only
+//the integer part of the result is returned.
+//
+//Note: You are not allowed to use any built-in exponent function or operator,
+//such as pow(x, 0.5) or x ** 0.5.
+// 
+//
+//Example 1:
+//Input: x = 4
+//Output: 2
+//
+//Example 2:
+//Input: x = 8
+//Output: 2
+//Explanation: The square root of 8 is 2.82842..., and since the decimal part is
+//truncated, 2 is returned.
+// 
+//Constraints:
+//0 &lt;= x &lt;= 231 - 1
+
+namespace Solution2022
+{
+	namespace Sqrt
+	{
+		namespace BinarySearch {
+			int mySqrt(int x) {
+				if (x &lt; 2) { return x; }
+				int start = 2;
+				int end = x;
+
+				while (start &lt;= end) {
+					long long mid = start + (end - start) / 2;
+					long long v = mid * mid;
+					if (v == x) { return mid; }
+					else if (v &gt; x) { end = mid - 1; }
+					else { start = mid + 1; }
+				}
+				return end;
+			}
+		}
+	    
+		namespace Recursion {
+			int mySqrt(int x) {
+				if (x &lt; 2) { return x; }
+
+				int left = mySqrt(x / 4) * 2;
+				int right = left + 1;
+				
+				return ((long long)right * right &gt; x) ? left : right;
+			}		
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

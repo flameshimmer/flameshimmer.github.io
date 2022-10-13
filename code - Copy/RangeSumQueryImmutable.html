@@ -1,0 +1,123 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RangeSumQueryImmutable</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RangeSumQueryImmutable</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums, handle multiple queries of the following type:
+//Calculate the sum of the elements of nums between indices left and right
+//inclusive where left &lt;= right.
+//Implement the NumArray class:
+//NumArray(int[] nums) Initializes the object with the integer array nums.
+//int sumRange(int left, int right) Returns the sum of the elements of nums
+//between indices left and right inclusive (i.e. nums[left] + nums[left + 1] +
+//... + nums[right]).
+// 
+//
+//Example 1:
+//Input
+//["NumArray", "sumRange", "sumRange", "sumRange"]
+//[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
+//Output
+//[null, 1, -1, -3]
+//Explanation
+//NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
+//numArray.sumRange(0, 2); // return (-2) + 0 + 3 = 1
+//numArray.sumRange(2, 5); // return 3 + (-5) + 2 + (-1) = -1
+//numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 104
+//-105 &lt;= nums[i] &lt;= 105
+//0 &lt;= left &lt;= right &lt; nums.length
+//At most 104 calls will be made to sumRange.
+
+namespace Solution2022
+{
+	namespace RangeSumQueryImmutable
+	{
+		class NumArray {
+		private:
+			vector&lt;int&gt; data;
+		public:
+			NumArray(vector&lt;int&gt;& nums) {
+				int sum = 0;
+				for (int v : nums) {
+					sum += v;
+					data.push_back(sum);
+				}
+			}
+
+			int sumRange(int left, int right) {
+				int rV = data[right];
+				int lV = (left - 1 &gt;= 0) ? data[left - 1] : 0;
+				return rV - lV;
+			}
+		};
+
+		namespace Another {
+
+			class NumArray {
+			private:
+				vector&lt;int&gt; data;
+			public:
+				NumArray(vector&lt;int&gt;& nums) {
+					data.push_back(0);
+					int sum = 0;
+					for (int v : nums) {
+						sum += v;
+						data.push_back(sum);
+					}
+				}
+
+				int sumRange(int left, int right) {
+					return data[right + 1] - data[left];
+				}
+			};
+		}
+		/**
+		 * Your NumArray object will be instantiated and called as such:
+		 * NumArray* obj = new NumArray(nums);
+		 * int param_1 = obj-&gt;sumRange(left,right);
+		 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

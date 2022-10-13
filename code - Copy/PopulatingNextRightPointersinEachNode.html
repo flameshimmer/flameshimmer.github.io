@@ -1,0 +1,143 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PopulatingNextRightPointersinEachNode</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PopulatingNextRightPointersinEachNode</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a perfect binary tree where all leaves are on the same level, and
+//every parent has two children. The binary tree has the following definition:
+//struct Node {
+//  int val;
+//  Node *left;
+//  Node *right;
+//  Node *next;
+//}
+//Populate each next pointer to point to its next right node. If there is no next
+//right node, the next pointer should be set to NULL.
+//Initially, all next pointers are set to NULL.
+// 
+//
+//Example 1:
+//Input: root = [1,2,3,4,5,6,7]
+//Output: [1,#,2,3,#,4,5,6,7,#]
+//Explanation: Given the above perfect binary tree (Figure A), your function
+//should populate each next pointer to point to its next right node, just like in
+//Figure B. The serialized output is in level order as connected by the next
+//pointers, with '#' signifying the end of each level.
+//
+//Example 2:
+//Input: root = []
+//Output: []
+// 
+//Constraints:
+//The number of nodes in the tree is in the range [0, 212 - 1].
+//-1000 &lt;= Node.val &lt;= 1000
+// 
+//Follow-up:
+//You may only use constant extra space.
+//The recursive approach is fine. You may assume implicit stack space does not
+//count as extra space for this problem.
+
+namespace Solution2022
+{
+	namespace PopulatingNextRightPointersinEachNode
+	{
+		class Node {
+		public:
+			int val;
+			Node* left;
+			Node* right;
+			Node* next;
+			Node(int v):val(v), left(nullptr), right(nullptr), next(nullptr) {}
+			Node(int v, Node* l, Node* r) :val(v), left(l), right(r), next(nullptr) {}
+			Node(int v, Node* l, Node* r, Node* n) :val(v), left(l), right(r), next(n) {}
+		};
+
+		Node* connectRecursive(Node* root) {
+			if (!root || (!root-&gt;left && !root-&gt;right)) { return root; }
+
+			root-&gt;left-&gt;next = root-&gt;right;
+			root-&gt;right-&gt;next = root-&gt;next ? root-&gt;next-&gt;left : nullptr;
+			connectRecursive(root-&gt;left);
+			connectRecursive(root-&gt;right);
+			return root;
+		}
+
+		Node* connectIterative(Node* root) {
+			if (!root) { return root; }
+
+			Node* levelStart = root;
+			while (levelStart-&gt;left) {
+				Node* cur = levelStart;
+				while (cur) {
+					cur-&gt;left-&gt;next = cur-&gt;right;
+					cur-&gt;right-&gt;next = cur-&gt;next ? cur-&gt;next-&gt;left : nullptr;
+					cur = cur-&gt;next;
+				}
+				levelStart = levelStart-&gt;left;
+			}
+			return root;
+		}
+		
+		Node* connectBFS(Node* root) {
+			if (!root) { return root; }
+
+			queue&lt;Node*&gt; q;
+			q.push(root);
+
+			while (!q.empty()) {
+				int sz = q.size();
+				Node* cur = nullptr;
+				while (sz) {
+					sz--;
+					cur = q.front();
+					q.pop();
+					cur-&gt;next = q.front();
+					if (cur-&gt;left) { q.push(cur-&gt;left); }
+					if (cur-&gt;right) { q.push(cur-&gt;right); }
+				}
+				cur-&gt;next = nullptr;
+			}
+			return root;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

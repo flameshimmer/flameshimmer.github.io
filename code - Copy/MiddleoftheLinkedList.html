@@ -1,0 +1,86 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MiddleoftheLinkedList</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MiddleoftheLinkedList</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+//Given the head of a singly linked list, return the middle node of the linked list.
+//
+//If there are two middle nodes, return the second middle node.
+//
+//
+//
+//Example 1:
+//
+//
+//Input: head = [1, 2, 3, 4, 5]
+//	Output : [3, 4, 5]
+//	Explanation : The middle node of the list is node 3.
+//	Example 2 :
+//
+//
+//	Input : head = [1, 2, 3, 4, 5, 6]
+//	Output : [4, 5, 6]
+//	Explanation : Since the list has two middle nodes with values 3 and 4, we return the second one.
+//
+//
+//	Constraints :
+//
+//	The number of nodes in the list is in the range[1, 100].
+//	1 &lt;= Node.val &lt;= 100
+namespace Solution2022
+{
+	namespace MiddleoftheLinkedList
+	{
+		ListNode* middleNode(ListNode* head) {
+			if (!head || !head-&gt;next) { return head; }
+
+			ListNode* fast = head;
+			ListNode* slow = head;
+			while (fast && fast-&gt;next) {
+				fast = fast-&gt;next-&gt;next;
+				slow = slow-&gt;next;
+			}
+			return slow;
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

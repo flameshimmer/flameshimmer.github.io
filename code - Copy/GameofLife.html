@@ -1,0 +1,196 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>GameofLife</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>GameofLife</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//According to Wikipedia's article: "The Game of Life, also known simply as Life,
+//is a cellular automaton devised by the British mathematician John Horton Conway
+//in 1970."
+//The board is made up of an m x n grid of cells, where each cell has an initial
+//state: live (represented by a 1) or dead (represented by a 0). Each cell
+//interacts with its eight neighbors (horizontal, vertical, diagonal) using the
+//following four rules (taken from the above Wikipedia article):
+//Any live cell with fewer than two live neighbors dies as if caused by
+//under-population.
+//Any live cell with two or three live neighbors lives on to the next generation.
+//Any live cell with more than three live neighbors dies, as if by
+//over-population.
+//Any dead cell with exactly three live neighbors becomes a live cell, as if by
+//reproduction.
+//The next state is created by applying the above rules simultaneously to every
+//cell in the current state, where births and deaths occur simultaneously. Given
+//the current state of the m x n grid board, return the next state.
+// 
+//
+//Example 1:
+//Input: board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]
+//Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+//
+//Example 2:
+//Input: board = [[1,1],[1,0]]
+//Output: [[1,1],[1,1]]
+// 
+//Constraints:
+//m == board.length
+//n == board[i].length
+//1 &lt;= m, n &lt;= 25
+//board[i][j] is 0 or 1.
+// 
+//Follow up:
+//Could you solve it in-place? Remember that the board needs to be updated
+//simultaneously: You cannot update some cells first and then use their updated
+//values to update other cells.
+//
+//In this question, we represent the board using a 2D array. In principle, the
+//board is infinite, which would cause problems when the active area encroaches
+//upon the border of the array (i.e., live cells reach the border). How would you
+//address these problems?
+
+namespace Solution2022
+{
+	namespace GameofLife
+	{
+		namespace InfiniteBoard {
+		//Essentially, we obtain only the live cells from the entire boardand then apply the
+		//different rules using only the live cellsand finally we update the board in - place.
+		//The only problem with this solution would be when the entire board cannot fit into
+		//memory.If that is indeed the case, then we would have to approach this problem in a
+		//different way.For that scenario, we assume that the contents of the matrix are stored
+		//in a file, one row at a time.
+
+		//In order for us to update a particular cell, we only have to look at its 8 neighbors
+		//which essentially lie in the row above and below it.So, for updating the cells of a row,
+		//we just need the row aboveand the row below.Thus, we read one row at a time from the 
+		//fileand at max we will have 3 rows in memory.We will keep discarding rows that are
+		//processed and then we will keep reading new rows from the file, one at a time.		
+		}
+
+		namespace InPlace {
+
+			int helper(vector&lt;vector&lt;int&gt;&gt;& board, int x, int y, int rowCount, int colCount) {
+				if ((x &lt; rowCount && x &gt;= 0) && (y &lt; colCount && y &gt;= 0) && (abs(board[x][y]) == 1)) { // note that this is both 1 and -1!
+					return 1;
+				}
+				return 0;
+			}
+
+			int getSum(vector&lt;vector&lt;int&gt;&gt;& board, int x, int y, int rowCount, int colCount) {
+				return helper(board, x, y - 1, rowCount, colCount) +
+					helper(board, x, y + 1, rowCount, colCount) +
+					helper(board, x - 1, y - 1, rowCount, colCount) +
+					helper(board, x - 1, y, rowCount, colCount) +
+					helper(board, x - 1, y + 1, rowCount, colCount) +
+					helper(board, x + 1, y - 1, rowCount, colCount) +
+					helper(board, x + 1, y, rowCount, colCount) +
+					helper(board, x + 1, y + 1, rowCount, colCount);
+			}
+
+			void gameOfLife(vector&lt;vector&lt;int&gt;&gt;& board) {
+				int rowCount = board.size();
+				if (rowCount == 0) { return; }
+				int colCount = board[0].size();
+				if (colCount == 0) { return; }
+				
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = 0; j &lt; colCount; j++) {
+						int liveNeighbour = getSum(board, i, j, rowCount, colCount);
+						if (board[i][j] == 1 && (liveNeighbour &lt; 2 || liveNeighbour &gt; 3)) { board[i][j] = -1; }
+						else if (board[i][j] == 0 && liveNeighbour == 3) { board[i][j] = 2; }
+					}				
+				}
+
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = 0; j &lt; colCount; j++) {
+						if (board[i][j] &gt; 0) { board[i][j] = 1; }
+						else { board[i][j] = 0; }
+					}
+				}
+			}
+		}
+
+
+		namespace CopyBoard {
+			int helper(vector&lt;vector&lt;int&gt;&gt;& board, int x, int y, int rowCount, int colCount) {
+				if (x &lt; 0 || x &gt;= rowCount || y &lt; 0 || y &gt;= colCount) { return 0; }
+				return board[x][y] == 1;
+			}
+
+			int getSum(vector&lt;vector&lt;int&gt;&gt;& board, int x, int y, int rowCount, int colCount) {
+				return helper(board, x, y - 1, rowCount, colCount) +
+					helper(board, x, y + 1, rowCount, colCount) +
+					helper(board, x - 1, y - 1, rowCount, colCount) +
+					helper(board, x - 1, y, rowCount, colCount) +
+					helper(board, x - 1, y + 1, rowCount, colCount) +
+					helper(board, x + 1, y - 1, rowCount, colCount) +
+					helper(board, x + 1, y, rowCount, colCount) +
+					helper(board, x + 1, y + 1, rowCount, colCount);
+			}
+
+			void gameOfLife(vector&lt;vector&lt;int&gt;&gt;& board) {
+				int rowCount = board.size();
+				if (rowCount == 0) { return; }
+				int colCount = board[0].size();
+				if (colCount == 0) { return; }
+
+				vector&lt;vector&lt;int&gt;&gt; sum(rowCount, vector&lt;int&gt;(colCount, 0));
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = 0; j &lt; colCount; j++) {
+						sum[i][j] = getSum(board, i, j, rowCount, colCount);
+					}
+				}
+
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = 0; j &lt; colCount; j++) {
+						if (board[i][j] == 1 && (sum[i][j] &lt; 2 || sum[i][j] &gt; 3)) {
+							board[i][j] = 0;
+						}
+						else if (board[i][j] == 0 && sum[i][j] == 3) {
+							board[i][j] = 1;
+						}
+					}
+				}
+				return;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

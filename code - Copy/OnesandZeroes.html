@@ -1,0 +1,121 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>OnesandZeroes</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>OnesandZeroes</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an array of binary strings strs and two integers m and n.
+//Return the size of the largest subset of strs such that there are at most m 0's
+//and n 1's in the subset.
+//A set x is a subset of a set y if all elements of x are also elements of y.
+// 
+//
+//Example 1:
+//Input: strs = ["10","0001","111001","1","0"], m = 5, n = 3
+//Output: 4
+//Explanation: The largest subset with at most 5 0's and 3 1's is {"10", "0001",
+//"1", "0"}, so the answer is 4.
+//Other valid but smaller subsets include {"0001", "1"} and {"10", "1", "0"}.
+//{"111001"} is an invalid subset because it contains 4 1's, greater than the
+//maximum of 3.
+//
+//Example 2:
+//Input: strs = ["10","0","1"], m = 1, n = 1
+//Output: 2
+//Explanation: The largest subset is {"0", "1"}, so the answer is 2.
+// 
+//Constraints:
+//1 &lt;= strs.length &lt;= 600
+//1 &lt;= strs[i].length &lt;= 100
+//strs[i] consists only of digits '0' and '1'.
+//1 &lt;= m, n &lt;= 100
+
+namespace Solution2022
+{
+	namespace OnesandZeroes
+	{
+		namespace LoopFromBegin {
+			int findMaxForm(vector&lt;string&gt;& strs, int m, int n) {
+				vector&lt;vector&lt;int&gt;&gt; dp = vector(m + 1, vector&lt;int&gt;(n + 1, 0));
+				for (string& s : strs) {
+
+					int zeroCount = 0;
+					int oneCount = 0;
+					for (char c : s) {
+						if (c == '0') { zeroCount++; }
+						else { oneCount++; }
+					}
+
+					auto tmp = dp;
+					for (int i = zeroCount; i &lt;= m; i++) {
+						for (int j = oneCount; j &lt;= n; j++) {
+							dp[i][j] = max(tmp[i][j], tmp[i - zeroCount][j - oneCount] + 1);
+						}
+					}
+				}
+				return dp[m][n];
+			}
+		}
+
+		namespace LoopFromEnd {
+			int findMaxForm(vector&lt;string&gt;& strs, int m, int n) {
+				vector&lt;vector&lt;int&gt;&gt; dp = vector(m + 1, vector&lt;int&gt;(n + 1, 0));
+				for (string& s : strs) {
+					int oneCount = 0;
+					int zeroCount = 0;
+					for (char c : s) {
+						if (c == '1') { oneCount++; }
+						else { zeroCount++; }
+					}
+
+					for (int i = m; i &gt;= zeroCount; i--) {
+						for (int j = n; j &gt;= oneCount; j--) {
+							dp[i][j] = max(dp[i][j], dp[i - zeroCount][j - oneCount] + 1);
+						}
+					}
+				}
+				return dp[m][n];
+			}
+		}
+
+
+		void Main() {
+			vector&lt;string&gt; test = { "10", "0001", "111001", "1", "0" };
+			//print(findMaxForm(test, 5, 3));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

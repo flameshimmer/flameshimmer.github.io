@@ -1,0 +1,153 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LongestValidParentheses</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LongestValidParentheses</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string containing just the characters '(' and ')', find the length of
+//the longest valid (well-formed) parentheses substring.
+// 
+//
+//Example 1:
+//Input: s = "(()"
+//Output: 2
+//Explanation: The longest valid parentheses substring is "()".
+//
+//Example 2:
+//Input: s = ")()())"
+//Output: 4
+//Explanation: The longest valid parentheses substring is "()()".
+//
+//Example 3:
+//Input: s = ""
+//Output: 0
+// 
+//Constraints:
+//0 &lt;= s.length &lt;= 3 * 104
+//s[i] is '(', or ')'.
+
+namespace Solution2022
+{
+	namespace LongestValidParentheses
+	{
+		namespace UseStack {
+			int longestValidParentheses(string str) {
+				int len = str.size();
+				if (len == 0) { return 0; }
+
+				stack&lt;pair&lt;char, int&gt;&gt; s;
+				int result = 0;
+				str = ")" + str;
+
+				for (int i = 0; i &lt; len + 1; i++) {
+					char c = str[i];
+
+					if (s.empty() || c == '(' || (c == ')' && s.top().first != '(')) {
+						s.push({ c, i });
+					}
+					else {
+						s.pop();
+						result = max(result, i - s.top().second);
+					}
+				}
+				return result;
+			}
+		}
+
+
+		namespace UseTwoScans {
+			int longestValidParentheses(string str) {
+				int len = str.size();
+				if (len &lt; 2) { return 0; }
+
+				int result = 0;
+				int counter = 0;
+				int curLen = 0;
+
+				for (char c : str) {
+					if (c == '(') {
+						counter++;
+						curLen++;
+					}
+					else {
+						if (counter &gt; 0) {
+							counter--;
+							curLen++;
+							if (counter == 0) {
+								result = max(result, curLen);
+							}
+						}
+						else {
+							counter = 0;
+							curLen = 0;
+						}					
+					}					
+				}
+
+				curLen = 0;
+				counter = 0;
+
+				for (int i = len - 1; i &gt;= 0; i--) {
+					char c = str[i];
+					if (c == ')') {
+						counter++;
+						curLen++;
+					}
+					else {
+						if (counter &gt; 0) {
+							counter--;
+							curLen++;
+							if (counter == 0) {
+								result = max(result, curLen);
+							}
+						} else {
+							counter = 0;
+							curLen = 0;
+						}					
+					}				
+				}
+
+				return result;
+			}		
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

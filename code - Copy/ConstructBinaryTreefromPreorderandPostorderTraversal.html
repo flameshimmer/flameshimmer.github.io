@@ -1,0 +1,130 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ConstructBinaryTreefromPreorderandPostorderTraversal</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ConstructBinaryTreefromPreorderandPostorderTraversal</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given two integer arrays, preorder and postorder where preorder is the preorder
+//traversal of a binary tree of distinct values and postorder is the postorder
+//traversal of the same tree, reconstruct and return the binary tree.
+//If there exist multiple answers, you can return any of them.
+// 
+//
+//Example 1:
+//Input: preorder = [1,2,4,5,3,6,7], postorder = [4,5,2,6,7,3,1]
+//Output: [1,2,3,4,5,6,7]
+//
+//Example 2:
+//Input: preorder = [1], postorder = [1]
+//Output: [1]
+// 
+//Constraints:
+//1 &lt;= preorder.length &lt;= 30
+//1 &lt;= preorder[i] &lt;= preorder.length
+//All the values of preorder are unique.
+//postorder.length == preorder.length
+//1 &lt;= postorder[i] &lt;= postorder.length
+//All the values of postorder are unique.
+//It is guaranteed that preorder and postorder are the preorder traversal and
+//postorder traversal of the same binary tree.
+
+namespace Solution2022
+{
+	namespace ConstructBinaryTreefromPreorderandPostorderTraversal
+	{
+		/**
+		 * Definition for a binary tree node.
+		 * struct TreeNode {
+		 *     int val;
+		 *     TreeNode *left;
+		 *     TreeNode *right;
+		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+		 * };
+		 */
+
+		TreeNode* helper(vector&lt;int&gt;& pre, int preStart, int preEnd, vector&lt;int&gt;& post, int postStart, int postEnd, unordered_map&lt;int, int&gt;& map) {
+			if (preStart &gt; preEnd) { return nullptr; }
+
+			TreeNode* root = new TreeNode(pre[preStart]);
+			if (preStart == preEnd) { return root; }
+
+			int index = map[pre[preStart + 1]];
+			int offset = index - postStart;
+			root-&gt;left = helper(pre, preStart + 1, preStart + 1 + offset, post, postStart, index, map);
+			root-&gt;right = helper(pre, preStart + 1 + offset + 1, preEnd, post, index + 1, postEnd, map);
+			return root;
+		}
+
+		TreeNode* constructFromPrePost(vector&lt;int&gt;& pre, vector&lt;int&gt;& post) {
+			int len = pre.size();
+			unordered_map&lt;int, int&gt; map;
+			for (int i = 0; i &lt; len; i++) {
+				map[post[i]] = i;
+			}
+			return helper(pre, 0, len - 1, post, 0, len - 1, map);
+		}
+
+
+		namespace Another {
+			TreeNode* helper(vector&lt;int&gt;& pre, int& preIndex, vector&lt;int&gt;& post, int& postIndex) {
+				TreeNode* root = new TreeNode(pre[preIndex]);
+				preIndex++;
+				if (root-&gt;val != post[postIndex]) {
+					root-&gt;left = helper(pre, preIndex, post, postIndex);
+				}
+				if (root-&gt;val != post[postIndex]) {
+					root-&gt;right = helper(pre, preIndex, post, postIndex);
+				}
+				postIndex++;
+				return root;
+			}
+
+			TreeNode* constructFromPrePost(vector&lt;int&gt;& pre, vector&lt;int&gt;& post) {
+				int preIndex = 0;
+				int postIndex = 0;
+				return helper(pre, preIndex, post, postIndex);
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,121 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>JumpGameIV</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>JumpGameIV</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of integers arr, you are initially positioned at the first index
+//of the array.
+//In one step you can jump from index i to index:
+//i + 1 where: i + 1 &lt; arr.length.
+//i - 1 where: i - 1 &gt;= 0.
+//j where: arr[i] == arr[j] and i != j.
+//Return the minimum number of steps to reach the last index of the array.
+//Notice that you can not jump outside of the array at any time.
+// 
+//
+//Example 1:
+//Input: arr = [100,-23,-23,404,100,23,23,23,3,404]
+//Output: 3
+//Explanation: You need three jumps from index 0 --&gt; 4 --&gt; 3 --&gt; 9. 
+//Note that
+//index 9 is the last index of the array.
+//
+//Example 2:
+//Input: arr = [7]
+//Output: 0
+//Explanation: Start index is the last index. You do not need to jump.
+//
+//Example 3:
+//Input: arr = [7,6,9,6,9,6,9,7]
+//Output: 1
+//Explanation: You can jump directly from index 0 to index 7 which is last index
+//of the array.
+// 
+//Constraints:
+//1 &lt;= arr.length &lt;= 5 * 104
+//-108 &lt;= arr[i] &lt;= 108
+
+namespace Solution2022
+{
+	namespace JumpGameIV
+	{
+	    int minJumps(vector&lt;int&gt;& arr) {
+			int len = arr.size();
+			unordered_map&lt;int, vector&lt;int&gt;&gt; map; // value, list of indexes with this value
+			for (int i = 0; i &lt; len; i++) {
+				map[arr[i]].push_back(i);
+			}
+
+			vector&lt;bool&gt; visited(len, false);
+			visited[0] = true;
+
+			queue&lt;int&gt; q; // a queue of indexes
+			q.push(0);
+			int result = 0;
+
+			while (!q.empty()) {
+				int sz = q.size();
+				while (sz) {
+					sz--;
+					int top = q.front();
+					q.pop();
+
+					if (top == len - 1) { return result; }
+					vector&lt;int&gt;& children = map[arr[top]]; // use reference here to clear out the candidates. 
+					children.push_back(top - 1);
+					children.push_back(top + 1);
+					
+					for (auto& i : children) {
+						if (i &gt;= 0 && i &lt; len && !visited[i]) {
+							q.push(i);
+							visited[i] = true;
+						}						
+					}
+					children.clear(); // without this line will exceed timelimit
+				}
+				result++;
+			}
+			return 0;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

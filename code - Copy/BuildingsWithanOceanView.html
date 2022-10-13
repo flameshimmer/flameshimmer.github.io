@@ -1,0 +1,110 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BuildingsWithanOceanView</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BuildingsWithanOceanView</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are n buildings in a line. You are given an integer array heights of size
+//n that represents the heights of the buildings in the line.
+//The ocean is to the right of the buildings. A building has an ocean view if the
+//building can see the ocean without obstructions. Formally, a building has an
+//ocean view if all the buildings to its right have a smaller height.
+//Return a list of indices (0-indexed) of buildings that have an ocean view,
+//sorted in increasing order.
+// 
+//
+//Example 1:
+//Input: heights = [4,2,3,1]
+//Output: [0,2,3]
+//Explanation: Building 1 (0-indexed) does not have an ocean view because
+//building 2 is taller.
+//
+//Example 2:
+//Input: heights = [4,3,2,1]
+//Output: [0,1,2,3]
+//Explanation: All the buildings have an ocean view.
+//
+//Example 3:
+//Input: heights = [1,3,2,4]
+//Output: [3]
+//Explanation: Only building 3 has an ocean view.
+// 
+//Constraints:
+//1 &lt;= heights.length &lt;= 105
+//1 &lt;= heights[i] &lt;= 109
+
+namespace Solution2022
+{
+	namespace BuildingsWithanOceanView
+	{
+	    vector&lt;int&gt; findBuildings(vector&lt;int&gt;& heights) {
+			vector&lt;int&gt; result;
+			int len = heights.size();
+			if (len == 0) { return result; }
+
+			int maxR = 0;
+			for(int i = len - 1; i &gt;= 0; i--) {
+				if (heights[i] &gt; maxR) {
+					result.push_back(i);
+					maxR = heights[i];
+				}			
+			}
+			reverse(result.begin(), result.end());
+			return result;
+	    }
+
+		vector&lt;int&gt; findBuildingsWithStackLikeOperation(vector&lt;int&gt;& heights) {
+			vector&lt;int&gt; result;
+			int len = heights.size();
+			if (len == 0) { return result; }
+
+			for (int i = 0; i &lt; len; i++) {
+				while (!result.empty() && heights[result.back()] &lt;= heights[i]) { // note it is &lt;= instead of &lt;
+					result.pop_back();
+				}
+				result.push_back(i);
+			}
+			return result;
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 1,3,2,4 };
+
+			print(findBuildings(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

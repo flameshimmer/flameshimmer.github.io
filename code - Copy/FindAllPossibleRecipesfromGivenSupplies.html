@@ -1,0 +1,137 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FindAllPossibleRecipesfromGivenSupplies</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FindAllPossibleRecipesfromGivenSupplies</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You have information about n different recipes. You are given a string array
+//recipes and a 2D string array ingredients. The ith recipe has the name
+//recipes[i], and you can create it if you have all the needed ingredients from
+//ingredients[i]. Ingredients to a recipe may need to be created from other
+//recipes, i.e., ingredients[i] may contain a string that is in recipes.
+//You are also given a string array supplies containing all the ingredients that
+//you initially have, and you have an infinite supply of all of them.
+//Return a list of all the recipes that you can create. You may return the answer
+//in any order.
+//
+//Note that two recipes may contain each other in their ingredients.
+// 
+//
+//Example 1:
+//Input: recipes = ["bread"], ingredients = [["yeast","flour"]], supplies =
+//["yeast","flour","corn"]
+//Output: ["bread"]
+//Explanation:
+//We can create "bread" since we have the ingredients "yeast" and "flour".
+//
+//Example 2:
+//Input: recipes = ["bread","sandwich"], ingredients =
+//[["yeast","flour"],["bread","meat"]], supplies = ["yeast","flour","meat"]
+//Output: ["bread","sandwich"]
+//Explanation:
+//We can create "bread" since we have the ingredients "yeast" and "flour".
+//We can create "sandwich" since we have the ingredient "meat" and can create the
+//ingredient "bread".
+//
+//Example 3:
+//Input: recipes = ["bread","sandwich","burger"], ingredients =
+//[["yeast","flour"],["bread","meat"],["sandwich","meat","bread"]], supplies =
+//["yeast","flour","meat"]
+//Output: ["bread","sandwich","burger"]
+//Explanation:
+//We can create "bread" since we have the ingredients "yeast" and "flour".
+//We can create "sandwich" since we have the ingredient "meat" and can create the
+//ingredient "bread".
+//We can create "burger" since we have the ingredient "meat" and can create the
+//ingredients "bread" and "sandwich".
+// 
+//Constraints:
+//n == recipes.length == ingredients.length
+//1 &lt;= n &lt;= 100
+//1 &lt;= ingredients[i].length, supplies.length &lt;= 100
+//1 &lt;= recipes[i].length, ingredients[i][j].length, supplies[k].length &lt;= 10
+//recipes[i], ingredients[i][j], and supplies[k] consist only of lowercase
+//English letters.
+//All the values of recipes and supplies combined are unique.
+//Each ingredients[i] does not contain any duplicate values.
+
+namespace Solution2022
+{
+	namespace FindAllPossibleRecipesfromGivenSupplies
+	{
+		vector&lt;string&gt; findAllRecipes(vector&lt;string&gt;& rec, vector&lt;vector&lt;string&gt;&gt;& ing, vector&lt;string&gt;& sup) {
+			unordered_set&lt;string&gt; set(sup.begin(), sup.end());
+			unordered_map&lt;string, int&gt; indegree;
+			for (string& r : rec) { indegree[r] = 0; } // NOTE: don't forget to set indegree to explict 0!
+
+			unordered_map&lt;string, vector&lt;string&gt;&gt; children;
+			for (int i = 0; i &lt; rec.size(); i++) {
+				string& r = rec[i];
+				vector&lt;string&gt;& in = ing[i];
+				for (string& item : in) {
+					if (set.find(item) == set.end()) {
+						children[item].push_back(r);
+						indegree[r]++;
+					}
+				}			
+			}
+
+			queue&lt;string&gt; q;
+			for (auto& [r, count] : indegree) {
+				if (count == 0) { q.push(r); }
+			}
+
+			vector&lt;string&gt; result;
+			while (!q.empty()) {
+				string top = q.front();
+				q.pop();
+
+				result.push_back(top);
+				for (auto& child : children[top]) {
+					indegree[child]--;
+					if (indegree[child] == 0) { q.push(child); }
+				}			
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

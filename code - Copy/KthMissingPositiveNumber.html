@@ -1,0 +1,111 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>KthMissingPositiveNumber</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>KthMissingPositiveNumber</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array arr of positive integers sorted in a strictly increasing order,
+//and an integer k.
+//Return the kth positive integer that is missing from this array.
+// 
+//
+//Example 1:
+//Input: arr = [2,3,4,7,11], k = 5
+//Output: 9
+//Explanation: The missing positive integers are [1,5,6,8,9,10,12,13,...]. The
+//5th missing positive integer is 9.
+//
+//Example 2:
+//Input: arr = [1,2,3,4], k = 2
+//Output: 6
+//Explanation: The missing positive integers are [5,6,7,...]. The 2nd missing
+//positive integer is 6.
+// 
+//Constraints:
+//1 &lt;= arr.length &lt;= 1000
+//1 &lt;= arr[i] &lt;= 1000
+//1 &lt;= k &lt;= 1000
+//arr[i] &lt; arr[j] for 1 &lt;= i &lt; j &lt;= arr.length
+// 
+//Follow up:
+//Could you solve this problem in less than O(n) complexity?
+
+namespace Solution2022
+{
+	namespace KthMissingPositiveNumber
+	{
+		namespace OLogN {
+			int findKthPositive(vector&lt;int&gt;& arr, int k) {
+				int len = arr.size();
+				int start = 0;
+				int end = len - 1;
+				while (start &lt;= end) {
+					int mid = start + (end - start) / 2;
+					if (arr[mid] - mid - 1 &lt; k) {
+						start = mid + 1;
+					}
+					else {
+						end = mid - 1;
+					}
+				}
+
+				//return arr[end] + k - (arr[end] - end - 1);
+				return k + end + 1;
+			}		
+		}
+				
+		namespace ON {
+			int findKthPositive(vector&lt;int&gt;& arr, int k) {
+				int last = 0;
+				for (int i = 0; i &lt; arr.size(); i++) {
+					int diff = arr[i] - last - 1;
+					if (diff &lt; k) { k -= diff; }
+					else {
+						return last + k;
+					}
+					last = arr[i];
+				}
+				return last + k;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

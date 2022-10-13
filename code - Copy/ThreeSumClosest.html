@@ -1,0 +1,98 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ThreeSumClosest</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ThreeSumClosest</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer array nums of length n and an integer target, find three
+//integers in nums such that the sum is closest to target.
+//Return the sum of the three integers.
+//You may assume that each input would have exactly one solution.
+// 
+//
+//Example 1:
+//Input: nums = [-1,2,1,-4], target = 1
+//Output: 2
+//Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+//
+//Example 2:
+//Input: nums = [0,0,0], target = 1
+//Output: 0
+// 
+//Constraints:
+//3 &lt;= nums.length &lt;= 1000
+//-1000 &lt;= nums[i] &lt;= 1000
+//-104 &lt;= target &lt;= 104
+
+namespace Solution2022
+{
+	namespace ThreeSumClosest
+	{
+	    int threeSumClosest(vector&lt;int&gt;& nums, int target) {
+			int len = nums.size();
+			if (len &lt; 3) { return 0; }
+
+			sort(nums.begin(), nums.end());
+
+			int result = nums[0] + nums[1] + nums[2];
+			int minDiff = abs(target - result);
+			for (int k = len - 1; k &gt;= 2; k--) {
+				int i = 0;
+				int j = k - 1;
+				while (i &lt; j) {
+					int sum = nums[i] + nums[j] + nums[k];
+					int curDiff = abs(target - sum);
+					if (curDiff == 0) { return target; }
+
+					if (curDiff &lt; minDiff) {
+						minDiff = curDiff;
+						result = sum;
+					}
+
+					if (sum &lt; target) { i++; }
+					else { j--; }
+				}			
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

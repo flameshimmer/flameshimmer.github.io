@@ -1,0 +1,183 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>StockPriceFluctuation</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>StockPriceFluctuation</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a stream of records about a particular stock. Each record
+//contains a timestamp and the corresponding price of the stock at that timestamp.
+//Unfortunately due to the volatile nature of the stock market, the records do
+//not come in order. Even worse, some records may be incorrect. Another record
+//with the same timestamp may appear later in the stream correcting the price of
+//the previous wrong record.
+//Design an algorithm that:
+//Updates the price of the stock at a particular timestamp, correcting the price
+//from any previous records at the timestamp.
+//Finds the latest price of the stock based on the current records. The latest
+//price is the price at the latest timestamp recorded.
+//Finds the maximum price the stock has been based on the current records.
+//Finds the minimum price the stock has been based on the current records.
+//Implement the StockPrice class:
+//StockPrice() Initializes the object with no price records.
+//void update(int timestamp, int price) Updates the price of the stock at the
+//given timestamp.
+//int current() Returns the latest price of the stock.
+//int maximum() Returns the maximum price of the stock.
+//int minimum() Returns the minimum price of the stock.
+// 
+//
+//Example 1:
+//Input
+//["StockPrice", "update", "update", "current", "maximum", "update", "maximum",
+//"update", "minimum"]
+//[[], [1, 10], [2, 5], [], [], [1, 3], [], [4, 2], []]
+//Output
+//[null, null, null, 5, 10, null, 5, null, 2]
+//Explanation
+//StockPrice stockPrice = new StockPrice();
+//stockPrice.update(1, 10); // Timestamps are [1] with corresponding prices [10].
+//stockPrice.update(2, 5);  // Timestamps are [1,2] with corresponding prices
+//[10,5].
+//stockPrice.current();     // return 5, the latest timestamp is 2 with the price
+//being 5.
+//stockPrice.maximum();     // return 10, the maximum price is 10 at timestamp 1.
+//stockPrice.update(1, 3);  // The previous timestamp 1 had the wrong price, so
+//it is updated to 3.
+//                          // Timestamps are [1,2] with corresponding prices
+//[3,5].
+//stockPrice.maximum();     // return 5, the maximum price is 5 after the
+//correction.
+//stockPrice.update(4, 2);  // Timestamps are [1,2,4] with corresponding prices
+//[3,5,2].
+//stockPrice.minimum();     // return 2, the minimum price is 2 at timestamp 4.
+// 
+//Constraints:
+//1 &lt;= timestamp, price &lt;= 109
+//At most 105 calls will be made in total to update, current, maximum, and
+//minimum.
+//current, maximum, and minimum will be called only after update has been called
+//at least once.
+
+namespace Solution2022
+{
+	namespace StockPriceFluctuation
+	{
+		class StockPrice {
+		private:
+			map&lt;int, int&gt; d1; //timestamp, value;
+			map&lt;int, int&gt; d2; // value, frequency of the value
+		public:
+			StockPrice() {
+			}
+
+			void update(int timestamp, int price) {
+				if (d1.find(timestamp) != d1.end()) {
+					int oldPrice = d1[timestamp];
+					d2[oldPrice]--;
+					if (d2[oldPrice]== 0) { d2.erase(oldPrice); }
+				}				
+				d2[price]++;
+				d1[timestamp] = price;
+			}
+
+			int current() {
+				return d1.rbegin()-&gt;second; 
+			}
+
+			int maximum() {
+				return d2.rbegin()-&gt;first;
+			}
+
+			int minimum() {
+				return d2.begin()-&gt;first;
+			}
+		};
+
+		namespace UsePriorityQueue {
+
+			class StockPrice {
+			private:
+				int latestTime;
+				unordered_map&lt;int, int&gt; map; // timestamp, price
+				priority_queue&lt;pair&lt;int, int&gt;&gt; maxHeap;
+				priority_queue&lt;pair&lt;int, int&gt;, vector&lt;pair&lt;int, int&gt;&gt;, greater&lt;&gt;&gt; minHeap;
+			public:
+				StockPrice() {
+					latestTime = 0;
+				}
+
+				void update(int timestamp, int price) {
+					map[timestamp] = price;
+					maxHeap.push({ price, timestamp });
+					minHeap.push({ price, timestamp });
+					latestTime = max(latestTime, timestamp);
+				}
+
+				int current() {
+					return map[latestTime];
+				}
+
+				int maximum() {
+					while (!maxHeap.empty()) {
+						auto& [price, ts] = maxHeap.top();
+						if (map[ts] != price) { maxHeap.pop(); }
+						else {
+							return price;
+						}
+					}
+					return -1;
+				}
+
+				int minimum() {
+					while (!minHeap.empty()) {
+						auto& [price, ts] = minHeap.top();
+						if (map[ts] != price) { minHeap.pop(); }
+						else {
+							return price;
+						}
+					}
+					return -1;
+				}
+			};		
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

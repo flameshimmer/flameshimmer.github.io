@@ -1,0 +1,132 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RotateImage</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RotateImage</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an n x n 2D matrix representing an image, rotate the image by 90
+//degrees (clockwise).
+//You have to rotate the image in-place, which means you have to modify the input
+//2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+// 
+//
+//Example 1:
+//Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+//Output: [[7,4,1],[8,5,2],[9,6,3]]
+//
+//Example 2:
+//Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+//Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+// 
+//Constraints:
+//n == matrix.length == matrix[i].length
+//1 &lt;= n &lt;= 20
+//-1000 &lt;= matrix[i][j] &lt;= 1000
+
+namespace Solution2022
+{
+	namespace RotateImage
+	{
+		namespace RingOfFourByRingOfFour {
+			void rotate(vector&lt;vector&lt;int&gt;&gt;& m) {
+				int a = 0;
+				int b = m.size() - 1;
+				for (int i = 0; i &lt; b - a; i++) {
+					swap(m[a][a + i], m[a + i][b]);
+					swap(m[a][a + i], m[b][b - i]);
+					swap(m[a][a + i], m[b - i][a]);
+				}
+				a++;
+				b--;			
+			}
+/*
+		Input
+		1, 2, 3
+		4, 5, 6
+		7, 8, 9
+
+
+		for-loop 1
+		swap1               swap2               swap3
+		1&lt;-&gt;3               3&lt;-&gt;9              9&lt;-&gt;7
+
+		3, 2, 1            9, 2, 1            7, 2, 1
+		4, 5, 6    =&gt;      4, 5, 6    =&gt;      4, 5, 6
+		7, 8, 9            7, 8, 3            9, 8, 3
+
+
+
+		for-loop 2
+		swap1              swap2              swap3
+		2&lt;-&gt;6              6&lt;-&gt;8              8&lt;-&gt;4
+
+		7, 6, 1            7, 8, 1            7, 4, 1
+		4, 5, 2    =&gt;      4, 5, 2    =&gt;      8, 5, 2
+		9, 8, 3            9, 6, 3            9, 6, 3
+
+
+		output
+		7, 4, 1,
+		8, 5, 2,
+		9, 6, 3,
+*/
+		}
+		namespace TransposeThenReverse {
+			void rotate(vector&lt;vector&lt;int&gt;&gt;& matrix) {
+				int rowCount = matrix.size();
+				if (rowCount == 0) { return; }
+				int colCount = matrix[0].size();
+				if (colCount == 0) { return; }
+
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = i; j &lt; colCount; j++) { // note j starts from i!!!
+						swap(matrix[i][j], matrix[j][i]);
+					}
+				}
+				for (auto& row : matrix) {
+					reverse(row.begin(), row.end());
+				}
+			}
+		}
+	    
+
+		void Main() {
+			vector&lt;vector&lt;int&gt;&gt; test = { {1,2,3},{4,5,6},{7,8,9} };
+			RingOfFourByRingOfFour::rotate(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

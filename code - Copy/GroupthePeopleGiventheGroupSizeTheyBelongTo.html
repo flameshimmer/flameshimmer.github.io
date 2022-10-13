@@ -1,0 +1,126 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>GroupthePeopleGiventheGroupSizeTheyBelongTo</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>GroupthePeopleGiventheGroupSizeTheyBelongTo</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There are n people that are split into some unknown number of groups. Each
+//person is labeled with a unique ID from 0 to n - 1.
+//You are given an integer array groupSizes, where groupSizes[i] is the size of
+//the group that person i is in. For example, if groupSizes[1] = 3, then person 1
+//must be in a group of size 3.
+//Return a list of groups such that each person i is in a group of size
+//groupSizes[i].
+//Each person should appear in exactly one group, and every person must be in a
+//group. If there are multiple answers, return any of them. It is guaranteed that
+//there will be at least one valid solution for the given input.
+// 
+//
+//Example 1:
+//Input: groupSizes = [3,3,3,3,3,1,3]
+//Output: [[5],[0,1,2],[3,4,6]]
+//Explanation: 
+//The first group is [5]. The size is 1, and groupSizes[5] = 1.
+//The second group is [0,1,2]. The size is 3, and groupSizes[0] = groupSizes[1] =
+//groupSizes[2] = 3.
+//The third group is [3,4,6]. The size is 3, and groupSizes[3] = groupSizes[4] =
+//groupSizes[6] = 3.
+//Other possible solutions are [[2,1,6],[5],[0,4,3]] and [[5],[0,6,2],[4,3,1]].
+//
+//Example 2:
+//Input: groupSizes = [2,1,3,3,3,2]
+//Output: [[1],[0,5],[2,3,4]]
+// 
+//Constraints:
+//groupSizes.length == n
+//1 &lt;= n &lt;= 500
+//1 &lt;= groupSizes[i] &lt;= n
+
+namespace Solution2022
+{
+	namespace GroupthePeopleGiventheGroupSizeTheyBelongTo
+	{
+		namespace Map {
+
+			vector&lt;vector&lt;int&gt;&gt; groupThePeople(vector&lt;int&gt;& groupSizes) {
+				vector&lt;vector&lt;int&gt;&gt; result;
+				int len = groupSizes.size();
+				if (len == 0) { return result; }
+
+				unordered_map&lt;int, vector&lt;int&gt;&gt; map;
+				for (int i = 0; i &lt; len; i++) {
+					int v = groupSizes[i];
+					map[v].push_back(i);
+					if (map[v].size() == v) {
+						result.push_back(map[v]);
+						map[v] = {};
+					}
+				}
+				return result;
+			}
+
+		}
+
+		namespace MultiMap {
+			vector&lt;vector&lt;int&gt;&gt; groupThePeople(vector&lt;int&gt;& groupSizes) {
+				vector&lt;vector&lt;int&gt;&gt; result;
+				int len = groupSizes.size();
+				if (len == 0) { return result; }
+
+				multimap&lt;int, vector&lt;int&gt;&gt; map;
+				for (int i = 0; i &lt; groupSizes.size(); i++) {
+					int v = groupSizes[i];
+					if (map.find(v) == map.end() || prev(map.equal_range(v).second)-&gt;second.size() &gt;= v) {
+						map.insert({ v, {i} });
+					}
+					else {
+						prev(map.equal_range(v).second)-&gt;second.push_back(i);
+					}
+				}
+				for (auto& [k, v] : map) {
+					result.push_back(v);
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

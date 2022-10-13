@@ -1,0 +1,120 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>DesignanOrderedStream</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>DesignanOrderedStream</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//There is a stream of n (idKey, value) pairs arriving in an arbitrary order,
+//where idKey is an integer between 1 and n and value is a string. No two pairs
+//have the same id.
+//Design a stream that returns the values in increasing order of their IDs by
+//returning a chunk (list) of values after each insertion. The concatenation of
+//all the chunks should result in a list of the sorted values.
+//Implement the OrderedStream class:
+//OrderedStream(int n) Constructs the stream to take n values.
+//String[] insert(int idKey, String value) Inserts the pair (idKey, value) into
+//the stream, then returns the largest possible chunk of currently inserted
+//values that appear next in the order.
+// 
+//
+//Example:
+//Input
+//["OrderedStream", "insert", "insert", "insert", "insert", "insert"]
+//[[5], [3, "ccccc"], [1, "aaaaa"], [2, "bbbbb"], [5, "eeeee"], [4, "ddddd"]]
+//Output
+//[null, [], ["aaaaa"], ["bbbbb", "ccccc"], [], ["ddddd", "eeeee"]]
+//Explanation
+//// 
+//Note that the values ordered by ID is ["aaaaa", "bbbbb", "ccccc", "ddddd",
+//"eeeee"].
+//OrderedStream os = new OrderedStream(5);
+//os.insert(3, "ccccc"); // Inserts (3, "ccccc"), returns [].
+//os.insert(1, "aaaaa"); // Inserts (1, "aaaaa"), returns ["aaaaa"].
+//os.insert(2, "bbbbb"); // Inserts (2, "bbbbb"), returns ["bbbbb", "ccccc"].
+//os.insert(5, "eeeee"); // Inserts (5, "eeeee"), returns [].
+//os.insert(4, "ddddd"); // Inserts (4, "ddddd"), returns ["ddddd", "eeeee"].
+//// Concatentating all the chunks returned:
+//// [] + ["aaaaa"] + ["bbbbb", "ccccc"] + [] + ["ddddd", "eeeee"] = ["aaaaa",
+//"bbbbb", "ccccc", "ddddd", "eeeee"]
+//// The resulting order is the same as the order above.
+// 
+//Constraints:
+//1 &lt;= n &lt;= 1000
+//1 &lt;= id &lt;= n
+//value.length == 5
+//value consists only of lowercase letters.
+//Each call to insert will have a unique id.
+//Exactly n calls will be made to insert.
+
+namespace Solution2022
+{
+	namespace DesignanOrderedStream
+	{
+
+		class OrderedStream {
+		private:
+			vector&lt;string&gt; data;
+			int index = 1;
+		public:
+			OrderedStream(int n) {
+				data.resize(n + 1, "");
+			}
+
+			vector&lt;string&gt; insert(int idKey, string value) {
+				data[idKey] = value;
+				vector&lt;string&gt; result;
+
+				while (index &lt; data.size() && !data[index].empty()) {
+					result.push_back(data[index]);
+					index++;
+				}
+				return result;
+			}
+		};
+
+		/**
+		 * Your OrderedStream object will be instantiated and called as such:
+		 * OrderedStream* obj = new OrderedStream(n);
+		 * vector&lt;string&gt; param_1 = obj-&gt;insert(idKey,value);
+		 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

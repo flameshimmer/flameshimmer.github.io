@@ -1,0 +1,146 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ZeroOneMatrix</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ZeroOneMatrix</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n binary matrix mat, return the distance of the nearest 0 for each
+//cell.
+//The distance between two adjacent cells is 1.
+// 
+//
+//Example 1:
+//Input: mat = [[0,0,0],[0,1,0],[0,0,0]]
+//Output: [[0,0,0],[0,1,0],[0,0,0]]
+//
+//Example 2:
+//Input: mat = [[0,0,0],[0,1,0],[1,1,1]]
+//Output: [[0,0,0],[0,1,0],[1,2,1]]
+// 
+//Constraints:
+//m == mat.length
+//n == mat[i].length
+//1 &lt;= m, n &lt;= 104
+//1 &lt;= m * n &lt;= 104
+//mat[i][j] is either 0 or 1.
+//There is at least one 0 in mat.
+
+namespace Solution2022
+{
+	namespace ZeroOneMatrix
+	{
+		vector&lt;vector&lt;int&gt;&gt; updateMatrixBFS(vector&lt;vector&lt;int&gt;&gt;& mat) {
+			int rowCount = mat.size();
+			if (rowCount == 0) { return mat; }
+			int colCount = mat[0].size();
+			if (colCount == 0) { return mat; }
+
+			vector&lt;vector&lt;int&gt;&gt; dirs = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+			vector&lt;vector&lt;int&gt;&gt; dist(rowCount, vector&lt;int&gt;(colCount, -1));
+
+			queue&lt;pair&lt;int, int&gt;&gt; q;
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					if (mat[i][j] == 0) { 
+						dist[i][j] = 0;
+						q.push({i, j});
+					}
+				}
+			}
+
+			while (!q.empty()) {
+				int x = q.front().first;
+				int y = q.front().second;
+				q.pop();
+
+				for (vector&lt;int&gt; dir : dirs) {
+					int newX = x + dir[0];
+					int newY = y + dir[1];
+
+					if (newX &gt;=0 && newX &lt; rowCount && newY &gt;=0 && newY &lt; colCount && dist[newX][newY] == -1) {
+						dist[newX][newY] = dist[x][y] + 1;
+						q.push({ newX, newY });
+					}
+				}			
+			}
+
+			return dist;
+		}
+
+		vector&lt;vector&lt;int&gt;&gt; updateMatrixDP(vector&lt;vector&lt;int&gt;&gt;& mat) {
+			int rowCount = mat.size();
+			if (rowCount == 0) { return mat; }
+			int colCount = mat[0].size();
+			if (colCount == 0) { return mat; }
+
+			vector&lt;vector&lt;int&gt;&gt; dirs = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+			vector&lt;vector&lt;int&gt;&gt; dist(rowCount, vector&lt;int&gt;(colCount, INT_MAX-10000));
+
+			for (int i = 0; i &lt; rowCount; i++) {
+				for (int j = 0; j &lt; colCount; j++) {
+					if (mat[i][j] == 0) { dist[i][j] = 0; }
+					else {
+						if (i - 1 &gt;= 0) {
+							dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1);
+						}
+						if (j - 1 &gt;= 0) {
+							dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1);
+						}
+					}
+				}
+			}
+
+			for (int i = rowCount - 1; i &gt;= 0; i--) {
+				for (int j = colCount - 1; j &gt;= 0; j--) {
+					if (i + 1 &lt; rowCount) {
+						dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1);						
+					}
+					if (j + 1 &lt; colCount) {
+						dist[i][j] = min(dist[i][j], dist[i][j+1] + 1);
+					}
+				}
+			}
+			return dist;
+		}
+
+		void Main() {
+			vector&lt;vector&lt;int&gt;&gt; test = { {0,0,0},{0,1,0},{1,1,1} };
+			print(updateMatrixDP(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

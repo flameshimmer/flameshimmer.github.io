@@ -1,0 +1,125 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>NextGreaterElementI</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>NextGreaterElementI</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//The next greater element of some element x in an array is the first greater
+//element that is to the right of x in the same array.
+//You are given two distinct 0-indexed integer arrays nums1 and nums2, where
+//nums1 is a subset of nums2.
+//For each 0 &lt;= i &lt; nums1.length, find the index j such that nums1[i] == nums2[j]
+//and determine the next greater element of nums2[j] in nums2. If there is no
+//next greater element, then the answer for this query is -1.
+//Return an array ans of length nums1.length such that ans[i] is the next greater
+//element as described above.
+// 
+//
+//Example 1:
+//Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+//Output: [-1,3,-1]
+//Explanation: The next greater element for each value of nums1 is as follows:
+//- 4 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so
+//the answer is -1.
+//- 1 is underlined in nums2 = [1,3,4,2]. The next greater element is 3.
+//- 2 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so
+//the answer is -1.
+//
+//Example 2:
+//Input: nums1 = [2,4], nums2 = [1,2,3,4]
+//Output: [3,-1]
+//Explanation: The next greater element for each value of nums1 is as follows:
+//- 2 is underlined in nums2 = [1,2,3,4]. The next greater element is 3.
+//- 4 is underlined in nums2 = [1,2,3,4]. There is no next greater element, so
+//the answer is -1.
+// 
+//Constraints:
+//1 &lt;= nums1.length &lt;= nums2.length &lt;= 1000
+//0 &lt;= nums1[i], nums2[i] &lt;= 104
+//All integers in nums1 and nums2 are unique.
+//All the integers of nums1 also appear in nums2.
+// 
+//Follow up: Could you find an O(nums1.length + nums2.length) solution?
+
+namespace Solution2022
+{
+	namespace NextGreaterElementI
+	{
+		vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;& nums1, vector&lt;int&gt;& nums2) {
+			unordered_map&lt;int, int&gt; map;
+			stack&lt;int&gt; s;
+
+			for (int v : nums2) {
+				while (!s.empty() && s.top() &lt; v) {
+					map[s.top()] = v;
+					s.pop();
+				}
+				s.push(v);
+			}
+		
+			vector&lt;int&gt; result;
+			for (int v : nums1) {
+				result.push_back(map.count(v) ? map[v] : -1);
+			}
+			return result;
+		}
+
+		namespace BruteForce {
+			vector&lt;int&gt; nextGreaterElement(vector&lt;int&gt;& nums1, vector&lt;int&gt;& nums2) {
+				vector&lt;int&gt; result;
+				for (int v : nums1) {
+					auto iter = find(nums2.begin(), nums2.end(), v);
+					while (iter != nums2.end()) {
+						if (*iter &gt; v) {
+							result.push_back(*iter);
+							iter++;
+							break;
+						}
+					}
+					if (iter == nums2.end()) { result.push_back(-1); }
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			vector&lt;int&gt; nums1 = {4, 1, 2};
+			vector&lt;int&gt; nums2 = { 1, 3, 4, 2 };
+			print(nextGreaterElement(nums1, nums2));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

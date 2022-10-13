@@ -1,0 +1,83 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PowerofFour</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PowerofFour</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer n, return true if it is a power of four. Otherwise, return
+//false.
+//An integer n is a power of four, if there exists an integer x such that n == 4x.
+// 
+//
+//Example 1:
+//Input: n = 16
+//Output: true
+//
+//Example 2:
+//Input: n = 5
+//Output: false
+//
+//Example 3:
+//Input: n = 1
+//Output: true
+// 
+//Constraints:
+//-231 &lt;= n &lt;= 231 - 1
+// 
+//Follow up: Could you solve it without loops/recursion?
+
+namespace Solution2022
+{
+	namespace PowerofFour
+	{
+	    bool isPowerOfFour(int n) {
+			double d = log10(n) / log10(4);
+			return n &gt; 0 && floor(d) == ceil(d);
+	    }
+
+		namespace Another {
+			bool isPowerOfFour(int n) {
+				return n &gt; 0 && (n & n - 1) == 0 && (n & 0x55555555) != 0;
+			}		
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

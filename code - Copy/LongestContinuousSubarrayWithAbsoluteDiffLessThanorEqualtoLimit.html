@@ -1,0 +1,101 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LongestContinuousSubarrayWithAbsoluteDiffLessThanorEqualtoLimit</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LongestContinuousSubarrayWithAbsoluteDiffLessThanorEqualtoLimit</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of integers nums and an integer limit, return the size of the
+//longest non-empty subarray such that the absolute difference between any two
+//elements of this subarray is less than or equal to limit.
+// 
+//
+//Example 1:
+//Input: nums = [8,2,4,7], limit = 4
+//Output: 2 
+//Explanation: All subarrays are: 
+//[8] with maximum absolute diff |8-8| = 0 &lt;= 4.
+//[8,2] with maximum absolute diff |8-2| = 6 &gt; 4. 
+//[8,2,4] with maximum absolute diff |8-2| = 6 &gt; 4.
+//[8,2,4,7] with maximum absolute diff |8-2| = 6 &gt; 4.
+//[2] with maximum absolute diff |2-2| = 0 &lt;= 4.
+//[2,4] with maximum absolute diff |2-4| = 2 &lt;= 4.
+//[2,4,7] with maximum absolute diff |2-7| = 5 &gt; 4.
+//[4] with maximum absolute diff |4-4| = 0 &lt;= 4.
+//[4,7] with maximum absolute diff |4-7| = 3 &lt;= 4.
+//[7] with maximum absolute diff |7-7| = 0 &lt;= 4. 
+//Therefore, the size of the longest subarray is 2.
+//
+//Example 2:
+//Input: nums = [10,1,2,4,7,2], limit = 5
+//Output: 4 
+//Explanation: The subarray [2,4,7,2] is the longest since the maximum absolute
+//diff is |2-7| = 5 &lt;= 5.
+//
+//Example 3:
+//Input: nums = [4,2,2,2,4,4,2,2], limit = 0
+//Output: 3
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 105
+//1 &lt;= nums[i] &lt;= 109
+//0 &lt;= limit &lt;= 109
+
+namespace Solution2022
+{
+	namespace LongestContinuousSubarrayWithAbsoluteDiffLessThanorEqualtoLimit
+	{
+	    int longestSubarray(vector&lt;int&gt;& nums, int limit) {
+			multiset&lt;int&gt; set;
+			int start = 0;
+			int result = 0;
+			for (int end = 0; end &lt; nums.size(); end++) {
+				set.insert(nums[end]);
+				while (*set.rbegin() - *set.begin() &gt; limit) {
+					set.erase(set.find(nums[start]));
+					start++;
+				}
+				result = max(result, end - start + 1);
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

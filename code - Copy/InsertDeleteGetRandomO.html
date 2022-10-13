@@ -1,0 +1,131 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>InsertDeleteGetRandomO</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>InsertDeleteGetRandomO</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Implement the RandomizedSet class:
+//RandomizedSet() Initializes the RandomizedSet object.
+//bool insert(int val) Inserts an item val into the set if not present. Returns
+//true if the item was not present, false otherwise.
+//bool remove(int val) Removes an item val from the set if present. Returns true
+//if the item was present, false otherwise.
+//int getRandom() Returns a random element from the current set of elements (it's
+//guaranteed that at least one element exists when this method is called). Each
+//element must have the same probability of being returned.
+//You must implement the functions of the class such that each function works in
+//average O(1) time complexity.
+// 
+//
+//Example 1:
+//Input
+//["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove",
+//"insert", "getRandom"]
+//[[], [1], [2], [2], [], [1], [2], []]
+//Output
+//[null, true, false, true, 2, true, false, 2]
+//Explanation
+//RandomizedSet randomizedSet = new RandomizedSet();
+//randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was
+//inserted successfully.
+//randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
+//randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now
+//contains [1,2].
+//randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
+//randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now
+//contains [2].
+//randomizedSet.insert(2); // 2 was already in the set, so return false.
+//randomizedSet.getRandom(); // Since 2 is the only number in the set,
+//getRandom() will always return 2.
+// 
+//Constraints:
+//-231 &lt;= val &lt;= 231 - 1
+//At most 2 * 105 calls will be made to insert, remove, and getRandom.
+//There will be at least one element in the data structure when getRandom is
+//called.
+
+namespace Solution2022
+{
+	namespace InsertDeleteGetRandomO
+	{
+		class RandomizedSet {
+		private:
+			unordered_map&lt;int, int&gt; map;
+			vector&lt;int&gt; v;
+		public:
+			RandomizedSet() {
+
+			}
+
+			bool insert(int val) {
+				if (map.find(val) != map.end()) { return false; }
+				v.push_back(val);
+				map[val] = v.size() - 1;
+				return true;
+			}
+
+			bool remove(int val) {
+				if (map.find(val) == map.end()) { return false; }
+				
+				int targetIndex = map[val];
+				map[v.back()] = targetIndex;
+				swap(v[targetIndex], v.back());
+				map.erase(val);
+				v.pop_back();
+
+				return true;
+			}
+
+			int getRandom() {
+				return v[rand() % v.size()];
+			}
+		};
+
+	/**
+	 * Your RandomizedSet object will be instantiated and called as such:
+	 * RandomizedSet* obj = new RandomizedSet();
+	 * bool param_1 = obj-&gt;insert(val);
+	 * bool param_2 = obj-&gt;remove(val);
+	 * int param_3 = obj-&gt;getRandom();
+	 */
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

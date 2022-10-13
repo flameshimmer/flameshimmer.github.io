@@ -1,0 +1,103 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>NextPalindromeUsingSameDigits</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>NextPalindromeUsingSameDigits</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a numeric string num, representing a very large palindrome.
+//Return the smallest palindrome larger than num that can be created by
+//rearranging its digits. If no such palindrome exists, return an empty string "".
+//A palindrome is a number that reads the same backward as forward.
+// 
+//
+//Example 1:
+//Input: num = "1221"
+//Output: "2112"
+//Explanation: The next palindrome larger than "1221" is "2112".
+//
+//Example 2:
+//Input: num = "32123"
+//Output: ""
+//Explanation: No palindromes larger than "32123" can be made by rearranging the
+//digits.
+//
+//Example 3:
+//Input: num = "45544554"
+//Output: "54455445"
+//Explanation: The next palindrome larger than "45544554" is "54455445".
+// 
+//Constraints:
+//1 &lt;= num.length &lt;= 105
+//num is a palindrome.
+
+namespace Solution2022
+{
+	namespace NextPalindromeUsingSameDigits
+	{
+		string nextPalindrome(string s) {
+			int len = s.size();
+			string firstHalf = s.substr(0, len / 2);
+			string mid = string(len % 2, s[len / 2]);
+			if (!next_permutation(firstHalf.begin(), firstHalf.end())) { return ""; }
+			return firstHalf + mid + string(firstHalf.rbegin(), firstHalf.rend());
+		}
+
+		namespace ManuallyImplementNextPermutation {
+			string nextPalindrome(string s) {
+				int len = s.size();
+				int j = -1;
+				int k = -1;
+				for (int i = 1; i &lt; len / 2; i++) {
+					if (s[i] &gt; s[i - 1]) { j = i - 1; }
+					if (j != -1 && s[i] &gt; s[j]) { k = i; }
+				}
+
+				if (j == -1) { return ""; }
+				swap(s[j], s[k]);
+				sort(s.begin() + j + 1, s.begin() + len / 2);
+				return s.substr(0, (len + 1) / 2) + string(s.rbegin() + (len + 1) / 2, s.rend());
+			}
+
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

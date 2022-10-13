@@ -1,0 +1,111 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ConstructBinaryTreefromPreorderandInorderTraversal</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ConstructBinaryTreefromPreorderandInorderTraversal</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given two integer arrays preorder and inorder where preorder is the preorder
+//traversal of a binary tree and inorder is the inorder traversal of the same
+//tree, construct and return the binary tree.
+// 
+//
+//Example 1:
+//Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+//Output: [3,9,20,null,null,15,7]
+//
+//Example 2:
+//Input: preorder = [-1], inorder = [-1]
+//Output: [-1]
+// 
+//Constraints:
+//1 &lt;= preorder.length &lt;= 3000
+//inorder.length == preorder.length
+//-3000 &lt;= preorder[i], inorder[i] &lt;= 3000
+//preorder and inorder consist of unique values.
+//Each value of inorder also appears in preorder.
+//preorder is guaranteed to be the preorder traversal of the tree.
+//inorder is guaranteed to be the inorder traversal of the tree.
+
+namespace Solution2022
+{
+	namespace ConstructBinaryTreefromPreorderandInorderTraversal
+	{
+		/**
+		 * Definition for a binary tree node.
+		 * struct TreeNode {
+		 *     int val;
+		 *     TreeNode *left;
+		 *     TreeNode *right;
+		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+		 * };
+		 */
+		TreeNode* helper(vector&lt;int&gt;& preorder, int& rootIndex, vector&lt;int&gt;& inorder, int start, int end, unordered_map&lt;int, int&gt;& map) {
+			if (start &gt; end || rootIndex &gt;= preorder.size()) { return nullptr; }
+
+			int rootVal = preorder[rootIndex];
+			TreeNode* newNode = new TreeNode(rootVal);
+			rootIndex++;
+
+			int i = map[rootVal];
+			newNode-&gt;left = helper(preorder, rootIndex, inorder, start, i - 1, map);
+			newNode-&gt;right = helper(preorder, rootIndex, inorder, i + 1, end, map);
+			return newNode;
+		}
+
+		TreeNode* buildTree(vector&lt;int&gt;& preorder, vector&lt;int&gt;& inorder) {
+			int len = preorder.size();
+			if (len == 0) { return nullptr; }
+
+			unordered_map&lt;int, int&gt; map;
+			for (int i = 0; i &lt; len; i++) {
+				map[inorder[i]] = i;
+			}
+
+
+			int rootIndex = 0;
+			return helper(preorder, rootIndex, inorder, 0, len, map);
+		}
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

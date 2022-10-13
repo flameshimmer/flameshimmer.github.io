@@ -1,0 +1,105 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>WordSubsets</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>WordSubsets</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given two string arrays words1 and words2.
+//A string b is a subset of string a if every letter in b occurs in a including
+//multiplicity.
+//For example, "wrr" is a subset of "warrior" but is not a subset of "world".
+//A string a from words1 is universal if for every string b in words2, b is a
+//subset of a.
+//Return an array of all the universal strings in words1. You may return the
+//answer in any order.
+// 
+//
+//Example 1:
+//Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 =
+//["e","o"]
+//Output: ["facebook","google","leetcode"]
+//
+//Example 2:
+//Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 =
+//["l","e"]
+//Output: ["apple","google","leetcode"]
+// 
+//Constraints:
+//1 &lt;= words1.length, words2.length &lt;= 104
+//1 &lt;= words1[i].length, words2[i].length &lt;= 10
+//words1[i] and words2[i] consist only of lowercase English letters.
+//All the strings of words1 are unique.
+
+namespace Solution2022
+{
+	namespace WordSubsets
+	{
+		vector&lt;int&gt; counter(string& word) {
+			vector&lt;int&gt; result(26, 0);
+			for (char c : word) { result[c - 'a']++; }
+			return result;
+		}
+
+	    vector&lt;string&gt; wordSubsets(vector&lt;string&gt;& words1, vector&lt;string&gt;& words2) {
+			vector&lt;int&gt; count(26);
+			vector&lt;int&gt; temp(26);
+
+			for (string w : words2) {
+				temp = counter(w);
+				for (int i = 0; i &lt; 26; i++) {
+					count[i] = max(count[i], temp[i]);
+				}
+			}
+
+			vector&lt;string&gt; result;
+			for (string w : words1) {
+				temp = counter(w);
+				bool qualify = true;
+				for (int i = 0; i &lt; 26; i++) {
+					if (temp[i] &lt; count[i]) { qualify = false; break; }
+				}
+				if (qualify) { result.push_back(w); }
+			}
+			return result;
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

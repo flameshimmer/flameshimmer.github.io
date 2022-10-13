@@ -1,0 +1,104 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>NumberofSquarefulArrays</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>NumberofSquarefulArrays</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//An array is squareful if the sum of every pair of adjacent elements is a
+//perfect square.
+//Given an integer array nums, return the number of permutations of nums that are
+//squareful.
+//Two permutations perm1 and perm2 are different if there is some index i such
+//that perm1[i] != perm2[i].
+// 
+//
+//Example 1:
+//Input: nums = [1,17,8]
+//Output: 2
+//Explanation: [1,8,17] and [17,8,1] are the valid permutations.
+//
+//Example 2:
+//Input: nums = [2,2,2]
+//Output: 1
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 12
+//0 &lt;= nums[i] &lt;= 109
+
+namespace Solution2022
+{
+	namespace NumberofSquarefulArrays
+	{
+		void helper(int v, int level, int len, unordered_map&lt;int, int&gt;& count, unordered_map&lt;int, unordered_set&lt;int&gt;&gt;& candidates, int& result) {
+			if (level == len) { result++; return; }
+			count[v]--;
+			for (int c : candidates[v]) {
+				if (count[c] &gt; 0) {
+					helper(c, level + 1, len, count, candidates, result);
+				}
+			}
+			count[v]++;
+		}
+
+		int numSquarefulPerms(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			unordered_map&lt;int, int&gt; count;
+			for (int v : nums) { count[v]++; }
+
+			unordered_map&lt;int, unordered_set&lt;int&gt;&gt; candidates;
+			for (auto& p1 : count) {
+				for (auto& p2 : count) { // the count[c] &gt; 0 check will ensure the usage will fit into the resource. So don't worry about p1 == p2 case here. 
+					int x = p1.first;
+					int y = p2.first;
+					int s = sqrt(x + y);
+					if (s * s == x + y) { candidates[x].insert(y); }
+				}
+			}
+
+			int result = 0;
+			for (auto& p : count) {
+				helper(p.first, 1, len, count, candidates, result); // Note: the start level is 1 instead of 0!!!!
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

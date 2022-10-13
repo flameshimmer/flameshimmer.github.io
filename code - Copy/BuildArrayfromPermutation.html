@@ -1,0 +1,140 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BuildArrayfromPermutation</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BuildArrayfromPermutation</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a zero-based permutation nums (0-indexed), build an array ans of the same
+//length where ans[i] = nums[nums[i]] for each 0 &lt;= i &lt; nums.length and return it.
+//A zero-based permutation nums is an array of distinct integers from 0 to
+//nums.length - 1 (inclusive).
+// 
+//
+//Example 1:
+//Input: nums = [0,2,1,5,3,4]
+//Output: [0,1,2,4,5,3]
+//Explanation: The array ans is built as follows: 
+//ans = [nums[nums[0]], nums[nums[1]], nums[nums[2]], nums[nums[3]],
+//nums[nums[4]], nums[nums[5]]]
+//    = [nums[0], nums[2], nums[1], nums[5], nums[3], nums[4]]
+//    = [0,1,2,4,5,3]
+//
+//Example 2:
+//Input: nums = [5,0,1,2,3,4]
+//Output: [4,5,0,1,2,3]
+//Explanation: The array ans is built as follows:
+//ans = [nums[nums[0]], nums[nums[1]], nums[nums[2]], nums[nums[3]],
+//nums[nums[4]], nums[nums[5]]]
+//    = [nums[5], nums[0], nums[1], nums[2], nums[3], nums[4]]
+//    = [4,5,0,1,2,3]
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 1000
+//0 &lt;= nums[i] &lt; nums.length
+//The elements in nums are distinct.
+// 
+//Follow-up: Can you solve it without using an extra space (i.e., O(1) memory)?
+
+namespace Solution2022
+{
+	namespace BuildArrayfromPermutation
+	{
+		namespace O1Space {
+			//The idea is to store two numbers (nums[i] and nums[nums[i]]) at the same
+			//location.
+			//The important point to be noted is that all numbers in the array are less than
+			//size of the array.
+			//
+			//Example - Lets say we have two numbers in the array a = 3 , b = 2 and the size
+			//of the array is n = 5
+			//We can store both 3 and 2 in a as follows:-
+			//a = a + b * n
+			//To get initial value of a we do a%n
+			//To get the value of b we do a/n
+			//a = a + b * n = 3 + 2*5 = 13
+			//a % n = 13 % 5 = 3
+			//a / n = 13 / 5 = 2
+			//So we will use this technique to store two numbers in one location.
+			//Why is it important that all numbers must be less than size of the array ?
+			//Its because when we do
+			//    for(int i=0;i&lt;n;i++)
+			//    {
+			//        nums[i] = nums[i] + n*(nums[nums[i]]);
+			//    }
+			//There may be cases when we have lost the value of nums[i] as it has already
+			//been replaced by nums[nums[i]].
+			//So in such cases we need to get the previous values of nums[i] or a
+			//This is done by finding nums[nums[i]] % n
+			//    for(int i=0;i&lt;n;i++)
+			//    {
+			//        nums[i] = nums[i] + n*(nums[nums[i]]%n);
+			//    }
+			//Once we have stored two numbers in each location we can simply divide each
+			//number by n to get the desired output.
+
+			vector&lt;int&gt; buildArray(vector&lt;int&gt;& nums) {
+				int n = nums.size();
+				for (int i = 0; i &lt; n; i++) {
+					nums[i] += n * (nums[nums[i]] % n);
+				}
+				
+				for (int i = 0; i &lt; n; i++) {
+					nums[i] = nums[i] / n;
+				}
+				return nums;
+			}		
+		}
+				
+		namespace OnSpace {
+			vector&lt;int&gt; buildArray(vector&lt;int&gt;& nums) {
+				int len = nums.size();
+				if (len == 0) { return {}; }
+
+				vector&lt;int&gt; result(len);
+				for (int i = 0; i &lt; len; i++) {
+					result[i] = nums[nums[i]];
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

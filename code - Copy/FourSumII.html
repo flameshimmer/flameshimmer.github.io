@@ -1,0 +1,97 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FourSumII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FourSumII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given four integer arrays nums1, nums2, nums3, and nums4 all of length n,
+//return the number of tuples (i, j, k, l) such that:
+//0 &lt;= i, j, k, l &lt; n
+//nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0
+// 
+//
+//Example 1:
+//Input: nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]
+//Output: 2
+//Explanation:
+//The two tuples are:
+//1. (0, 0, 0, 1) -&gt; nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1)
+//+ 2 = 0
+//2. (1, 1, 0, 0) -&gt; nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1)
+//+ 0 = 0
+//
+//Example 2:
+//Input: nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]
+//Output: 1
+// 
+//Constraints:
+//n == nums1.length
+//n == nums2.length
+//n == nums3.length
+//n == nums4.length
+//1 &lt;= n &lt;= 200
+//-228 &lt;= nums1[i], nums2[i], nums3[i], nums4[i] &lt;= 228
+
+namespace Solution2022
+{
+	namespace FourSumII
+	{
+		int fourSumCount(vector&lt;int&gt;& A, vector&lt;int&gt;& B, vector&lt;int&gt;& C, vector&lt;int&gt;& D) {
+			unordered_map&lt;int, int&gt; map;
+			for (int a : A) {
+				for (int b : B) {
+					map[a + b]++;
+				}
+			}
+
+
+			int result = 0;
+			for (int c : C) {
+				for (int d : D) {
+					int target = -1 * (c + d);
+					result += map[target];
+				}
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

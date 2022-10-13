@@ -1,0 +1,106 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MovingAveragefromDataStream</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MovingAveragefromDataStream</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a stream of integers and a window size, calculate the moving average of
+//all integers in the sliding window.
+//Implement the MovingAverage class:
+//MovingAverage(int size) Initializes the object with the size of the window size.
+//double next(int val) Returns the moving average of the last size values of the
+//stream.
+// 
+//
+//Example 1:
+//Input
+//["MovingAverage", "next", "next", "next", "next"]
+//[[3], [1], [10], [3], [5]]
+//Output
+//[null, 1.0, 5.5, 4.66667, 6.0]
+//Explanation
+//MovingAverage movingAverage = new MovingAverage(3);
+//movingAverage.next(1); // return 1.0 = 1 / 1
+//movingAverage.next(10); // return 5.5 = (1 + 10) / 2
+//movingAverage.next(3); // return 4.66667 = (1 + 10 + 3) / 3
+//movingAverage.next(5); // return 6.0 = (10 + 3 + 5) / 3
+// 
+//Constraints:
+//1 &lt;= size &lt;= 1000
+//-105 &lt;= val &lt;= 105
+//At most 104 calls will be made to next.
+
+namespace Solution2022
+{
+	namespace MovingAveragefromDataStream
+	{
+		class MovingAverage {
+		private:
+			int maxSize;
+			queue&lt;int&gt; q;
+			int sum;
+		public:
+			MovingAverage(int size) {
+				maxSize = size;
+				sum = 0;
+			}
+
+			double next(int val) {
+				sum += val;
+				q.push(val);
+
+				if (q.size() &gt; maxSize) {
+					sum -= q.front();
+					q.pop();
+				}
+				return (double)sum / (double)q.size();
+			}
+		};
+
+		/**
+		 * Your MovingAverage object will be instantiated and called as such:
+		 * MovingAverage* obj = new MovingAverage(size);
+		 * double param_1 = obj-&gt;next(val);
+		 */
+
+		void Main() {
+			MovingAverage* obj = new MovingAverage(3);
+			print(obj-&gt;next(1));
+			print(obj-&gt;next(10));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

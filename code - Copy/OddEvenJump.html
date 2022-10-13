@@ -1,0 +1,143 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>OddEvenJump</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>OddEvenJump</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given an integer array arr. From some starting index, you can make a
+//series of jumps. The (1st, 3rd, 5th, ...) jumps in the series are called
+//odd-numbered jumps, and the (2nd, 4th, 6th, ...) jumps in the series are called
+//even-numbered jumps. 
+//Note that the jumps are numbered, not the indices.
+//You may jump forward from index i to index j (with i &lt; j) in the following way:
+//During odd-numbered jumps (i.e., jumps 1, 3, 5, ...), you jump to the index j
+//such that arr[i] &lt;= arr[j] and arr[j] is the smallest possible value. If there
+//are multiple such indices j, you can only jump to the smallest such index j.
+//During even-numbered jumps (i.e., jumps 2, 4, 6, ...), you jump to the index j
+//such that arr[i] &gt;= arr[j] and arr[j] is the largest possible value. If there
+//are multiple such indices j, you can only jump to the smallest such index j.
+//It may be the case that for some index i, there are no legal jumps.
+//A starting index is good if, starting from that index, you can reach the end of
+//the array (index arr.length - 1) by jumping some number of times (possibly 0 or
+//more than once).
+//Return the number of good starting indices.
+// 
+//
+//Example 1:
+//Input: arr = [10,13,12,14,15]
+//Output: 2
+//Explanation: 
+//From starting index i = 0, we can make our 1st jump to i = 2 (since arr[2] is
+//the smallest among arr[1], arr[2], arr[3], arr[4] that is greater or equal to
+//arr[0]), then we cannot jump any more.
+//From starting index i = 1 and i = 2, we can make our 1st jump to i = 3, then we
+//cannot jump any more.
+//From starting index i = 3, we can make our 1st jump to i = 4, so we have
+//reached the end.
+//From starting index i = 4, we have reached the end already.
+//In total, there are 2 different starting indices i = 3 and i = 4, where we can
+//reach the end with some number of
+//jumps.
+//
+//Example 2:
+//Input: arr = [2,3,1,1,4]
+//Output: 3
+//Explanation: 
+//From starting index i = 0, we make jumps to i = 1, i = 2, i = 3:
+//During our 1st jump (odd-numbered), we first jump to i = 1 because arr[1] is
+//the smallest value in [arr[1], arr[2], arr[3], arr[4]] that is greater than or
+//equal to arr[0].
+//During our 2nd jump (even-numbered), we jump from i = 1 to i = 2 because arr[2]
+//is the largest value in [arr[2], arr[3], arr[4]] that is less than or equal to
+//arr[1]. arr[3] is also the largest value, but 2 is a smaller index, so we can
+//only jump to i = 2 and not i = 3
+//During our 3rd jump (odd-numbered), we jump from i = 2 to i = 3 because arr[3]
+//is the smallest value in [arr[3], arr[4]] that is greater than or equal to
+//arr[2].
+//We can't jump from i = 3 to i = 4, so the starting index i = 0 is not good.
+//In a similar manner, we can deduce that:
+//From starting index i = 1, we jump to i = 4, so we reach the end.
+//From starting index i = 2, we jump to i = 3, and then we can't jump anymore.
+//From starting index i = 3, we jump to i = 4, so we reach the end.
+//From starting index i = 4, we are already at the end.
+//In total, there are 3 different starting indices i = 1, i = 3, and i = 4, where
+//we can reach the end with some
+//number of jumps.
+//
+//Example 3:
+//Input: arr = [5,1,3,4,2]
+//Output: 3
+//Explanation: We can reach the end from starting indices 1, 2, and 4.
+// 
+//Constraints:
+//1 &lt;= arr.length &lt;= 2 * 104
+//0 &lt;= arr[i] &lt; 105
+
+namespace Solution2022
+{
+	namespace OddEvenJump
+	{
+		// https://www.youtube.com/watch?v=MEqDu4hA_Wo
+		int oddEvenJumps(vector&lt;int&gt;& arr) {
+			int len = arr.size();
+			vector&lt;vector&lt;int&gt;&gt; dp(len, vector&lt;int&gt;(2));
+			dp[len - 1][0] = 1;
+			dp[len - 1][1] = 1;
+
+			map&lt;int, int&gt; m;
+			m[arr[len - 1]] = len - 1;
+			int result = 1;
+
+			for (int i = len - 2; i &gt;= 0; i--) {
+				auto o = m.lower_bound(arr[i]);
+				if (o != m.end()) { dp[i][0] = dp[o-&gt;second][1]; }
+
+				auto e = m.upper_bound(arr[i]);
+				if (e != m.begin()) { dp[i][1] = dp[prev(e)-&gt;second][0]; }
+
+				if (dp[i][0] != 0) { result++; }
+				m[arr[i]] = i;
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

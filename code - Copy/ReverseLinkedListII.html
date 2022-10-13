@@ -1,0 +1,101 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ReverseLinkedListII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ReverseLinkedListII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given the head of a singly linked list and two integers left and right where
+//left &lt;= right, reverse the nodes of the list from position left to position
+//right, and return the reversed list.
+// 
+//
+//Example 1:
+//Input: head = [1,2,3,4,5], left = 2, right = 4
+//Output: [1,4,3,2,5]
+//
+//Example 2:
+//Input: head = [5], left = 1, right = 1
+//Output: [5]
+// 
+//Constraints:
+//The number of nodes in the list is n.
+//1 &lt;= n &lt;= 500
+//-500 &lt;= Node.val &lt;= 500
+//1 &lt;= left &lt;= right &lt;= n
+// 
+//Follow up: Could you do it in one pass?
+
+namespace Solution2022
+{
+	namespace ReverseLinkedListII
+	{
+		/**
+		 * Definition for singly-linked list.
+		 * struct ListNode {
+		 *     int val;
+		 *     ListNode *next;
+		 *     ListNode() : val(0), next(nullptr) {}
+		 *     ListNode(int x) : val(x), next(nullptr) {}
+		 *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+		 * };
+		 */
+		ListNode* reverseBetween(ListNode* head, int left, int right) {
+			ListNode* dummy = new ListNode(0);
+			dummy-&gt;next = head;
+			ListNode* prev = dummy;
+			for (int i = 0; i &lt; left - 1; i++) {
+				prev = prev-&gt;next;
+			}
+
+			ListNode* cur = prev-&gt;next;
+			for (int i = 0; i &lt; right - left; i++) {
+				ListNode* tmp = prev-&gt;next;
+				prev-&gt;next = cur-&gt;next;
+				cur-&gt;next = cur-&gt;next-&gt;next;
+				prev-&gt;next-&gt;next = tmp;
+			}
+			ListNode* result = dummy-&gt;next;
+			delete dummy;
+			return result;
+		}
+
+		void Main() {
+			ListNode* test = createList({ 1, 2, 3, 4, 5 });
+			print(reverseBetween(test, 2, 4));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

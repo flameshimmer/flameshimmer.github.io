@@ -67,16 +67,48 @@
 // 
 //
 //Example 1:
-//Input: grid = [[0,1],[1,0]]
-//Output: [[0,1],[1,0],[1,1],[1,1],[1,0]]
+//Input: grid = 
+[
+[0,1],
+[1,0]
+]
+//Output: 
+[
+[0,1],
+[1,0],
+[1,1],
+[1,1],
+[1,0]
+]
 //Explanation: The explanation of this example is shown below:
 //Notice that 0 represnts False and 1 represents True in the photo representing
 //the Quad-Tree.
 //
 //Example 2:
-//[[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]
+//
+[
+[1,1,1,1,0,0,0,0],
+[1,1,1,1,0,0,0,0],
+[1,1,1,1,1,1,1,1],
+[1,1,1,1,1,1,1,1],
+[1,1,1,1,0,0,0,0],
+[1,1,1,1,0,0,0,0],
+[1,1,1,1,0,0,0,0],
+[1,1,1,1,0,0,0,0]
+]
 //Output:
-//[[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]
+//
+[
+[0,1],
+[1,1],
+[0,1],
+[1,1],
+[1,0],null,null,null,null,
+[1,0],
+[1,0],
+[1,1],
+[1,1]
+]
 //Explanation: All values in the grid are not the same. We divide the grid into
 //four sub-grids.
 //The topLeft, bottomLeft and bottomRight each has the same value.

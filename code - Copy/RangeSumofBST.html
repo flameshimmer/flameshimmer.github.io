@@ -1,0 +1,113 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>RangeSumofBST</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>RangeSumofBST</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given the root node of a binary search tree and two integers low and high,
+//return the sum of values of all nodes with a value in the inclusive range [low,
+//high].
+// 
+//
+//Example 1:
+//Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+//Output: 32
+//Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+//
+//Example 2:
+//Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+//Output: 23
+//Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+// 
+//Constraints:
+//The number of nodes in the tree is in the range [1, 2 * 104].
+//1 &lt;= Node.val &lt;= 105
+//1 &lt;= low &lt;= high &lt;= 105
+//All Node.val are unique.
+
+namespace Solution2022
+{
+	namespace RangeSumofBST
+	{
+	/**
+	 * Definition for a binary tree node.
+	 * struct TreeNode {
+	 *     int val;
+	 *     TreeNode *left;
+	 *     TreeNode *right;
+	 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+	 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+	 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+	 * };
+	 */
+		namespace Recursive {
+			int rangeSumBST(TreeNode* root, int low, int high) {
+				if (!root) { return 0; }
+				int result = 0;
+				if (root-&gt;val &gt;= low && root-&gt;val &lt;= high) { result += root-&gt;val; }
+				if (root-&gt;val &gt; low) { result += rangeSumBST(root-&gt;left, low, high); }
+				if (root-&gt;val &lt; high) { result += rangeSumBST(root-&gt;right, low, high); }
+				return result;
+			}
+
+		}
+		namespace Iterative {
+			int rangeSumBST(TreeNode* root, int low, int high) {
+				if (!root) { return 0; }
+				
+				stack&lt;TreeNode*&gt; s;
+				s.push(root);
+				int result = 0;
+				
+				while (!s.empty()) {
+					TreeNode* top = s.top();
+					s.pop();
+					if (top-&gt;val &gt;= low && top-&gt;val &lt;= high) { result += top-&gt;val; }
+					if (top-&gt;val &gt; low && top-&gt;left) { s.push(top-&gt;left); }
+					if (top-&gt;val &lt; high && top-&gt;right) { s.push(top-&gt;right); }				
+				}
+				return result;
+			}
+
+		}
+	
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

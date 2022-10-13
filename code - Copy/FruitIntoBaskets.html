@@ -1,0 +1,110 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FruitIntoBaskets</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FruitIntoBaskets</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are visiting a farm that has a single row of fruit trees arranged from left
+//to right. The trees are represented by an integer array fruits where fruits[i]
+//is the type of fruit the ith tree produces.
+//You want to collect as much fruit as possible. However, the owner has some
+//strict rules that you must follow:
+//You only have two baskets, and each basket can only hold a single type of
+//fruit. There is no limit on the amount of fruit each basket can hold.
+//Starting from any tree of your choice, you must pick exactly one fruit from
+//every tree (including the start tree) while moving to the right. The picked
+//fruits must fit in one of your baskets.
+//Once you reach a tree with fruit that cannot fit in your baskets, you must stop.
+//Given the integer array fruits, return the maximum number of fruits you can
+//pick.
+// 
+//
+//Example 1:
+//Input: fruits = [1,2,1]
+//Output: 3
+//Explanation: We can pick from all 3 trees.
+//
+//Example 2:
+//Input: fruits = [0,1,2,2]
+//Output: 3
+//Explanation: We can pick from trees [1,2,2].
+//If we had started at the first tree, we would only pick from trees [0,1].
+//
+//Example 3:
+//Input: fruits = [1,2,3,2,2]
+//Output: 4
+//Explanation: We can pick from trees [2,3,2,2].
+//If we had started at the first tree, we would only pick from trees [1,2].
+// 
+//Constraints:
+//1 &lt;= fruits.length &lt;= 105
+//0 &lt;= fruits[i] &lt; fruits.length
+
+namespace Solution2022
+{
+	namespace FruitIntoBaskets
+	{
+		// similar to SubarrayswithKDifferentIntegers.
+		int totalFruit(vector&lt;int&gt;& fruits) {
+			int len = fruits.size();
+			if (len &lt;= 2) { return len; }
+
+			unordered_map&lt;int, int&gt; map;
+			int start = 0;
+			int result = 0;
+			int k = 2;
+			for (int end = 0; end &lt; len; end++) {
+				if (map[fruits[end]] == 0) {
+					k--;
+				}
+				map[fruits[end]]++;
+				while (k &lt; 0) {
+					map[fruits[start]]--;
+					if (map[fruits[start]] == 0) { k++; }
+					start++;
+				}
+				result = max(result, end - start + 1);
+			}
+			return result;
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 1, 2, 1 };
+			print(totalFruit(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

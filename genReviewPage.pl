@@ -79,7 +79,7 @@ my $i = 0;
 my $j = 0;
 my $ii = 0;
 for my $p (@allProblems) {
-	if ($i > 163) {
+	if ($i > 223) {
 		if ($ii % 20 == 0) {
 			my $date = $today->clone->add(days => $j)->ymd('/');
 			$p = "\n<h2>" . $date."</h2>\n" . $p;
@@ -138,6 +138,7 @@ sub decamelizeAndFix {
 	$str =~ s/IX/Ix/g;	
 	$str = decamelize($str);
 	$str =~ s/of\-/\-of\-/g;
+	$str =~ s/with\-/\-with\-/g;
 	$str =~ s/in\-/\-in\-/g;
 	$str =~ s/to\-/\-to\-/g;
 	$str =~ s/or\-/\-or\-/g;

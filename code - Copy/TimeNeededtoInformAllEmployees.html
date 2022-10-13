@@ -1,0 +1,112 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TimeNeededtoInformAllEmployees</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TimeNeededtoInformAllEmployees</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//A company has n employees with a unique ID for each employee from 0 to n - 1.
+//The head of the company is the one with headID.
+//Each employee has one direct manager given in the manager array where
+//manager[i] is the direct manager of the i-th employee, manager[headID] = -1.
+//Also, it is guaranteed that the subordination relationships have a tree
+//structure.
+//The head of the company wants to inform all the company employees of an urgent
+//piece of news. He will inform his direct subordinates, and they will inform
+//their subordinates, and so on until all employees know about the urgent news.
+//The i-th employee needs informTime[i] minutes to inform all of his direct
+//subordinates (i.e., After informTime[i] minutes, all his direct subordinates
+//can start spreading the news).
+//Return the number of minutes needed to inform all the employees about the
+//urgent news.
+// 
+//
+//Example 1:
+//Input: n = 1, headID = 0, manager = [-1], informTime = [0]
+//Output: 0
+//Explanation: The head of the company is the only employee in the company.
+//
+//Example 2:
+//Input: n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]
+//Output: 1
+//Explanation: The head of the company with id = 2 is the direct manager of all
+//the employees in the company and needs 1 minute to inform them all.
+//The tree structure of the employees in the company is shown.
+// 
+//Constraints:
+//1 &lt;= n &lt;= 105
+//0 &lt;= headID &lt; n
+//manager.length == n
+//0 &lt;= manager[i] &lt; n
+//manager[headID] == -1
+//informTime.length == n
+//0 &lt;= informTime[i] &lt;= 1000
+//informTime[i] == 0 if employee i has no subordinates.
+//It is guaranteed that all the employees can be informed.
+
+namespace Solution2022
+{
+	namespace TimeNeededtoInformAllEmployees
+	{
+		int numOfMinutes(int n, int headID, vector&lt;int&gt;& manager, vector&lt;int&gt;& informTime) {
+			unordered_map&lt;int, vector&lt;int&gt;&gt; children; // node, node's children
+			for (int i = 0; i &lt; n; i++) {
+				if (manager[i] == -1) { continue; }
+				children[manager[i]].push_back(i);
+			}
+
+			int result = informTime[headID];
+			queue&lt;pair&lt;int, int&gt;&gt; q; // node, time
+			q.push({ headID, informTime[headID] });
+
+			while (!q.empty()) {
+				auto [node, time] = q.front();
+				q.pop();
+
+				for (auto child : children[node]) {
+					q.push({ child, time + informTime[child] });
+					result = max(result, time + informTime[child]);
+				}
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

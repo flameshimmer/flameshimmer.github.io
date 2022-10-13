@@ -1,0 +1,132 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SpiralMatrix</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SpiralMatrix</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n matrix, return all elements of the matrix in spiral order.
+// 
+//
+//Example 1:
+//Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+//Output: [1,2,3,6,9,8,7,4,5]
+//
+//Example 2:
+//Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+//Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+// 
+//Constraints:
+//m == matrix.length
+//n == matrix[i].length
+//1 &lt;= m, n &lt;= 10
+//-100 &lt;= matrix[i][j] &lt;= 100
+
+namespace Solution2022
+{
+	namespace SpiralMatrix
+	{
+
+		vector&lt;int&gt; spiralOrder(vector&lt;vector&lt;int&gt;&gt;& M) {
+			int rowCount = M.size();
+			if (rowCount == 0) { return {}; }
+			int colCount = M[0].size();
+			if (colCount == 0) { return {}; }
+
+			vector&lt;int&gt; result;
+			vector&lt;vector&lt;int&gt;&gt; dirs = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+			vector&lt;int&gt; lens = { colCount, rowCount - 1 };
+			int i = 0;
+			int j = -1; // Note!!! Starting j at -1 position is going to save a bunch of code!!!
+			int dirIndex = 0;
+			while (lens[dirIndex % 2]) {
+				for (int k = 0; k &lt; lens[dirIndex % 2]; k++) {
+					i += dirs[dirIndex][0];
+					j += dirs[dirIndex][1];
+					result.push_back(M[i][j]);
+				}
+				lens[dirIndex % 2]--;
+				dirIndex = (dirIndex + 1) % 4;
+			}
+			return result;
+		}
+
+		namespace RemeberPrintedArea {
+			bool isLegal(int x, int y, int rowCount, int colCount, vector&lt;vector&lt;bool&gt;&gt;& visited) {
+				if (x &lt; 0 || x &gt;= rowCount || y &lt; 0 || y &gt;= colCount || visited[x][y]) { return false; }
+				return true;
+			}
+
+			vector&lt;int&gt; spiralOrder(vector&lt;vector&lt;int&gt;&gt;& M) {
+				int rowCount = M.size();
+				if (rowCount == 0) { return {}; }
+				int colCount = M[0].size();
+				if (colCount == 0) { return {}; }
+
+				vector&lt;vector&lt;bool&gt;&gt; visited(rowCount, vector&lt;bool&gt;(colCount, false));
+				vector&lt;vector&lt;int&gt;&gt; dirs = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+				vector&lt;int&gt; result;
+				int i = 0;
+				int j = -1;
+				int total = 0;
+				int dirIndex = 0;
+				while (total &lt; rowCount * colCount) {
+					int x = dirs[dirIndex][0];
+					int y = dirs[dirIndex][1];
+					if (isLegal(i + x, j + y, rowCount, colCount, visited)) {
+						i += x; j += y;
+						total++;
+						result.push_back(M[i][j]);
+						visited[i][j] = true;
+					}
+					else {
+						dirIndex = (dirIndex + 1) % 4;
+					}
+				}
+				return result;
+			}
+		}
+
+
+
+		void Main() {
+			//vector&lt;vector&lt;int&gt;&gt; test = { {1,2,3},{4,5,6},{7,8,9} };
+			vector&lt;vector&lt;int&gt;&gt; test = { {1,2,3,4},{5,6,7,8},{9,10,11,12} };
+			print(spiralOrder(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

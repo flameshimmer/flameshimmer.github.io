@@ -1,0 +1,85 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SubarraySumEqualsK</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SubarraySumEqualsK</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of integers nums and an integer k, return the total number of
+//subarrays whose sum equals to k.
+//A subarray is a contiguous non-empty sequence of elements within an array.
+// 
+//
+//Example 1:
+//Input: nums = [1,1,1], k = 2
+//Output: 2
+//
+//Example 2:
+//Input: nums = [1,2,3], k = 3
+//Output: 2
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 2 * 104
+//-1000 &lt;= nums[i] &lt;= 1000
+//-107 &lt;= k &lt;= 107
+
+namespace Solution2022
+{
+	namespace SubarraySumEqualsK
+	{
+	    int subarraySum(vector&lt;int&gt;& nums, int k) {
+			unordered_map&lt;int, int&gt; map;
+			int curSum = 0;
+			int result = 0;
+			map[0] = 1;
+
+			for (int v : nums) {
+				curSum += v;
+				int toBeFound = curSum - k;
+				if (map.find(toBeFound) != map.end()) {
+					result += map[toBeFound];
+				}
+				map[curSum] ++;
+			}
+			return result;
+	    }
+
+		void Main() {
+			vector&lt;int&gt; test = { 1,2,3 };
+			print(subarraySum(test, 3));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

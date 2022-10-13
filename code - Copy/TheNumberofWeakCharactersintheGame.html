@@ -1,0 +1,102 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TheNumberofWeakCharactersintheGame</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TheNumberofWeakCharactersintheGame</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are playing a game that contains multiple characters, and each of the
+//characters has two main properties: attack and defense. You are given a 2D
+//integer array properties where properties[i] = [attacki, defensei] represents
+//the properties of the ith character in the game.
+//A character is said to be weak if any other character has both attack and
+//defense levels strictly greater than this character's attack and defense
+//levels. More formally, a character i is said to be weak if there exists another
+//character j where attackj &gt; attacki and defensej &gt; defensei.
+//Return the number of weak characters.
+// 
+//
+//Example 1:
+//Input: properties = [[5,5],[6,3],[3,6]]
+//Output: 0
+//Explanation: No character has strictly greater attack and defense than the
+//other.
+//
+//Example 2:
+//Input: properties = [[2,2],[3,3]]
+//Output: 1
+//Explanation: The first character is weak because the second character has a
+//strictly greater attack and defense.
+//
+//Example 3:
+//Input: properties = [[1,5],[10,4],[4,3]]
+//Output: 1
+//Explanation: The third character is weak because the second character has a
+//strictly greater attack and defense.
+// 
+//Constraints:
+//2 &lt;= properties.length &lt;= 105
+//properties[i].length == 2
+//1 &lt;= attacki, defensei &lt;= 105
+
+namespace Solution2022
+{
+	namespace TheNumberofWeakCharactersintheGame
+	{
+		int numberOfWeakCharacters(vector&lt;vector&lt;int&gt;&gt;& properties) {
+			auto comp = [](vector&lt;int&gt;& a, vector&lt;int&gt;& b) {
+				if (a[0] == b[0]) { return a[1] &lt; b[1]; } // The reason to sort by inc sequence for attach equal case is because the requirement of "strictly greater". 
+				return a[0] &gt; b[0];
+			};
+
+			sort(properties.begin(), properties.end(), comp);
+
+			int result = 0;
+			int seenMaxDefense = INT_MIN;
+
+			for (vector&lt;int&gt;& p : properties) {
+				if (p[1] &lt; seenMaxDefense) { result++; }
+				seenMaxDefense = max(seenMaxDefense, p[1]);
+			}
+			return result;
+		}
+
+		void Main() {
+			vector&lt;vector&lt;int&gt;&gt; test = { {1,1},{2,1},{2,2},{1,2} };
+			print(numberOfWeakCharacters(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

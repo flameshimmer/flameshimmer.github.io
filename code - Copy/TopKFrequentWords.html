@@ -1,0 +1,98 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>TopKFrequentWords</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>TopKFrequentWords</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of strings words and an integer k, return the k most frequent
+//strings.
+//Return the answer sorted by the frequency from highest to lowest. Sort the
+//words with the same frequency by their lexicographical order.
+// 
+//
+//Example 1:
+//Input: words = ["i","love","leetcode","i","love","coding"], k = 2
+//Output: ["i","love"]
+//Explanation: "i" and "love" are the two most frequent words.
+//
+//Note that "i" comes before "love" due to a lower alphabetical order.
+//
+//Example 2:
+//Input: words = ["the","day","is","sunny","the","the","the","sunny","is","is"],
+//k = 4
+//Output: ["the","is","sunny","day"]
+//Explanation: "the", "is", "sunny" and "day" are the four most frequent words,
+//with the number of occurrence being 4, 3, 2 and 1 respectively.
+// 
+//Constraints:
+//1 &lt;= words.length &lt;= 500
+//1 &lt;= words[i] &lt;= 10
+//words[i] consists of lowercase English letters.
+//k is in the range [1, The number of unique words[i]]
+// 
+//Follow-up: Could you solve it in O(n log(k)) time and O(n) extra space?
+
+namespace Solution2022
+{
+	namespace TopKFrequentWords
+	{
+		vector&lt;string&gt; topKFrequent(vector&lt;string&gt;& words, int k) {
+			unordered_map&lt;string, int&gt; map;
+			for (string& w : words) { map[w]++; }
+
+			auto comp = [](pair&lt;string, int&gt;& p1, pair&lt;string, int&gt;& p2) {
+				if (p1.second == p2.second) { return p1.first &lt; p2.first; }
+				else { return p1.second &gt; p2.second; }
+			};
+
+			priority_queue&lt;pair&lt;string, int&gt;, vector&lt;pair&lt;string, int&gt;&gt;, decltype(comp)&gt; pq(comp);
+			for (auto& p : map) { pq.push(p); if (pq.size() &gt; k) { pq.pop(); } }
+
+			vector&lt;string&gt; result;
+			while (!pq.empty()) {
+				result.insert(result.begin(), pq.top().first);
+				pq.pop();
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

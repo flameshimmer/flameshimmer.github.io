@@ -1,0 +1,94 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MinimumSizeSubarraySum</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MinimumSizeSubarraySum</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array of positive integers nums and a positive integer target, return
+//the minimal length of a contiguous subarray [numsl, numsl+1, ..., numsr-1,
+//numsr] of which the sum is greater than or equal to target. If there is no such
+//subarray, return 0 instead.
+// 
+//
+//Example 1:
+//Input: target = 7, nums = [2,3,1,2,4,3]
+//Output: 2
+//Explanation: The subarray [4,3] has the minimal length under the problem
+//constraint.
+//
+//Example 2:
+//Input: target = 4, nums = [1,4,4]
+//Output: 1
+//
+//Example 3:
+//Input: target = 11, nums = [1,1,1,1,1,1,1,1]
+//Output: 0
+// 
+//Constraints:
+//1 &lt;= target &lt;= 109
+//1 &lt;= nums.length &lt;= 105
+//1 &lt;= nums[i] &lt;= 105
+// 
+//Follow up: If you have figured out the O(n) solution, try coding another
+//solution of which the time complexity is O(n log(n)).
+
+namespace Solution2022
+{
+	namespace MinimumSizeSubarraySum
+	{
+		int minSubArrayLen(int target, vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			int sum = 0;
+			int start = 0;
+			int result = INT_MAX;
+			for (int end = 0; end &lt; len; end++) {
+				sum += nums[end];
+				while (start &lt;= end && sum &gt;= target) {
+					result = min(result, end - start + 1);
+					sum -= nums[start];
+					start++;
+				}
+			}
+			return result == INT_MAX ? 0 : result;
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 2,3,1,2,4,3 };
+			print(minSubArrayLen(7, test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

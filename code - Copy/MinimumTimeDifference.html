@@ -1,0 +1,85 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MinimumTimeDifference</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MinimumTimeDifference</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a list of 24-hour clock time points in "HH:MM" format, return the minimum
+//minutes difference between any two time-points in the list.
+// 
+//
+//Example 1:
+//Input: timePoints = ["23:59","00:00"]
+//Output: 1
+//
+//Example 2:
+//Input: timePoints = ["00:00","23:59","00:00"]
+//Output: 0
+// 
+//Constraints:
+//2 &lt;= timePoints.length &lt;= 2 * 104
+//timePoints[i] is in the format "HH:MM".
+
+namespace Solution2022
+{
+	namespace MinimumTimeDifference
+	{
+	    int findMinDifference(vector&lt;string&gt;& timePoints) {
+			int len = timePoints.size();
+			if (len == 0) { return 0; }
+
+			vector&lt;int&gt; times;
+			for (string& t : timePoints) {
+				int time = stoi(t.substr(0, 2)) * 60 + stoi(t.substr(3, 2));
+				times.push_back(time);
+			}
+			sort(times.begin(), times.end());
+			times.push_back(24 * 60 + times.front()); // Note: this needs 1440 to plus the first value!
+
+			int result = INT_MAX;
+			for (int i = 1; i &lt; len + 1; i++) {
+				result = min(result, times[i] - times[i - 1]);
+			}
+			return result;
+	    }
+
+		void Main() {
+			vector&lt;string&gt; test = {"05:31", "22:08", "00:35"};
+			print(findMinDifference(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

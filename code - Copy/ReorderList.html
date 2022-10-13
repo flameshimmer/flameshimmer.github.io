@@ -1,0 +1,166 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ReorderList</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ReorderList</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given the head of a singly linked-list. The list can be represented as:
+//L0 → L1 → … → Ln - 1 → Ln
+//Reorder the list to be on the following form:
+//L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+//You may not modify the values in the list's nodes. Only nodes themselves may be
+//changed.
+// 
+//
+//Example 1:
+//Input: head = [1,2,3,4]
+//Output: [1,4,2,3]
+//
+//Example 2:
+//Input: head = [1,2,3,4,5]
+//Output: [1,5,2,4,3]
+// 
+//Constraints:
+//The number of nodes in the list is in the range [1, 5 * 104].
+//1 &lt;= Node.val &lt;= 1000
+
+namespace Solution2022
+{
+	namespace ReorderList
+	{
+		/**
+		 * Definition for singly-linked list.
+		 * struct ListNode {
+		 *     int val;
+		 *     ListNode *next;
+		 *     ListNode() : val(0), next(nullptr) {}
+		 *     ListNode(int x) : val(x), next(nullptr) {}
+		 *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+		 * };
+		 */
+
+		namespace ThreeSteps {
+
+			ListNode* getMid(ListNode* head) {
+				ListNode* slow = head;
+				ListNode* fast = head-&gt;next;
+				while (fast && fast-&gt;next) {
+					slow = slow-&gt;next;
+					fast = fast-&gt;next-&gt;next;
+				}
+				return slow;
+			}
+
+			ListNode* reverse(ListNode* head) {
+				if (!head || !head-&gt;next) { return head; }
+				ListNode* cur = head;
+				ListNode* next = head-&gt;next;
+				ListNode* nN;
+				cur-&gt;next = nullptr;
+				while (next) {
+					nN = next-&gt;next;
+					next-&gt;next = cur;
+					cur = next;
+					next = nN;
+				}
+				return cur;
+			}
+
+			void reorderList(ListNode* head) {
+				if (!head || !head-&gt;next) { return; }
+
+				ListNode* mid = getMid(head);
+				ListNode* first = head;
+				ListNode* second = mid-&gt;next;
+				mid-&gt;next = nullptr;
+
+				second = reverse(second);
+
+				ListNode* resultHead = nullptr;
+				ListNode* resultTail = nullptr;
+				int i = 0;
+				while (first && second) {
+					ListNode* node = first;
+					if (i % 2) { node = second; }
+
+					if (!resultHead) { resultHead = node; }
+					else { resultTail-&gt;next = node; }
+					resultTail = node;
+
+					if (node == first) { first = first-&gt;next; }
+					else { second = second-&gt;next; }
+					i++;
+				}
+				if (first || second) {
+					resultTail-&gt;next = first ? first : second;
+				}
+			}
+		}
+
+
+		namespace UseStack {
+
+			void reorderList(ListNode* head) {
+				if (!head || !head-&gt;next || !head-&gt;next-&gt;next) { return; }
+
+				stack&lt;ListNode*&gt; s;
+				ListNode* cur = head;
+				int size = 0;
+				while (cur) {
+					s.push(cur);
+					cur = cur-&gt;next;
+					size++;
+				}
+
+				cur = head;
+				ListNode* next;
+				for (int i = 0; i &lt; size / 2; i++) {
+					next = cur-&gt;next;
+					cur-&gt;next = s.top();
+					s.pop();
+					cur-&gt;next-&gt;next = next;
+					cur = next;
+				}
+				cur-&gt;next = nullptr;
+			}
+
+		}
+		void Main() {
+			ThreeSteps::reorderList(createList({ 1, 2, 3, 4, 5 }));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

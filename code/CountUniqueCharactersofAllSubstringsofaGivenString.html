@@ -63,22 +63,28 @@
 
 namespace Solution2022
 {
+	/*X X X X A [X X A X X] A X X
+		      j      i      k
+		contribution of a char == (i - j)* (k - i)*/
+
+	//https://www.youtube.com/watch?v=NngeskF1wsw
 	namespace CountUniqueCharactersofAllSubstringsofaGivenString
 	{
 	    int uniqueLetterString(string s) {
-			vector&lt;vector&lt;int&gt;&gt; index(26, vector&lt;int&gt;(2, -1));
 			int len = s.size();
-			int mod = pow(10, 9) + 7;
-			int result = 0;
-			for (int i = 0; i &lt; len; i++) {
-				int c = s[i] - 'A';
-				result = (result + (i - index[c][1]) * (index[c][1] - index[c][0]) % mod) % mod;
-				index[c][0] = index[c][1];
-				index[c][1] = i;
-			}
+			vector&lt;vector&lt;int&gt;&gt; pos(26, vector&lt;int&gt;());
 
-			for (int c = 0; c &lt; 26; c++) {
-				result = (result + (len - index[c][1]) * (index[c][1] - index[c][0]) % mod) % mod;
+			for (int i = 0; i &lt; 26; i++) { pos[i].push_back(-1); }
+			for (int i = 0; i &lt; len; i++) {
+				pos[s[i] - 'A'].push_back(i);
+			}
+			for (int i = 0; i &lt; 26; i++) { pos[i].push_back(len); }
+
+			int result = 0;
+			for (int i = 0; i &lt; 26; i++) {
+				for (int j = 1; j &lt; pos[i].size() - 1; j++) {
+					result += (pos[i][j] - pos[i][j-1]) * (pos[i][j + 1] - pos[i][j]);
+				}
 			}
 			return result;
 	    }

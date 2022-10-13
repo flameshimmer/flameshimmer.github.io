@@ -1,0 +1,111 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FindTargetIndicesAfterSortingArray</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FindTargetIndicesAfterSortingArray</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a 0-indexed integer array nums and a target element target.
+//A target index is an index i such that nums[i] == target.
+//Return a list of the target indices of nums after sorting nums in
+//non-decreasing order. If there are no target indices, return an empty list. The
+//returned list must be sorted in increasing order.
+// 
+//
+//Example 1:
+//Input: nums = [1,2,5,2,3], target = 2
+//Output: [1,2]
+//Explanation: After sorting, nums is [1,2,2,3,5].
+//The indices where nums[i] == 2 are 1 and 2.
+//
+//Example 2:
+//Input: nums = [1,2,5,2,3], target = 3
+//Output: [3]
+//Explanation: After sorting, nums is [1,2,2,3,5].
+//The index where nums[i] == 3 is 3.
+//
+//Example 3:
+//Input: nums = [1,2,5,2,3], target = 5
+//Output: [4]
+//Explanation: After sorting, nums is [1,2,2,3,5].
+//The index where nums[i] == 5 is 4.
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 100
+//1 &lt;= nums[i], target &lt;= 100
+
+namespace Solution2022
+{
+	namespace FindTargetIndicesAfterSortingArray
+	{
+
+		namespace ON {
+			// count the number of num that is smaller and equal
+			vector&lt;int&gt; targetIndices(vector&lt;int&gt;& nums, int target) {
+				int smallerCount = 0;
+				int count = 0;
+
+				for (int v : nums) {
+					count += v == target;
+					smallerCount += v &lt; target;
+				}
+
+				vector&lt;int&gt; result;
+				for (int i = smallerCount; i &lt; smallerCount + count; i++) { result.push_back(i); }
+				return result;
+			}
+		}
+
+		namespace ONLogN {
+			vector&lt;int&gt; targetIndices(vector&lt;int&gt;& nums, int target) {
+				vector&lt;int&gt; result;
+				int len = nums.size();
+				if (len == 0) { return result; }
+				sort(nums.begin(), nums.end());
+				auto it = lower_bound(nums.begin(), nums.end(), target);
+				if (it == nums.end()) { return result; }
+
+				while (it != nums.end() && *it == target) { result.push_back(it - nums.begin()); it++; }
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

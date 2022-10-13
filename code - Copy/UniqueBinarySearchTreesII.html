@@ -1,0 +1,108 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>UniqueBinarySearchTreesII</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>UniqueBinarySearchTreesII</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an integer n, return all the structurally unique BST's (binary search
+//trees), which has exactly n nodes of unique values from 1 to n. Return the
+//answer in any order.
+// 
+//
+//Example 1:
+//Input: n = 3
+//Output: [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
+//
+//Example 2:
+//Input: n = 1
+//Output: [[1]]
+// 
+//Constraints:
+//1 &lt;= n &lt;= 8
+
+namespace Solution2022
+{
+	namespace UniqueBinarySearchTreesII
+	{
+		/**
+		 * Definition for a binary tree node.
+		 * struct TreeNode {
+		 *     int val;
+		 *     TreeNode *left;
+		 *     TreeNode *right;
+		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+		 * };
+		 */
+		TreeNode* deepCopyTree(TreeNode* root) {
+			if (!root) { return nullptr; }
+			TreeNode* newRoot = new TreeNode(root-&gt;val);
+			newRoot-&gt;left = deepCopyTree(root-&gt;left);
+			newRoot-&gt;right = deepCopyTree(root-&gt;right);
+			return newRoot;
+		}
+
+		vector&lt;TreeNode*&gt; helper(int start, int end) {
+			if (start &gt; end) { return { nullptr }; }
+
+			vector&lt;TreeNode*&gt; result;
+			for (int i = start; i &lt;= end; i++) {
+				vector&lt;TreeNode*&gt; left = helper(start, i - 1);
+				vector&lt;TreeNode*&gt; right = helper(i + 1, end);
+				for (TreeNode* l : left) {
+					for (TreeNode* r : right) {
+						TreeNode* root = new TreeNode(i);
+						root-&gt;left = deepCopyTree(l);
+						root-&gt;right = deepCopyTree(r);
+						result.push_back(root);
+					}
+				}
+			}
+			return result;
+		}
+
+		vector&lt;TreeNode*&gt; generateTrees(int n) {
+			return helper(1, n);
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

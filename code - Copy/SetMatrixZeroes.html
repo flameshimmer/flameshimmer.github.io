@@ -1,0 +1,117 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SetMatrixZeroes</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SetMatrixZeroes</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n integer matrix matrix, if an element is 0, set its entire row
+//and column to 0's.
+//You must do it in place.
+// 
+//
+//Example 1:
+//Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+//Output: [[1,0,1],[0,0,0],[1,0,1]]
+//
+//Example 2:
+//Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+//Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+// 
+//Constraints:
+//m == matrix.length
+//n == matrix[0].length
+//1 &lt;= m, n &lt;= 200
+//-231 &lt;= matrix[i][j] &lt;= 231 - 1
+// 
+//Follow up:
+//A straightforward solution using O(mn) space is probably a bad idea.
+//A simple improvement uses O(m + n) space, but still not the best solution.
+//Could you devise a constant space solution?
+
+namespace Solution2022
+{
+	namespace SetMatrixZeroes
+	{
+		// Record whether the row/col should be 0 in the first row/col, 
+		// use two bool to record whether the first row/col should be 0 separately. 
+
+	    void setZeroes(vector&lt;vector&lt;int&gt;&gt;& matrix) {
+			int rowCount = matrix.size();
+			int colCount = matrix[0].size();
+
+			bool firstRowZero = false;
+			for (int i = 0; i &lt; colCount; i++) {
+				if (matrix[0][i] == 0) { firstRowZero = true; break; }
+			}
+
+			bool firstColZero = false;
+			for (int i = 0; i &lt; rowCount; i++) {
+				if (matrix[i][0] == 0) { firstColZero = true; break; }
+			}
+
+			for (int i = 1; i &lt; rowCount; i++) {
+				for (int j = 1; j &lt; colCount; j++) {
+					if (matrix[i][j] == 0) {
+						matrix[0][j] = 0;
+						matrix[i][0] = 0;
+					}
+				}
+			}
+
+			for (int i = 1; i &lt; rowCount; i++) {
+				for (int j = 1; j &lt; colCount; j++) {
+					if (matrix[0][j] == 0 || matrix[i][0] == 0) {
+						matrix[i][j] = 0;
+					}
+				}
+			}
+
+			if (firstRowZero) {
+				fill(matrix[0].begin(), matrix[0].end(), 0);
+			}
+
+			if (firstColZero) {
+				for (int i = 0; i &lt; rowCount; i++) { matrix[i][0] = 0; }
+			}
+	    }
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

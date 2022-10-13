@@ -1,0 +1,120 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>BasicCalculator</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>BasicCalculator</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s representing a valid expression, implement a basic calculator
+//to evaluate it, and return the result of the evaluation.
+//
+//Note: You are not allowed to use any built-in function which evaluates strings
+//as mathematical expressions, such as eval().
+// 
+//
+//Example 1:
+//Input: s = "1 + 1"
+//Output: 2
+//
+//Example 2:
+//Input: s = " 2-1 + 2 "
+//Output: 3
+//
+//Example 3:
+//Input: s = "(1+(4+5+2)-3)+(6+8)"
+//Output: 23
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 3 * 105
+//s consists of digits, '+', '-', '(', ')', and ' '.
+//s represents a valid expression.
+//'+' is not used as a unary operation (i.e., "+1" and "+(2 + 3)" is invalid).
+//'-' could be used as a unary operation (i.e., "-1" and "-(2 + 3)" is valid).
+//There will be no two consecutive operators in the input.
+//Every number and running calculation will fit in a signed 32-bit integer.
+
+namespace Solution2022
+{
+	namespace BasicCalculator
+	{
+		int calculate(string str) {
+			int len = str.size();
+			if (len == 0) { return 0; }
+
+			int local = 1; // immediate sign associated with a number
+			int global = 1; // global sign
+			int result = 0;
+			stack&lt;int&gt; s;
+
+			for (int i = 0; i &lt; len; i++) {
+				char c = str[i];
+				switch (c) {
+				case '+':
+				case ' ':
+					break;
+				case '-':
+					local = -1;
+					break;
+				case '(':
+					s.push(local);
+					global *= local;
+					local = 1;
+					break;
+				case ')':
+					global /= s.top();
+					s.pop();
+					local = 1;
+					break;
+				default:
+					long long val = 0;
+					while (i &lt; len && isdigit(str[i])) {
+						val = val * 10 + str[i] - '0';
+						i++;
+					}
+					i--;
+					result += global * local * val;
+					local = 1;
+				}
+			}
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

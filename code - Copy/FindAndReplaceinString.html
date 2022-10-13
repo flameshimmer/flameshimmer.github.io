@@ -1,0 +1,119 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>FindAndReplaceinString</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>FindAndReplaceinString</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a 0-indexed string s that you must perform k replacement
+//operations on. The replacement operations are given as three 0-indexed parallel
+//arrays, indices, sources, and targets, all of length k.
+//To complete the ith replacement operation:
+//Check if the substring sources[i] occurs at index indices[i] in the original
+//string s.
+//If it does not occur, do nothing.
+//Otherwise if it does occur, replace that substring with targets[i].
+//For example, if s = "abcd", indices[i] = 0, sources[i] = "ab", and targets[i] =
+//"eee", then the result of this replacement will be "eeecd".
+//All replacement operations must occur simultaneously, meaning the replacement
+//operations should not affect the indexing of each other. The testcases will be
+//generated such that the replacements will not overlap.
+//For example, a testcase with s = "abc", indices = [0, 1], and sources =
+//["ab","bc"] will not be generated because the "ab" and "bc" replacements
+//overlap.
+//Return the resulting string after performing all replacement operations on s.
+//A substring is a contiguous sequence of characters in a string.
+// 
+//
+//Example 1:
+//Input: s = "abcd", indices = [0, 2], sources = ["a", "cd"], targets = ["eee",
+//"ffff"]
+//Output: "eeebffff"
+//Explanation:
+//"a" occurs at index 0 in s, so we replace it with "eee".
+//"cd" occurs at index 2 in s, so we replace it with "ffff".
+//
+//Example 2:
+//Input: s = "abcd", indices = [0, 2], sources = ["ab","ec"], targets =
+//["eee","ffff"]
+//Output: "eeecd"
+//Explanation:
+//"ab" occurs at index 0 in s, so we replace it with "eee".
+//"ec" does not occur at index 2 in s, so we do nothing.
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 1000
+//k == indices.length == sources.length == targets.length
+//1 &lt;= k &lt;= 100
+//0 &lt;= indexes[i] &lt; s.length
+//1 &lt;= sources[i].length, targets[i].length &lt;= 50
+//s consists of only lowercase English letters.
+//sources[i] and targets[i] consist of only lowercase English letters.
+
+namespace Solution2022
+{
+	namespace FindAndReplaceinString
+	{
+	    string findReplaceString(string s, vector&lt;int&gt;& indices, vector&lt;string&gt;& sources, vector&lt;string&gt;& targets) {
+			vector&lt;pair&lt;int, int&gt;&gt; sorted;
+			for (int i = 0; i &lt; indices.size(); i++) {
+				sorted.push_back({ indices[i], i }); // Note: need to replace from the back to the front to avoid index
+			}
+
+			// same as sort(sorted.begin(), sorted.end(), greater&lt;pair&lt;int, int&gt;&gt;());
+			sort(sorted.rbegin(), sorted.rend());
+
+			string result = s;
+			for (auto& [i1, i2] : sorted) {
+				string& s1 = sources[i2];
+				string& s2 = targets[i2];
+				int len1 = s1.size();
+				
+				if (s.substr(i1, len1) != s1) { continue; }
+				result = result.substr(0, i1) + s2 + result.substr(i1 + len1);			
+			}
+			return result;
+	    }
+
+		void Main() {
+			vector&lt;int&gt; v1 = { 0, 2 };
+			vector&lt;string&gt; v2 = { "a", "cd" };
+			vector&lt;string&gt; v3 = { "eee", "ffff" };
+
+			print(findReplaceString("abcd", v1, v2, v3));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,116 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>LongestDuplicateSubstring</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>LongestDuplicateSubstring</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s, consider all duplicated substrings: (contiguous) substrings
+//of s that occur 2 or more times. The occurrences may overlap.
+//Return any duplicated substring that has the longest possible length. If s does
+//not have a duplicated substring, the answer is "".
+// 
+//
+//Example 1:
+//Input: s = "banana"
+//Output: "ana"
+//
+//Example 2:
+//Input: s = "abcd"
+//Output: ""
+// 
+//Constraints:
+//2 &lt;= s.length &lt;= 3 * 104
+//s consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace LongestDuplicateSubstring
+	{
+		typedef uint64_t ULL;
+		unordered_map&lt;int, int&gt;len2start;
+
+		bool found(string& s, int len) {
+			unordered_set&lt;ULL&gt; set;
+			ULL base = 31;
+			ULL hash = 0;
+
+			ULL powBaseLen = 1;
+			for (int i = 0; i &lt; len; i++) { powBaseLen *= base; }
+
+			for (int i = 0; i &lt; s.size(); i++) {
+				hash = hash * base + (s[i] - 'a');
+				if (i &gt;= len) {
+					hash -= powBaseLen * (s[i - len] - 'a');  // i - ? + 1 = len + 1, thus ? = i-len
+				}
+
+				if (i &gt;= len - 1) {
+					if (set.find(hash) != set.end()) {
+						len2start[len] = i - len + 1; // i - ? + 1 = len, thus ? = i-len + 1
+						return true;
+					}
+					set.insert(hash);
+				}
+			}
+			return false;
+		}
+
+		string longestDupSubstring(string s) {
+			int left = 1;
+			int right = s.size() - 1;
+			while (left &lt; right) {
+				int mid = right - (right - left) / 2;
+				if (found(s, mid)) {
+					left = mid;
+				}
+				else {
+					right = mid - 1;
+				}
+			}
+			if (found(s, left)) {
+				return s.substr(len2start[left], left);
+			}
+			return "";
+		}
+
+
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
