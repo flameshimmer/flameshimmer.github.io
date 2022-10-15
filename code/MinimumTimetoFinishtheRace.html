@@ -34,7 +34,7 @@
 //indicates that the ith tire can finish its xth successive lap in fi * ri(x-1)
 //seconds.
 //For example, if fi = 3 and ri = 2, then the tire would finish its 1st lap in 3
-//seconds, its 2nd lap in 3 * 2 = 6 seconds, its 3rd lap in 3 * 22 = 12 seconds,
+//seconds, its 2nd lap in 3 * 2 = 6 seconds, its 3rd lap in 3 * 2 * 2 = 12 seconds,
 //etc.
 //You are also given an integer changeTime and an integer numLaps.
 //The race consists of numLaps laps and you may start the race with any tire. You
@@ -87,6 +87,19 @@
 
 namespace Solution2022
 {
+//Intuition: We have a lot of tires, but the number of laps is limited to 1000.
+//
+//We first compute how long it takes to finish n laps with each tire without changing it.
+//
+//Optimization : it only makes sense to use a tire while the lap time is less than fi + changeTime.
+//
+//We track the best time to complete i laps, across all tires, in the best array.
+//
+//After that, we run DFS, memoising it by the number of laps to race(dp) :
+//
+//For remaining laps, we find the best time by trying to race i laps, change a tire, and recurse on laps - i remaining laps.
+//For i laps, we pick the best time to finish those laps.
+	
 	namespace MinimumTimetoFinishtheRace
 	{	
 		long long  dp[1001] = {};

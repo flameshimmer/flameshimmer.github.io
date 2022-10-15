@@ -133,13 +133,16 @@ namespace Solution2022
 					int yy = y + dirs[dir][1];
 					if (visited.find(to_string(xx) + "_" + to_string(yy)) == visited.end() && robot.move()) {
 						helper(robot, xx, yy, dir, visited);
-
+						
+						// Reset back to original location before move
 						robot.turnRight();
 						robot.turnRight();
 						robot.move();
+						// Reset back to original diretion before move
 						robot.turnRight();
 						robot.turnRight();
 					}
+					// Need to turn right before able to change direction. 
 					robot.turnRight();
 					dir = (dir + 1) % 4;
 				}

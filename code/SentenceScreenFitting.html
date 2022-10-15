@@ -74,6 +74,8 @@ namespace Solution2022
 {
 	namespace SentenceScreenFitting
 	{
+	    //https://leetcode.com/problems/sentence-screen-fitting/discuss/90845/21ms-18-lines-Java-solution
+		
 		int wordsTyping(vector&lt;string&gt;& sentence, int rows, int cols) {
 			string s = "";
 			for (string& sen : sentence) { s += sen + " "; }
@@ -82,9 +84,9 @@ namespace Solution2022
 			int start = 0;
 			for (int i = 0; i &lt; rows; i++) {
 				start += cols;
-				if (s[start % len] == ' ') { start++; }
+				if (s[start % len] == ' ') { start++; } // if we land on a space, set start to the first non-space forward
 				else {
-					while (start - 1 &gt;= 0 && s[(start - 1) % len] != ' ') { start--; }
+					while (start - 1 &gt;= 0 && s[(start - 1) % len] != ' ') { start--; } // if we land in the middle of a word, backspace start until the previous char is a space
 				}
 			}
 			return start / len;
