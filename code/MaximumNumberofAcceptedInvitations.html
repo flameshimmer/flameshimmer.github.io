@@ -28,7 +28,7 @@
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 //There are boyCount boys and girlCount girls in a class attending an upcoming party.
 //You are given an boyCount x girlCount integer matrix grid, where grid[i][j] equals 0 or 1. If
@@ -71,10 +71,14 @@ namespace Solution2022
 	namespace MaximumNumberofAcceptedInvitations
 	{
 		bool helper(const vector&lt;vector&lt;int&gt;&gt;& grid, int boy, vector&lt;bool&gt;& visited, vector&lt;int&gt;& girls) {
+			// 对于当前男孩，循环所有女孩
 			for (int girl = 0; girl &lt; girls.size(); girl++) {
+				// 如果不可能请到，或者之前这个男孩已经考虑过这个女孩了，就提前退出
 				if (grid[boy][girl] == 0 || visited[girl]) { continue; }
 
 				visited[girl] = true;
+				// 如果当前女孩没有邀约，或者女孩有邀约了，但是可以叫原来的邀约对象另找，就可以约这个女孩
+				// 注意这时候给原来男孩的是当前男孩的visited记录，让原来的男孩只看其他之前男孩没考虑过的对象
 				if (girls[girl] == -1 || helper(grid, girls[girl], visited, girls)) {
 					girls[girl] = boy;
 					return true;
@@ -91,6 +95,7 @@ namespace Solution2022
 			int matches = 0;
 
 			for (int boy = 0; boy &lt; boyCount; boy++) {
+				// visited 对每个男孩都会重新reset，记录的是对这个男孩，有没有考虑过某个女孩
 				vector&lt;bool&gt; visited(girlCount, false);
 				if (helper(grid, boy, visited, girls)) {
 					matches++;

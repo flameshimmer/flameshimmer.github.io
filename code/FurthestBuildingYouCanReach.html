@@ -83,7 +83,9 @@ namespace Solution2022
 				if (d &gt; 0) { pq.push(-d); }
 
 				if (pq.size() &gt; ladders) {
-					bricks += pq.top(); // The reason it is += instead of -= is because d has been multiplied by -1
+					// The reason it is += instead of -= is because d has been multiplied by -1
+					// Also since the pq put the max number on top and only negative in the pq, the top of the pq will have the smallest absolute value
+					bricks += pq.top();
 					pq.pop();
 				}
 				if (bricks &lt; 0) { return i; }

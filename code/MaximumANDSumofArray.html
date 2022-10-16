@@ -28,7 +28,7 @@
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 //You are given an integer array nums of length n and an integer numSlots such
 //that 2 * numSlots &gt;= n. There are numSlots slots numbered from 1 to numSlots.
@@ -69,6 +69,11 @@ namespace Solution2022
 {
 	namespace MaximumANDSumofArray
 	{
+	    //https://www.youtube.com/watch?v=RHp1Owj_QaU&t=1574s
+		
+		
+		// Check out in the "state", whether the kth value is larger than 0. 
+		// since the state is 三进制， using divide by 3 will help us get rid of the last digit
 		bool filled(int state, int k) {
 			for (int i = 0; i &lt; k; i++) { state /= 3; } // everytime divide by 3 is getting rid of the last value;
 			return state % 3;
