@@ -83,27 +83,40 @@ namespace Solution2022
 {
 	namespace RotatingtheBox
 	{
-	    vector&lt;vector&lt;char&gt;&gt; rotateTheBox(vector&lt;vector&lt;char&gt;&gt;& box) {
+		// https://www.youtube.com/watch?v=fGVXiDr-djI&t=571s
+		vector&lt;vector&lt;char&gt;&gt; rotateTheBox(vector&lt;vector&lt;char&gt;&gt;& box)
+		{
 			int rowCount = box.size();
 			int colCount = box[0].size();
-			vector&lt;vector&lt;char&gt;&gt; result(colCount, vector&lt;char&gt;(rowCount, '.'));
-			
-			for (int i = 0; i &lt; rowCount; i++) {
-				int w = colCount - 1;
-				for (int j = colCount - 1; j &gt;= 0; j--) {
-					if (box[i][j] == '.') { continue; }
-					else if (box[i][j] == '#') {
-						result[w][rowCount - 1 - i] = '#';
-						w--;
+
+			auto result = vector&lt;vector&lt;char&gt;&gt;(colCount, vector&lt;char&gt;(rowCount, '.'));
+
+			for (int i = 0; i &lt; rowCount; i++)
+			{
+				for (int j = 0; j &lt; colCount; j++)
+				{
+					int count = 0;
+					int k = j;
+					while (k &lt; colCount && box[i][k] != '*')
+					{
+						if (box[i][k] == '#')
+							count++;
+						k++;
 					}
-					else {
-						result[j][rowCount - 1 - i] = '*';
-						w = j - 1;
-					}
+
+					int col = rowCount - 1 - i;
+					if (k != colCount)
+						result[k][col] = '*';
+
+					for (int s = 0; s &lt; count; s++)
+						result[k - 1 - s][col] = '#';
+
+					j = k;
 				}
 			}
+
 			return result;
-	    }
+		}
 
 		void Main() {
 			string test = "tst test test";
