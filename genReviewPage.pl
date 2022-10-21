@@ -146,7 +146,12 @@ sub decamelizeAndFix {
 	$str =~ s/the\-/\-the\-/g;
 	$str =~ s/from\-/\-from\-/g;
 	$str =~ s/ofa\-/\-of\-a\-/g;
+	$str =~ s/searcha\-/search\-a\-/g;
 	$str =~ s/ina\-/\-in\-a\-/g;
+	$str =~ s/\-two\-d\-/\-2d\-/g;
+	$str =~ s/\-one\-d\-/\-1d\-/g;
+	$str =~ s/\-three\-d\-/\-3d\-/g;
+	$str =~ s/buyand/buy\-and/g;
 	$str =~ s/\-\-/\-/g;
 	return $str;
 }
