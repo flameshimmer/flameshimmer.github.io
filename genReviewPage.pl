@@ -79,7 +79,7 @@ my $i = 0;
 my $j = -1;
 my $ii = 0;
 for my $p (@allProblems) {
-	if ($i >= 325) {
+	if ($i >= 365) {
 		if ($ii % 20 == 0) {
 			my $date = $today->clone->add(days => $j)->ymd('/');
 			$p = "\n<h2>" . $date."</h2>\n" . $p;
@@ -87,7 +87,7 @@ for my $p (@allProblems) {
 		}
 		if ($ii % 10 == 0) {$p = "\n<hr>\n" . $p;}
 		$ii++;
-	}
+	}elsif ($i % 10 == 0) {$p = "\n<hr>\n" . $p;}
 	$content = $content . $p;
 	$i++;
 }
@@ -152,6 +152,11 @@ sub decamelizeAndFix {
 	$str =~ s/\-one\-d\-/\-1d\-/g;
 	$str =~ s/\-three\-d\-/\-3d\-/g;
 	$str =~ s/buyand/buy\-and/g;
+	$str =~ s/inorderand/inorder\-and/g;
+	$str =~ s/preorderand/preorder\-and/g;
+	$str =~ s/implement\-trie/implement\-trie\-prefix\-tree/g;
+	$str =~ s/implement\-trie\-prefix\-tree\-ii/implement\-trie\-ii\-prefix\-tree/g;
+	$str =~ s/\-nary/\-n\-ary/g;
 	$str =~ s/\-\-/\-/g;
 	return $str;
 }
