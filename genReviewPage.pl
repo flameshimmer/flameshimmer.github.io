@@ -65,21 +65,21 @@ for my $line (@lines) {
 		my $url = './code/' . $problemName . '.html'; 
 		my $problemSnakeName = decamelizeAndFix($problemName);
 		my $leetWebsiteUrl = 'https://leetcode.com/problems/'.$problemSnakeName.'/';
-		print "$leetWebsiteUrl\n";
+		# print "$leetWebsiteUrl\n";
 		push(@allProblems,  "\t\t<li><a href=\"$url\">$problemName</a>&nbsp; &nbsp;<a href=\"$leetWebsiteUrl\">leet</a></li>\n");
 	}	
 }
 
-# @allProblems = sort @allProblems;
+ # @allProblems = sort @allProblems;
 
 @allProblems = reverse @allProblems;
 
 my $today = DateTime->today(time_zone => 'local');
 my $i = 0;
-my $j = -1;
+my $j = 1;
 my $ii = 0;
 for my $p (@allProblems) {
-	if ($i >= 365) {
+	if ($i >= 465) {
 		if ($ii % 20 == 0) {
 			my $date = $today->clone->add(days => $j)->ymd('/');
 			$p = "\n<h2>" . $date."</h2>\n" . $p;
@@ -129,7 +129,11 @@ sub decamelizeAndFix {
 	$str =~ s/RLE/Rle/g;
 	$str =~ s/BST/Bst/g;
 	$str =~ s/LRU/Lru/g;
+	$str =~ s/IPO/Ipo/g;
+	$str =~ s/IPO/Ip/g;
 	$str =~ s/LFU/Lfu/g;
+	$str =~ s/Kth/KTh/g;
+	$str =~ s/XOR/Xor/g;
 	$str =~ s/IV/Iv/g;
 	$str =~ s/VI/Vi/g;
 	$str =~ s/VII/Vii/g;
@@ -158,5 +162,9 @@ sub decamelizeAndFix {
 	$str =~ s/implement\-trie\-prefix\-tree\-ii/implement\-trie\-ii\-prefix\-tree/g;
 	$str =~ s/\-nary/\-n\-ary/g;
 	$str =~ s/\-\-/\-/g;
+	$str =~ s/\-x\-or\-of/\-xor\-of/g;
+	$str =~ s/numbersinan/numbers\-in\-an/g;
+	$str =~ s/\-arrayin\-/\-array\-in/g;
+	
 	return $str;
 }

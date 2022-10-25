@@ -56,6 +56,9 @@ namespace Solution2022
 {
 	namespace KInversePairsArray
 	{
+
+		// https://www.youtube.com/watch?v=PBk2-aUP-nQ&t=2164s
+
 		//1. dp[i][j] = dp[i-1][j]+dp[i-1][j-1]+dp[i-1][j-2]+...+dp[i-1][j-i+1]
 		//2. dp[i][j-1] = dp[i-1][j-1]+dp[i-1][j-2]+...+dp[i-1][j-i]
 		//point 1-2 will make: dp[i][j] = dp[i-1][j]+dp[i][j-1]-dp[i-1][j-i]

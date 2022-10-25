@@ -9,9 +9,9 @@ sub cmd {
 	print "$output\n\n";	
 }
 
-
-cmd("perl genwebpage.pl");
-cmd("perl format.pl");
-cmd("perl genReviewPage.pl");
+chdir "C:\\Users\\flame\\OneDrive\\Desktop\\2022\\Leet2022\\tools\\webpageGen\\";
+cmd('perl C:\Users\flame\OneDrive\Desktop\2022\Leet2022\tools\webpageGen\genwebpage.pl');
+cmd('perl C:\Users\flame\OneDrive\Desktop\2022\Leet2022\tools\webpageGen\format.pl');
+cmd('perl C:\Users\flame\OneDrive\Desktop\2022\Leet2022\tools\webpageGen\genReviewPage.pl');
 
 print "\n\n\nCompleted!\n\n\n";

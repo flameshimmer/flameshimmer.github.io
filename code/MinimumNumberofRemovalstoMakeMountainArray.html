@@ -60,6 +60,29 @@ namespace Solution2022
 {
 	namespace MinimumNumberofRemovalstoMakeMountainArray
 	{
+		//Intuition
+		//Assume we pick A[i] as the peak of the mountain, then we are looking for the
+		//longest increasing subsequence to the left of A[i], and the longest decreasing
+		//subsequence to the right of A[i].
+		//We can reuse the O(NlogN) time binary search solution to 300. Longest
+		//Increasing Subsequence (Medium).
+		//For the binary search solution to problem 300, please checkout my explanation.
+
+		//Algorithm
+		//Let a[i] be the length of the longest increasing subsequence in A[0..(i-1)]
+		//that can has A[i] appended to it, and b[i] be the length of the longest
+		//decreasing subsequence in A[(i+1)..(N-1)] that can has A[i] prepended to it.
+		//We can scan from left to right to set the a[i] values, and scan from right to
+		//left to set the b[i] values.
+		//For 1 &lt;= i &lt;= N - 2, the longest mountain size is a[i] + b[i] + 1.
+		//So the answer is the minimum N - (a[i] + b[i] + 1).
+		
+		//
+		//Note that we need to skip cases where either a[i] or b[i] is zero because it's
+		//invalid.
+		//Test cases that should be added:
+		//[1,2,1,2,3,4] and [4,3,2,1,2,1]. Correct answer is 3.
+		//[1,2,1,1,2,3,4,5] and [5,4,3,2,1,1,2,1]. Correct answer is 5.
 		int minimumMountainRemovals(vector&lt;int&gt;& nums) {
 			int len = nums.size();
 			if (len &lt; 2) { return 0; }

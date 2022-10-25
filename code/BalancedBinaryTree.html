@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>OneThreeTwoPattern</title>
+	<title>BalancedBinaryTree</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,66 +23,72 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>OneThreeTwoPattern</h1>
+	<h1>BalancedBinaryTree</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given an array of n integers nums, a 132 pattern is a subsequence of three
-//integers nums[i], nums[j] and nums[k] such that i &lt; j &lt; k and nums[i] &lt; nums[k]
-//&lt; nums[j].
-//Return true if there is a 132 pattern in nums, otherwise, return false.
+//Given a binary tree, determine if it is height-balanced.
+//For this problem, a height-balanced binary tree is defined as:
+//a binary tree in which the left and right subtrees of every node differ in
+//height by no more than 1.
 // 
 //
 //Example 1:
-//Input: nums = [1,2,3,4]
-//Output: false
-//Explanation: There is no 132 pattern in the sequence.
+//Input: root = [3,9,20,null,null,15,7]
+//Output: true
 //
 //Example 2:
-//Input: nums = [3,1,4,2]
-//Output: true
-//Explanation: There is a 132 pattern in the sequence: [1, 4, 2].
+//Input: root = [1,2,2,3,3,null,null,4,4]
+//Output: false
 //
 //Example 3:
-//Input: nums = [-1,3,2,0]
+//Input: root = []
 //Output: true
-//Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3,
-//0] and [-1, 2, 0].
 // 
 //Constraints:
-//n == nums.length
-//1 &lt;= n &lt;= 2 * 105
-//-109 &lt;= nums[i] &lt;= 109
+//The number of nodes in the tree is in the range [0, 5000].
+//-104 &lt;= Node.val &lt;= 104
 
 namespace Solution2022
 {
-	namespace OneThreeTwoPattern
+	namespace BalancedBinaryTree
 	{
-		// https://www.youtube.com/watch?v=Jz60RhiggN0
-
-		bool find132pattern(vector&lt;int&gt;& nums) {
-			int s2 = INT_MIN;
-			stack&lt;int&gt; s;
-			for (int i = nums.size() - 1; i &gt;= 0; i--) {
-				if (nums[i] &lt; s2) { return true; }
-
-				while (!s.empty() && nums[i] &gt; s.top()) { // Note: this is &gt; instead of &gt;=, since we want the logic only invoked in 3..2 situation. 
-					s2 = s.top();
-					s.pop();
-				}
-				s.push(nums[i]);
-			}
-			return false;
+		/**
+		 * Definition for a binary tree node.
+		 * struct TreeNode {
+		 *     int val;
+		 *     TreeNode *left;
+		 *     TreeNode *right;
+		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+		 * };
+		 */
+		int findMaxHeight(TreeNode* node) {
+			if (!node) { return 0; }
+			int lh = findMaxHeight(node-&gt;left);
+			int rh = findMaxHeight(node-&gt;right);
+			return max(lh, rh) + 1;
 		}
 
-		void Main() {
-			string test = "tst test test";
-			print(test);
+
+		bool isBalanced(TreeNode* root) {
+			if (!root) { return true; }
+			int lh = findMaxHeight(root-&gt;left);
+			int rh = findMaxHeight(root-&gt;right);
+			if (abs(lh - rh) &gt; 1) { return false; }
+			return isBalanced(root-&gt;left) && isBalanced(root-&gt;right);
 		}
 	}
+
+	void Main() {
+		string test = "tst test test";
+		print(test);
+	}
+}
 }
 
 	</code>
