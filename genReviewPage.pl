@@ -70,16 +70,16 @@ for my $line (@lines) {
 	}	
 }
 
- # @allProblems = sort @allProblems;
+@allProblems = sort @allProblems;
 
-@allProblems = reverse @allProblems;
+# @allProblems = reverse @allProblems;
 
 my $today = DateTime->today(time_zone => 'local');
 my $i = 0;
 my $j = 1;
 my $ii = 0;
 for my $p (@allProblems) {
-	if ($i >= 465) {
+	if ($i >= 0) {
 		if ($ii % 20 == 0) {
 			my $date = $today->clone->add(days => $j)->ymd('/');
 			$p = "\n<h2>" . $date."</h2>\n" . $p;
