@@ -1,0 +1,110 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>PathSumIV</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>PathSumIV</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//If the depth of a tree is smaller than 5, then this tree can be represented by
+//an array of three-digit integers. For each integer in this array:
+//The hundreds digit represents the depth d of this node where 1 &lt;= d &lt;= 4.
+//The tens digit represents the position p of this node in the level it belongs
+//to where 1 &lt;= p &lt;= 8. The position is the same as that in a full binary tree.
+//The units digit represents the value v of this node where 0 &lt;= v &lt;= 9.
+//Given an array of ascending three-digit integers nums representing a binary
+//tree with a depth smaller than 5, return the sum of all paths from the root
+//towards the leaves.
+//It is guaranteed that the given array represents a valid connected binary tree.
+// 
+//
+//Example 1:
+//Input: nums = [113,215,221]
+//Output: 12
+//Explanation: The tree that the list represents is shown.
+//The path sum is (3 + 5) + (3 + 1) = 12.
+//
+//Example 2:
+//Input: nums = [113,221]
+//Output: 4
+//Explanation: The tree that the list represents is shown. 
+//The path sum is (3 + 1) = 4.
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 15
+//110 &lt;= nums[i] &lt;= 489
+//nums represents a valid binary tree with depth less than 5.
+
+namespace Solution2022
+{
+	namespace PathSumIV
+	{
+		void helper(int node, int curSum, unordered_map&lt;int, int&gt;& map, int& result) {
+			if (map.find(node) == map.end()) { return; }
+
+			int curLevel = node / 10;
+			int curPos = node % 10;
+			int leftChild = (curLevel + 1) * 10 + curPos * 2 - 1;
+			int rightChild = (curLevel + 1) * 10 + curPos * 2;
+			bool hasLeftChild = map.find(leftChild) != map.end();
+			bool hasRightChild = map.find(rightChild) != map.end();
+
+			curSum += map[node];
+			if (!hasLeftChild && !hasRightChild) {
+				result += curSum;
+				return;
+			}
+
+			if (hasLeftChild) { helper(leftChild, curSum, map, result); }
+			if (hasRightChild) { helper(rightChild, curSum, map, result); }
+		}
+
+		int pathSum(vector&lt;int&gt;& nums) {
+			unordered_map&lt;int, int&gt; map;
+			for (int v : nums) {
+				map[v / 10] = v % 10;
+			}
+
+			int result = 0;
+			helper(11, 0, map, result);
+			return result;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

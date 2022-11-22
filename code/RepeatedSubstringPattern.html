@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>BalancedBinaryTree</title>
+	<title>RepeatedSubstringPattern</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,70 +23,62 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>BalancedBinaryTree</h1>
+	<h1>RepeatedSubstringPattern</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a binary tree, determine if it is height-balanced.
-//For this problem, a height-balanced binary tree is defined as:
-//a binary tree in which the left and right subtrees of every node differ in
-//height by no more than 1.
+//Given a string s, check if it can be constructed by taking a substring of it
+//and appending multiple copies of the substring together.
 // 
 //
 //Example 1:
-//Input: root = [3,9,20,null,null,15,7]
+//Input: s = "abab"
 //Output: true
+//Explanation: It is the substring "ab" twice.
 //
 //Example 2:
-//Input: root = [1,2,2,3,3,null,null,4,4]
+//Input: s = "aba"
 //Output: false
 //
 //Example 3:
-//Input: root = []
+//Input: s = "abcabcabcabc"
 //Output: true
+//Explanation: It is the substring "abc" four times or the substring "abcabc"
+//twice.
 // 
 //Constraints:
-//The number of nodes in the tree is in the range [0, 5000].
-//-104 &lt;= Node.val &lt;= 104
+//1 &lt;= s.length &lt;= 104
+//s consists of lowercase English letters.
 
 namespace Solution2022
 {
-	namespace BalancedBinaryTree
+	namespace RepeatedSubstringPattern
 	{
-		/**
-		 * Definition for a binary tree node.
-		 * struct TreeNode {
-		 *     int val;
-		 *     TreeNode *left;
-		 *     TreeNode *right;
-		 *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-		 *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-		 * };
-		 */
-		int findMaxHeight(TreeNode* node) {
-			if (!node) { return 0; }
-			int lh = findMaxHeight(node-&gt;left);
-			int rh = findMaxHeight(node-&gt;right);
-			return max(lh, rh) + 1;
+		bool valid(string& s, int len, int tryLen) {
+			if (len % tryLen != 0) { return false; }
+			string tmp = "";
+			string sub = s.substr(0, tryLen);
+			for (int i = 0; i &lt; len / tryLen; i++) { tmp += sub; }
+			return s == tmp;
 		}
 
-
-		bool isBalanced(TreeNode* root) {
-			if (!root) { return true; }
-			int lh = findMaxHeight(root-&gt;left);
-			int rh = findMaxHeight(root-&gt;right);
-			if (abs(lh - rh) &gt; 1) { return false; }
-			return isBalanced(root-&gt;left) && isBalanced(root-&gt;right);
+		bool repeatedSubstringPattern(string s) {
+			int len = s.size();
+			int tryLen = 1;
+			while (tryLen &lt;= len / 2) {
+				if (valid(s, len, tryLen)) { return true; }
+				tryLen++;
+			}
+			return false;
 		}
-	}
 
-	void Main() {
-		string test = "tst test test";
-		print(test);
+		void Main() {
+			string test = "ababab";
+			print(repeatedSubstringPattern(test));
+		}
 	}
 }
 

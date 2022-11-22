@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>BalancedBinaryTree</title>
+	<title>TwoSumIVInputisaBST</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,38 +23,35 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>BalancedBinaryTree</h1>
+	<h1>TwoSumIVInputisaBST</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a binary tree, determine if it is height-balanced.
-//For this problem, a height-balanced binary tree is defined as:
-//a binary tree in which the left and right subtrees of every node differ in
-//height by no more than 1.
+//Given the root of a Binary Search Tree and a target number k, return true if
+//there exist two elements in the BST such that their sum is equal to the given
+//target.
 // 
 //
 //Example 1:
-//Input: root = [3,9,20,null,null,15,7]
+//Input: root = [5,3,6,2,4,null,7], k = 9
 //Output: true
 //
 //Example 2:
-//Input: root = [1,2,2,3,3,null,null,4,4]
+//Input: root = [5,3,6,2,4,null,7], k = 28
 //Output: false
-//
-//Example 3:
-//Input: root = []
-//Output: true
 // 
 //Constraints:
-//The number of nodes in the tree is in the range [0, 5000].
+//The number of nodes in the tree is in the range [1, 104].
 //-104 &lt;= Node.val &lt;= 104
+//root is guaranteed to be a valid binary search tree.
+//-105 &lt;= k &lt;= 105
 
 namespace Solution2022
 {
-	namespace BalancedBinaryTree
+	namespace TwoSumIVInputisaBST
 	{
 		/**
 		 * Definition for a binary tree node.
@@ -67,26 +64,33 @@ namespace Solution2022
 		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 		 * };
 		 */
-		int findMaxHeight(TreeNode* node) {
-			if (!node) { return 0; }
-			int lh = findMaxHeight(node-&gt;left);
-			int rh = findMaxHeight(node-&gt;right);
-			return max(lh, rh) + 1;
+		void inorderTraversal(TreeNode* node, vector&lt;int&gt;& inorder) {
+			if (!node) { return; }
+			inorderTraversal(node-&gt;left, inorder);
+			inorder.push_back(node-&gt;val);
+			inorderTraversal(node-&gt;right, inorder);
 		}
 
 
-		bool isBalanced(TreeNode* root) {
-			if (!root) { return true; }
-			int lh = findMaxHeight(root-&gt;left);
-			int rh = findMaxHeight(root-&gt;right);
-			if (abs(lh - rh) &gt; 1) { return false; }
-			return isBalanced(root-&gt;left) && isBalanced(root-&gt;right);
-		}
-	}
+		bool findTarget(TreeNode* root, int k) {
+			vector&lt;int&gt; inorder;
+			inorderTraversal(root, inorder);
 
-	void Main() {
-		string test = "tst test test";
-		print(test);
+			int start = 0;
+			int end = inorder.size() - 1;
+			while (start &lt; end) {
+				int sum = inorder[start] + inorder[end];
+				if (sum == k) { return true; }
+				else if (sum &lt; k) { start++; }
+				else { end--; }
+			}
+			return false;
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
 	}
 }
 

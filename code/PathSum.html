@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>BalancedBinaryTree</title>
+	<title>PathSum</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,38 +23,45 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>BalancedBinaryTree</h1>
+	<h1>PathSum</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a binary tree, determine if it is height-balanced.
-//For this problem, a height-balanced binary tree is defined as:
-//a binary tree in which the left and right subtrees of every node differ in
-//height by no more than 1.
+//Given the root of a binary tree and an integer targetSum, return true if the
+//tree has a root-to-leaf path such that adding up all the values along the path
+//equals targetSum.
+//A leaf is a node with no children.
 // 
 //
 //Example 1:
-//Input: root = [3,9,20,null,null,15,7]
+//Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
 //Output: true
+//Explanation: The root-to-leaf path with the target sum is shown.
 //
 //Example 2:
-//Input: root = [1,2,2,3,3,null,null,4,4]
+//Input: root = [1,2,3], targetSum = 5
 //Output: false
+//Explanation: There two root-to-leaf paths in the tree:
+//(1 --&gt; 2): The sum is 3.
+//(1 --&gt; 3): The sum is 4.
+//There is no root-to-leaf path with sum = 5.
 //
 //Example 3:
-//Input: root = []
-//Output: true
+//Input: root = [], targetSum = 0
+//Output: false
+//Explanation: Since the tree is empty, there are no root-to-leaf paths.
 // 
 //Constraints:
 //The number of nodes in the tree is in the range [0, 5000].
-//-104 &lt;= Node.val &lt;= 104
+//-1000 &lt;= Node.val &lt;= 1000
+//-1000 &lt;= targetSum &lt;= 1000
 
 namespace Solution2022
 {
-	namespace BalancedBinaryTree
+	namespace PathSum
 	{
 		/**
 		 * Definition for a binary tree node.
@@ -67,26 +74,19 @@ namespace Solution2022
 		 *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 		 * };
 		 */
-		int findMaxHeight(TreeNode* node) {
-			if (!node) { return 0; }
-			int lh = findMaxHeight(node-&gt;left);
-			int rh = findMaxHeight(node-&gt;right);
-			return max(lh, rh) + 1;
+
+
+		bool hasPathSum(TreeNode* root, int targetSum) {
+			if (!root) { return false; }
+			if (!root-&gt;left && !root-&gt;right && root-&gt;val == targetSum) { return true; }
+			int remain = targetSum - root-&gt;val;
+			return hasPathSum(root-&gt;left, remain) || hasPathSum(root-&gt;right, remain);
 		}
 
-
-		bool isBalanced(TreeNode* root) {
-			if (!root) { return true; }
-			int lh = findMaxHeight(root-&gt;left);
-			int rh = findMaxHeight(root-&gt;right);
-			if (abs(lh - rh) &gt; 1) { return false; }
-			return isBalanced(root-&gt;left) && isBalanced(root-&gt;right);
+		void Main() {
+			string test = "tst test test";
+			print(test);
 		}
-	}
-
-	void Main() {
-		string test = "tst test test";
-		print(test);
 	}
 }
 
