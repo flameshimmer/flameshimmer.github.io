@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>NumberofDaysBetweenTwoDates</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,59 +23,60 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>NumberofDaysBetweenTwoDates</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Write a program to count the number of days between two dates.
+//The two dates are given as strings, their format is YYYY-MM-DD as shown in the
+//examples.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: date1 = "2019-06-29", date2 = "2019-06-30"
+//Output: 1
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: date1 = "2020-01-15", date2 = "2019-12-31"
+//Output: 15
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//The given dates are valid dates between the years 1971 and 2100.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace NumberofDaysBetweenTwoDates
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
-			}
-			return M[0];
+		bool isLeapYear(int year) {
+			return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 		}
+
+		int daysInMonth(int month, int year) {
+			if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) { return 31; }
+			else if (month == 2) { return isLeapYear(year) ? 29 : 28; }
+			else { return 30; }
+		}
+
+		int daysSinceEpoc(string date) {
+			int year = stoi(date.substr(0, 4));
+			int month = stoi(date.substr(5, 2));
+			int day = stoi(date.substr(8, 2));
+
+			int result = day;
+			for (int i = 1971; i &lt; year; i++) { result += isLeapYear(i) ? 366 : 365; }
+			for (int i = 1; i &lt; month; i++) { result += daysInMonth(i, year); }
+			return result;
+		}
+
+		int daysBetweenDates(string date1, string date2) {
+			return abs(daysSinceEpoc(date1) - daysSinceEpoc(date2));
+		}
+
+
 
 		void Main() {
 			string test = "tst test test";

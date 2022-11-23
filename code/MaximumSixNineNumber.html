@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>MaximumSixNineNumber</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,52 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>MaximumSixNineNumber</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//You are given a positive integer num consisting only of digits 6 and 9.
+//Return the maximum number you can get by changing at most one digit (6 becomes
+//9, and 9 becomes 6).
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: num = 9669
+//Output: 9969
+//Explanation: 
+//Changing the first digit results in 6669.
+//Changing the second digit results in 9969.
+//Changing the third digit results in 9699.
+//Changing the fourth digit results in 9666.
+//The maximum number is 9969.
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: num = 9996
+//Output: 9999
+//Explanation: Changing the last digit 6 to 9 results in the maximum number.
+//
+//Example 3:
+//Input: num = 9999
+//Output: 9999
+//Explanation: It is better not to apply any change.
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= num &lt;= 104
+//num consists of only 6 and 9 digits.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace MaximumSixNineNumber
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
-
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
+		int maximum69Number(int num) {
+			string s = to_string(num);
+			for (int i = 0; i &lt; s.size(); i++) {
+				if (s[i] == '6') { s[i] = '9'; break; }
 			}
-			return M[0];
+			return stoi(s);
 		}
 
 		void Main() {

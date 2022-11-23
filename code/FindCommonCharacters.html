@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>FindCommonCharacters</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,59 +23,59 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>FindCommonCharacters</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given a string array words, return an array of all characters that show up in
+//all strings within the words (including duplicates). You may return the answer
+//in any order.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: words = ["bella","label","roller"]
+//Output: ["e","l","l"]
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: words = ["cool","lock","cook"]
+//Output: ["c","o"]
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= words.length &lt;= 100
+//1 &lt;= words[i].length &lt;= 100
+//words[i] consists of lowercase English letters.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace FindCommonCharacters
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
-
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
-			}
-			return M[0];
+		vector&lt;int&gt; helper(string& s) {
+			vector&lt;int&gt; result(26, 0);
+			for (char c : s) { result[c - 'a']++; }
+			return result;
 		}
+
+	    vector&lt;string&gt; commonChars(vector&lt;string&gt;& words) {			
+			int len = words.size();
+			if (len == 0) { return {}; }
+
+			vector&lt;vector&lt;int&gt;&gt; maps;
+			for (string& w : words) { maps.push_back(helper(w)); }
+
+			vector&lt;string&gt; result;
+			vector&lt;int&gt; map0 = maps[0];
+			for (int i = 0; i &lt; 26; i++) {
+				int minCount = map0[i];
+				for (int j = 1; j &lt; len; j++) {
+					minCount = min(minCount, maps[j][i]);
+				}
+				for (int k = 0; k &lt; minCount; k++) { result.push_back(string(1, 'a' + i)); }
+			}
+			return result;
+	    }
 
 		void Main() {
 			string test = "tst test test";

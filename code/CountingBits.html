@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>CountingBits</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,62 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>CountingBits</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given an integer n, return an array ans of length n + 1 such that for each i (0
+//&lt;= i &lt;= n), ans[i] is the number of 1's in the binary representation of i.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: n = 2
+//Output: [0,1,1]
+//Explanation:
+//0 --&gt; 0
+//1 --&gt; 1
+//2 --&gt; 10
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: n = 5
+//Output: [0,1,1,2,1,2]
+//Explanation:
+//0 --&gt; 0
+//1 --&gt; 1
+//2 --&gt; 10
+//3 --&gt; 11
+//4 --&gt; 100
+//5 --&gt; 101
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
+//0 &lt;= n &lt;= 105
 // 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//Follow up:
+//It is very easy to come up with a solution with a runtime of O(n log n). Can
+//you do it in linear time O(n) and possibly in a single pass?
+//Can you do it without using any built-in function (i.e., like
+//__builtin_popcount in C++)?
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace CountingBits
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
-
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
+		int helper(int n) {
+			int result = 0;
+			while (n) {
+				result++;
+				n &= n - 1;
 			}
-			return M[0];
+			return result;
+		}
+
+		vector&lt;int&gt; countBits(int n) {
+			vector&lt;int&gt; result;
+			for (int i = 0; i &lt;= n; i++) { result.push_back(helper(i)); }
+			return result;
 		}
 
 		void Main() {

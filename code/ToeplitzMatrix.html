@@ -1,0 +1,116 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ToeplitzMatrix</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ToeplitzMatrix</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return
+//false.
+//A matrix is Toeplitz if every diagonal from top-left to bottom-right has the
+//same elements.
+// 
+//
+//Example 1:
+//Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]
+//Output: true
+//Explanation:
+//In the above grid, the diagonals are:
+//"[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".
+//In each diagonal all elements are the same, so the answer is True.
+//
+//Example 2:
+//Input: matrix = [[1,2],[2,2]]
+//Output: false
+//Explanation:
+//The diagonal "[1, 2]" has different elements.
+// 
+//Constraints:
+//m == matrix.length
+//n == matrix[i].length
+//1 &lt;= m, n &lt;= 20
+//0 &lt;= matrix[i][j] &lt;= 99
+// 
+//Follow up:
+//What if the matrix is stored on disk, and the memory is limited such that you
+//can only load at most one row of the matrix into the memory at once?
+//What if the matrix is so large that you can only load up a partial row into the
+//memory at once?
+
+namespace Solution2022
+{
+	namespace ToeplitzMatrix
+	{
+		namespace Hashmap {
+			bool isToeplitzMatrix(vector&lt;vector&lt;int&gt;&gt;& matrix) {
+				int rowCount = matrix.size();
+				if (rowCount == 0) { return true; }
+				int colCount = matrix[0].size();
+				if (colCount == 0) { return true; }
+
+				unordered_map&lt;int, int&gt; map;
+				for (int i = 0; i &lt; rowCount; i++) {
+					for (int j = 0; j &lt; colCount; j++) {
+						if (map.find(i - j) != map.end() && map[i - j] != matrix[i][j]) { return false; }
+						map[i - j] = matrix[i][j];
+					}
+				}
+				return true;
+			}
+		}
+
+		namespace Calculation {
+			bool isToeplitzMatrix(vector&lt;vector&lt;int&gt;&gt;& matrix) {
+				int rowCount = matrix.size();
+				if (rowCount == 0) { return true; }
+				int colCount = matrix[0].size();
+				if (colCount == 0) { return true; }
+
+				for (int i = 0; i &lt; rowCount - 1; i++) {
+					for (int j = 0; j &lt; colCount - 1; j++) {
+						if (matrix[i][j] != matrix[i + 1][j + 1]) { return false; }
+					}
+				}
+				return true;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>SortIntegersbyTheNumberofOneBits</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,66 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>SortIntegersbyTheNumberofOneBits</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//You are given an integer array arr. Sort the integers in the array in ascending
+//order by the number of 1's in their binary representation and in case of two or
+//more integers have the same number of 1's you have to sort them in ascending
+//order.
+//Return the array after sorting it.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: arr = [0,1,2,3,4,5,6,7,8]
+//Output: [0,1,2,4,8,3,5,6,7]
+//Explantion: [0] is the only integer with 0 bits.
+//[1,2,4,8] all have 1 bit.
+//[3,5,6] have 2 bits.
+//[7] has 3 bits.
+//The sorted array by bits is [0,1,2,4,8,3,5,6,7]
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: arr = [1024,512,256,128,64,32,16,8,4,2,1]
+//Output: [1,2,4,8,16,32,64,128,256,512,1024]
+//Explantion: All integers have 1 bit in the binary representation, you should
+//just sort them in ascending order.
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= arr.length &lt;= 500
+//0 &lt;= arr[i] &lt;= 104
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace SortIntegersbyTheNumberofOneBits
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
-
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
+		// CountBits can be replaced by builtin function __builtin_popcount(x)
+		int countBits(int x) {
+			int result = 0;
+			while (x) {
+				result++;
+				x &= (x - 1);
 			}
-			return M[0];
+			return result;
+		}
+
+		vector&lt;int&gt; sortByBits(vector&lt;int&gt;& arr) {
+			int len = arr.size();
+			if (len &lt; 2) { return arr; }
+
+			auto comp = [&](int a, int b) {
+				int bitA = countBits(a);
+				int bitB = countBits(b);
+				if (bitA == bitB) { return a &lt; b; }
+				else { return bitA &lt; bitB; }
+			};
+
+			sort(arr.begin(), arr.end(), comp);
+			return arr;
 		}
 
 		void Main() {

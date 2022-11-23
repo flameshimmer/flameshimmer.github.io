@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>IsSubsequence</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,55 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>IsSubsequence</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given two strings s and t, return true if s is a subsequence of t, or false
+//otherwise.
+//A subsequence of a string is a new string that is formed from the original
+//string by deleting some (can be none) of the characters without disturbing the
+//relative positions of the remaining characters. (i.e., "ace" is a subsequence
+//of "abcde" while "aec" is not).
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: s = "abc", t = "ahbgdc"
+//Output: true
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: s = "axc", t = "ahbgdc"
+//Output: false
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
+//0 &lt;= s.length &lt;= 100
+//0 &lt;= t.length &lt;= 104
+//s and t consist only of lowercase English letters.
 // 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//Follow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k &gt;=
+//109, and you want to check one by one to see if t has its subsequence. In this
+//scenario, how would you change your code?
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace IsSubsequence
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
+		bool isSubsequence(string s, string t) {
+			int lens = s.size();
+			int lent = t.size();
+			if (lens == 0) { return true; }
+			if (lens &gt; lent) { return false; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
+			int i = 0;
+			int j = 0;
+			while (i &lt; lens && j &lt; lent) {
+				if (s[i] == t[j]) { i++; }
+				j++;
 			}
-			return M[0];
+			return i == lens;
 		}
 
 		void Main() {

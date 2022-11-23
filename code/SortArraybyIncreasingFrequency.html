@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>SortArraybyIncreasingFrequency</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,58 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>SortArraybyIncreasingFrequency</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given an array of integers nums, sort the array in increasing order based on
+//the frequency of the values. If multiple values have the same frequency, sort
+//them in decreasing order.
+//Return the sorted array.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: nums = [1,1,2,2,2,3]
+//Output: [3,1,1,2,2,2]
+//Explanation: '3' has a frequency of 1, '1' has a frequency of 2, and '2' has a
+//frequency of 3.
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: nums = [2,3,1,3,2]
+//Output: [1,3,3,2,2]
+//Explanation: '2' and '3' both have a frequency of 2, so they are sorted in
+//decreasing order.
+//
+//Example 3:
+//Input: nums = [-1,1,-6,4,5,-6,1,4,1]
+//Output: [5,-1,4,4,-6,-6,1,1,1]
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= nums.length &lt;= 100
+//-100 &lt;= nums[i] &lt;= 100
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace SortArraybyIncreasingFrequency
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
+		vector&lt;int&gt; frequencySort(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			if (len &lt; 2) { return nums; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
-			}
-			return M[0];
+			unordered_map&lt;int, int&gt; map;
+			for (int v : nums) { map[v] ++; }
+
+			auto comp = [&map](int a, int b) {
+				if (map[a] == map[b]) { return a &gt; b; }
+				return map[a] &lt; map[b];
+			};
+
+			sort(nums.begin(), nums.end(), comp);
+
+			return nums;
 		}
 
 		void Main() {

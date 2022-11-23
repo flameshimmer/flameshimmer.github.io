@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>MaximumLengthofRepeatedSubarray</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,51 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>MaximumLengthofRepeatedSubarray</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given two integer arrays nums1 and nums2, return the maximum length of a
+//subarray that appears in both arrays.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: nums1 = [1,2,3,2,1], nums2 = [3,2,1,4,7]
+//Output: 3
+//Explanation: The repeated subarray with maximum length is [3,2,1].
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: nums1 = [0,0,0,0,0], nums2 = [0,0,0,0,0]
+//Output: 5
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= nums1.length, nums2.length &lt;= 1000
+//0 &lt;= nums1[i], nums2[i] &lt;= 100
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace MaximumLengthofRepeatedSubarray
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
+		int findLength(vector&lt;int&gt;& a, vector&lt;int&gt;& b) {
+			int lena = a.size();
+			int lenb = b.size();
+			if (lena == 0 || lenb == 0) { return 0; }
+
+			int result = 0;
+			vector&lt;vector&lt;int&gt;&gt; dp(lena + 1, vector&lt;int&gt;(lenb + 1, 0));
+			for (int i = 1; i &lt; lena + 1; i++) { // NOTE: i and j should start with 1 instead of 0!!!
+				for (int j = 1; j &lt; lenb + 1; j++) {
+					if (a[i - 1] == b[j - 1]) {
+						dp[i][j] = dp[i - 1][j - 1] + 1;
+						result = max(result, dp[i][j]);
+					}
 				}
 			}
-			return M[0];
+			return result;
 		}
 
 		void Main() {

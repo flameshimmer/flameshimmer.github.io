@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>BuddyStrings</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,58 +23,67 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>BuddyStrings</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given two strings s and goal, return true if you can swap two letters in s so
+//the result is equal to goal, otherwise, return false.
+//Swapping letters is defined as taking two indices i and j (0-indexed) such that
+//i != j and swapping the characters at s[i] and s[j].
+//For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: s = "ab", goal = "ba"
+//Output: true
+//Explanation: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal
+//to goal.
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: s = "ab", goal = "ab"
+//Output: false
+//Explanation: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which
+//results in "ba" != goal.
+//
+//Example 3:
+//Input: s = "aa", goal = "aa"
+//Output: true
+//Explanation: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal
+//to goal.
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= s.length, goal.length &lt;= 2 * 104
+//s and goal consist of lowercase letters.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace BuddyStrings
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
+		bool buddyStrings(string s, string t) {
+			int lens = s.size();
+			int lent = t.size();
+			if (lens != lent) { return false; }
+			if (lens &lt; 2) { return false; }
+			if (s == t) {
+				unordered_set&lt;char&gt; set(s.begin(), s.end());
+				return set.size() &lt; s.size();
+			}
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
+			int i = -1;
+			for (int k = 0; k &lt; lens; k++) {
+				if (s[k] != t[k]) {
+					if (i &lt; 0) { i = k; }
+					else {
+						swap(s[i], s[k]);
+						return s == t;
+					}
 				}
 			}
-			return M[0];
+			return false;
 		}
 
 		void Main() {

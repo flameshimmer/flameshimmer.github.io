@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>IsomorphicStrings</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,63 +23,63 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>IsomorphicStrings</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given two strings s and t, determine if they are isomorphic.
+//Two strings s and t are isomorphic if the characters in s can be replaced to
+//get t.
+//All occurrences of a character must be replaced with another character while
+//preserving the order of characters. No two characters may map to the same
+//character, but a character may map to itself.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: s = "egg", t = "add"
+//Output: true
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: s = "foo", t = "bar"
+//Output: false
+//
+//Example 3:
+//Input: s = "paper", t = "title"
+//Output: true
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= s.length &lt;= 5 * 104
+//t.length == s.length
+//s and t consist of any valid ascii character.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace IsomorphicStrings
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
+		bool isIsomorphic(string s, string t) {
+			int lens = s.size();
+			int lent = t.size();
+			if (lens != lent) { return false; }
+			if (lens == 0) { return true; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
-				}
+			unordered_map&lt;char, char&gt; map;
+			unordered_set&lt;char&gt; set;
+			for (int i = 0; i &lt; lens; i++) {
+				char c1 = s[i];
+				char c2 = t[i];
+				if (map.find(c1) != map.end() && map[c1] != c2) { return false; }
+				if (map.find(c1) == map.end() && set.find(c2) != set.end()) { return false; }
+				map[c1] = c2;
+				set.insert(c2);
 			}
-			return M[0];
+			return true;
 		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			print(isIsomorphic("foo", "bar"));
 		}
 	}
 }

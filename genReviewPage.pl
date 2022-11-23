@@ -76,7 +76,7 @@ for my $line (@lines) {
 
 my $today = DateTime->today(time_zone => 'local');
 my $i = 0;
-my $j = 1;
+my $j = 0;
 my $ii = 0;
 for my $p (@allProblems) {
 	if ($i >= 0) {

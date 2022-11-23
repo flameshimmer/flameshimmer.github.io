@@ -1,0 +1,109 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>CheckifArrayIsSortedandRotated</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>CheckifArrayIsSortedandRotated</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given an array nums, return true if the array was originally sorted in
+//non-decreasing order, then rotated some number of positions (including zero).
+//Otherwise, return false.
+//There may be duplicates in the original array.
+//
+//Note: An array A rotated by x positions results in an array B of the same
+//length such that A[i] == B[(i+x) % A.length], where % is the modulo operation.
+// 
+//
+//Example 1:
+//Input: nums = [3,4,5,1,2]
+//Output: true
+//Explanation: [1,2,3,4,5] is the original sorted array.
+//You can rotate the array by x = 3 positions to begin on the the element of
+//value 3: [3,4,5,1,2].
+//
+//Example 2:
+//Input: nums = [2,1,3,4]
+//Output: false
+//Explanation: There is no sorted array once rotated that can make nums.
+//
+//Example 3:
+//Input: nums = [1,2,3]
+//Output: true
+//Explanation: [1,2,3] is the original sorted array.
+//You can rotate the array by x = 0 positions (i.e. no rotation) to make nums.
+// 
+//Constraints:
+//1 &lt;= nums.length &lt;= 100
+//1 &lt;= nums[i] &lt;= 100
+
+namespace Solution2022
+{
+	namespace CheckifArrayIsSortedandRotated
+	{
+		bool check(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			if (len &lt; 2) { return true; }
+
+			int decCount = 0;
+			for (int i = 1; i &lt; len; i++) {
+				if (nums[i] &lt; nums[i - 1]) { decCount++; }
+			}
+			if (nums[len - 1] &gt; nums[0]) { decCount++; }
+			return decCount &lt;= 1;
+		}
+
+		namespace ModifyArray {
+			bool check(vector&lt;int&gt;& nums) {
+				int len = nums.size();
+				if (len &lt; 2) { return true; }
+
+				int i = 1;
+				for (; i &lt; len; i++) {
+					if (nums[i] &lt; nums[i - 1]) { break; }
+				}
+				if (i == len) { return true; }
+
+				for (int j = 0; j &lt; i; j++) { nums.push_back(nums[j]); }
+				return is_sorted(nums.begin() + i, nums.end());
+			}
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 1, 3,2 };
+			print(check(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

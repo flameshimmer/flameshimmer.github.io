@@ -10,7 +10,7 @@
 
 	  gtag('config', 'UA-151395790-1');
 	</script>	
-	<title>Triangle</title>
+	<title>MultiplyStrings</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
@@ -23,63 +23,60 @@
 	<link rel="stylesheet" href="../web/codepage.css" />
 	</head>
 	<body>
-	<h1>Triangle</h1>
+	<h1>MultiplyStrings</h1>
 	
 	<figure class="highlight">
 	<pre>
 	<code class="language-html">
 #include "stdafx.h"
 
-//Given a triangle array, return the minimum path sum from top to bottom.
-//For each step, you may move to an adjacent number of the row below. More
-//formally, if you are on index i on the current row, you may move to either
-//index i or index i + 1 on the next row.
+//Given two non-negative integers num1 and num2 represented as strings, return
+//the product of num1 and num2, also represented as a string.
+//
+//Note: You must not use any built-in BigInteger library or convert the inputs to
+//integer directly.
 // 
 //
 //Example 1:
-//Input: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
-//Output: 11
-//Explanation: The triangle looks like:
-//   2
-//  3 4
-// 6 5 7
-//4 1 8 3
-//The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined
-//above).
+//Input: num1 = "2", num2 = "3"
+//Output: "6"
 //
 //Example 2:
-//Input: triangle = [[-10]]
-//Output: -10
+//Input: num1 = "123", num2 = "456"
+//Output: "56088"
 // 
 //Constraints:
-//1 &lt;= triangle.length &lt;= 200
-//triangle[0].length == 1
-//triangle[i].length == triangle[i - 1].length + 1
-//-104 &lt;= triangle[i][j] &lt;= 104
-// 
-//Follow up: Could you do this using only O(n) extra space, where n is the total
-//number of rows in the triangle?
+//1 &lt;= num1.length, num2.length &lt;= 200
+//num1 and num2 consist of digits only.
+//Both num1 and num2 do not contain any leading zero, except the number 0 itself.
 
 namespace Solution2022
 {
-	namespace Triangle
+	namespace MultiplyStrings
 	{
-		int minimumTotal(vector&lt;vector&lt;int&gt;&gt;& t) {
-			int rowCount = t.size();
-			if (rowCount == 0) { return 0; }
 
-			vector&lt;int&gt; M(t.back());
-			for (int layer = rowCount - 2; layer &gt;= 0; layer--) {
-				for (int i = 0; i &lt; layer + 1; i++) {				
-					M[i] = min(M[i], M[i + 1]) + t[layer][i];
+		string multiply(string num1, string num2) {
+			int len1 = num1.size();
+			int len2 = num2.size();
+			string result(len1 + len2, '0');
+
+			for (int i = len1 - 1; i &gt;= 0; i--) {
+				int carry = 0;
+				for (int j = len2 - 1; j &gt;= 0; j--) {
+					int sum = (num1[i] - '0') * (num2[j] - '0') + carry + (result[i + j + 1] - '0');
+					carry = sum / 10;
+					result[i + j + 1] = sum % 10 + '0';
 				}
+				if (carry &gt; 0) { result[i] += carry; }
 			}
-			return M[0];
+
+			size_t pos = result.find_first_not_of('0');
+			if (pos != string::npos) { return result.substr(pos); }
+			return "0";
 		}
 
 		void Main() {
-			string test = "tst test test";
-			print(test);
+			print(multiply("2", "3"));
 		}
 	}
 }
