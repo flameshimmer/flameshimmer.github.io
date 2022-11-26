@@ -1,0 +1,100 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>ReorganizeString</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>ReorganizeString</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//Given a string s, rearrange the characters of s so that any two adjacent
+//characters are not the same.
+//Return any possible rearrangement of s or return "" if not possible.
+// 
+//
+//Example 1:
+//Input: s = "aab"
+//Output: "aba"
+//
+//Example 2:
+//Input: s = "aaab"
+//Output: ""
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 500
+//s consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace ReorganizeString
+	{
+		string reorganizeString(string s) {
+			int len = s.size();
+			vector&lt;int&gt; map(26, 0);
+			int maxFreqV = 0;
+			int maxFreqI = -1;
+			for (char c : s) {
+				map[c - 'a']++;
+				if (map[c - 'a'] &gt; maxFreqV) {
+					maxFreqV = map[c - 'a'];
+					maxFreqI = c - 'a';
+				}
+			}
+
+			if (maxFreqV &gt; (len + 1) / 2) { return ""; }
+
+			string result(len, ' ');
+			int i = 0;
+			while (map[maxFreqI]) {
+				result[i] = 'a' + maxFreqI;
+				i += 2;
+				map[maxFreqI] --;
+			}
+
+			for (int j = 0; j &lt; 26; j++) {
+				while (map[j]) {
+					if (i &gt;= len) { i = 1; }
+					result[i] = 'a' + j;
+					map[j]--;
+					i += 2;
+				}
+			}
+			return result;
+		}
+
+		void Main() {
+			print(reorganizeString("aab"));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
