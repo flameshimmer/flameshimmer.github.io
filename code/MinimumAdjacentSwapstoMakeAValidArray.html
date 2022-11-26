@@ -1,0 +1,96 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MinimumAdjacentSwapstoMakeAValidArray</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MinimumAdjacentSwapstoMakeAValidArray</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a 0 - indexed integer array nums.
+//
+//Swaps of adjacent elements are able to be performed on nums.
+//
+//A valid array meets the following conditions :
+//
+//The largest element(any of the largest elements if there are multiple) is at the rightmost position in the array.
+//The smallest element(any of the smallest elements if there are multiple) is at the leftmost position in the array.
+//Return the minimum swaps required to make nums a valid array.
+//
+//Example 1:
+//Input: nums = [3, 4, 5, 5, 3, 1]
+//	Output : 6
+//	Explanation : Perform the following swaps :
+//		-Swap 1 : Swap the 3rd and 4th elements, nums is then[3, 4, 5, 3, 5, 1].
+//		- Swap 2 : Swap the 4th and 5th elements, nums is then[3, 4, 5, 3, 1, 5].
+//		- Swap 3 : Swap the 3rd and 4th elements, nums is then[3, 4, 5, 1, 3, 5].
+//		- Swap 4 : Swap the 2nd and 3rd elements, nums is then[3, 4, 1, 5, 3, 5].
+//		- Swap 5 : Swap the 1st and 2nd elements, nums is then[3, 1, 4, 5, 3, 5].
+//		- Swap 6 : Swap the 0th and 1st elements, nums is then[1, 3, 4, 5, 3, 5].
+//		It can be shown that 6 swaps is the minimum swaps required to make a valid array.
+//
+//Example 2 :
+//Input : nums = [9]
+//Output : 0
+//Explanation : The array is already valid, so we return 0.
+//
+//Constraints :
+//1 &lt;= nums.length &lt;= 105
+//1 &lt;= nums[i] &lt;= 105
+
+namespace Solution2022
+{
+	namespace MinimumAdjacentSwapstoMakeAValidArray
+	{
+
+		int minimumSwaps(vector&lt;int&gt;& nums) {
+			int len = nums.size();
+			if (len &lt; 2) { return 0; }
+
+			int minV = *min_element(nums.begin(), nums.end());
+			int minPos = find(nums.begin(), nums.end(), minV) - nums.begin();
+
+			int maxV = *max_element(nums.begin(), nums.end());
+			int maxPos = find(nums.rbegin(), nums.rend(), maxV) - nums.rbegin();
+
+			if (minPos &lt; len - 1 - maxPos) { return minPos + maxPos; }
+			else { return minPos + maxPos - 1; }
+		}
+
+		void Main() {
+			vector&lt;int&gt; test = { 0, 1 };
+			print(minimumSwaps(test));
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	

@@ -1,0 +1,104 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>MaximumAreaofaPieceofCakeAfterHorizontalandVerticalCuts</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>MaximumAreaofaPieceofCakeAfterHorizontalandVerticalCuts</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//You are given a rectangular cake of size h x w and two arrays of integers
+//horizontalCuts and verticalCuts where:
+//horizontalCuts[i] is the distance from the top of the rectangular cake to the
+//ith horizontal cut and similarly, and
+//verticalCuts[j] is the distance from the left of the rectangular cake to the
+//jth vertical cut.
+//Return the maximum area of a piece of cake after you cut at each horizontal and
+//vertical position provided in the arrays horizontalCuts and verticalCuts. Since
+//the answer can be a large number, return this modulo 109 + 7.
+// 
+//
+//Example 1:
+//Input: h = 5, w = 4, horizontalCuts = [1,2,4], verticalCuts = [1,3]
+//Output: 4 
+//Explanation: The figure above represents the given rectangular cake. Red lines
+//are the horizontal and vertical cuts. After you cut the cake, the green piece
+//of cake has the maximum area.
+//
+//Example 2:
+//Input: h = 5, w = 4, horizontalCuts = [3,1], verticalCuts = [1]
+//Output: 6
+//Explanation: The figure above represents the given rectangular cake. Red lines
+//are the horizontal and vertical cuts. After you cut the cake, the green and
+//yellow pieces of cake have the maximum area.
+//
+//Example 3:
+//Input: h = 5, w = 4, horizontalCuts = [3], verticalCuts = [3]
+//Output: 9
+// 
+//Constraints:
+//2 &lt;= h, w &lt;= 109
+//1 &lt;= horizontalCuts.length &lt;= min(h - 1, 105)
+//1 &lt;= verticalCuts.length &lt;= min(w - 1, 105)
+//1 &lt;= horizontalCuts[i] &lt; h
+//1 &lt;= verticalCuts[i] &lt; w
+//All the elements in horizontalCuts are distinct.
+//All the elements in verticalCuts are distinct.
+
+namespace Solution2022
+{
+	namespace MaximumAreaofaPieceofCakeAfterHorizontalandVerticalCuts
+	{
+		int helper(int h, vector&lt;int&gt;& hc) {
+			sort(hc.begin(), hc.end());
+			hc.insert(hc.begin(), 0);
+			hc.push_back(h);
+			int result = 0;
+			for (int i = 1; i &lt; hc.size(); i++) {
+				result = max(result, hc[i] - hc[i - 1]);
+			}
+			return result;
+		}
+
+		int maxArea(int h, int w, vector&lt;int&gt;& hc, vector&lt;int&gt;& vc) {
+			int mod = 1e9 + 7;
+			long long hm = helper(h, hc);
+			long long vm = helper(w, vc);
+			return (int)((hm % mod * vm % mod) % mod);
+		}
+
+		void Main() {
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
