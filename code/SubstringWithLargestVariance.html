@@ -1,0 +1,140 @@
+<!doctype html>
+	<html>
+	<head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151395790-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-151395790-1');
+	</script>	
+	<title>SubstringWithLargestVariance</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="../web/codepage.css" />
+	</head>
+	<body>
+	<h1>SubstringWithLargestVariance</h1>
+	
+	<figure class="highlight">
+	<pre>
+	<code class="language-html">
+#include "stdafx.h"
+
+//The variance of a string is defined as the largest difference between the
+//number of occurrences of any 2 characters present in the string. 
+//Note the two
+//characters may or may not be the same.
+//Given a string s consisting of lowercase English letters only, return the
+//largest variance possible among all substrings of s.
+//A substring is a contiguous sequence of characters within a string.
+// 
+//
+//Example 1:
+//Input: s = "aababbb"
+//Output: 3
+//Explanation:
+//All possible variances along with their respective substrings are listed below:
+//- Variance 0 for substrings "a", "aa", "ab", "abab", "aababb", "ba", "b", "bb",
+//and "bbb".
+//- Variance 1 for substrings "aab", "aba", "abb", "aabab", "ababb", "aababbb",
+//and "bab".
+//- Variance 2 for substrings "aaba", "ababbb", "abbb", and "babb".
+//- Variance 3 for substring "babbb".
+//Since the largest possible variance is 3, we return it.
+//
+//Example 2:
+//Input: s = "abcde"
+//Output: 0
+//Explanation:
+//No letter occurs more than once in s, so the variance of every substring is 0.
+// 
+//Constraints:
+//1 &lt;= s.length &lt;= 104
+//s consists of lowercase English letters.
+
+namespace Solution2022
+{
+	namespace SubstringWithLargestVariance
+	{
+		int largestVariance(string s) {
+			int result = 0;
+			for (char c1 = 'a'; c1 &lt;= 'z'; c1++) {
+				for (char c2 = 'a'; c2 &lt;= 'z'; c2++) {
+					if (c1 == c2) { continue; }
+					int n1 = 0;
+					int n2 = 0;
+					bool canExtend = false;
+
+					for (char c : s) {
+						n1 += c == c1;
+						n2 += c == c2;
+
+						if (n2 &gt; 0) { result = max(result, n1 - n2); }
+						else if (canExtend) { result = max(result, n1 - 1); }
+
+						if (n1 &lt; n2) {
+							n1 = 0;
+							n2 = 0;
+							canExtend = true;
+						}
+					}
+				}
+			}
+			return result;
+		}
+
+		namespace Another {
+			int largestVariance(string s) {
+				int result = 0;
+				vector&lt;int&gt; freq(26, 0);
+				for (char c : s) { freq[c - 'a']++; }
+
+				for (char c1 = 'a'; c1 &lt;= 'z'; c1++) {
+					for (char c2 = 'a'; c2 &lt;= 'z'; c2++) {
+						if (c1 == c2 || freq[c1 - 'a'] == 0 || freq[c2 - 'a'] == 0) { continue; }
+						for (int i = 0; i &lt; 2; i++) {
+							int n1 = 0;
+							int n2 = 0;
+							for (char c : s) {
+								n1 += c == c1;
+								n2 += c == c2;
+								if (n1 &lt; n2) {
+									n1 = 0;
+									n2 = 0;
+								}
+								if (n1 &gt; 0 && n2 &gt; 0) {
+									result = max(result, n1 - n2);
+								}
+							}
+							reverse(s.begin(), s.end());
+						}
+					}
+				}
+				return result;
+			}
+		}
+
+		void Main() {
+			string test = "tst test test";
+			print(test);
+		}
+	}
+}
+
+	</code>
+	</pre>
+	</figure>
+	
+	</body>
+	</html>
+	
