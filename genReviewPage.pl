@@ -76,10 +76,10 @@ for my $line (@lines) {
 
 my $today = DateTime->today(time_zone => 'local');
 my $i = 0;
-my $j = 0;
+my $j = 1;
 my $ii = 0;
 for my $p (@allProblems) {
-	if ($i >= 0) {
+	if ($i >= 120) {
 		if ($ii % 50 == 0) {
 			my $date = $today->clone->add(days => $j)->ymd('/');
 			$p = "\n<h2>" . $date."</h2>\n" . $p;
